@@ -1,10 +1,12 @@
 import { defineConfig } from '@pandacss/dev'
 import { themePreset } from 'theme'
 
-const hash = Boolean(process.env["MODE"])
+const hash = Boolean(process.env['MODE'])
+const minify = hash
 
 export default defineConfig({
   hash,
+  minify,
   strictTokens: true,
   // Whether to use css reset
   preflight: true,

@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content'
 import Layout from '@/layouts/Layout.astro'
 import { formatDate } from '@/utils/formatDate'
-import { css } from 'styled-system/css'
+import { css } from '#/styled-system/css'
 
 const posts = (await getCollection('posts')).sort(function (first, second) {
   return second.data.publishedAt.getTime() - first.data.publishedAt.getTime()

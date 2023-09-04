@@ -2,7 +2,7 @@
 import { type CollectionEntry, getCollection } from 'astro:content'
 import Layout from '@/layouts/Layout.astro'
 import { formatDate } from '@/utils/formatDate'
-import { css, cx } from 'styled-system/css'
+import { css, cx } from '#/styled-system/css'
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts')

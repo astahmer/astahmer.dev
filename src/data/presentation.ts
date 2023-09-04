@@ -1,5 +1,5 @@
-import { css } from 'styled-system/css'
-import type { SystemStyleObject } from 'styled-system/types'
+import { css } from '#/styled-system/css'
+import type { SystemStyleObject } from '#/styled-system/types'
 
 type Social = {
   label: string

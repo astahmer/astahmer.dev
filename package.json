@@ -6,16 +6,18 @@
     "dev": "astro dev",
     "start": "astro dev",
     "prebuild": "pnpm panda codegen && MODE=prod pnpm panda",
-    "build": "astro build",
+    "build": "pnpm prebuild && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro",
-    "fmt": "prettier --write src && prettier --write src/**/*.astro"
+    "fmt": "prettier --write src && prettier --write src/**/*.astro",
+    "viz": "MODE=viz pnpm build"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.0.0",
     "@fontsource/open-sans": "^5.0.11",
     "astro": "^3.0.8",
+    "astro-compress": "^2.0.15",
     "astro-seo": "0.8.0"
   },
   "devDependencies": {
@@ -23,10 +25,17 @@
     "@pandacss/astro": "^0.13.1",
     "@pandacss/dev": "^0.13.1",
     "@typescript-eslint/parser": "6.6.0",
+    "astro-compressor": "^0.4.0",
+    "astro-robots-txt": "^0.5.0",
     "eslint": "8.48.0",
     "eslint-plugin-astro": "0.29.0",
     "prettier": "3.0.3",
     "prettier-plugin-astro": "0.12.0",
+    "rollup-plugin-visualizer": "^5.9.2",
+    "source-map-explorer": "^2.5.3",
     "typescript": "^5.2.2"
+  },
+  "imports": {
+    "#/styled-system/*": "./styled-system/*"
   }
 }
