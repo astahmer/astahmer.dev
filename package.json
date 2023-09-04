@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "prebuild": "pnpm panda codegen && MODE=prod pnpm panda",
+    "prebuild": "pnpm panda codegen --clean && MODE=prod pnpm panda",
     "build": "pnpm prebuild && astro build",
     "preview": "astro preview",
     "check": "astro check",
