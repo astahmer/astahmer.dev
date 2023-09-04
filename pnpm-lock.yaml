@@ -11,9 +11,6 @@ dependencies:
   '@fontsource-variable/open-sans':
     specifier: ^5.0.9
     version: 5.0.9
-  '@fontsource/open-sans':
-    specifier: ^5.0.11
-    version: 5.0.11
   astro:
     specifier: ^3.0.8
     version: 3.0.8
@@ -1175,10 +1172,6 @@ packages:
 
   /@fontsource-variable/open-sans@5.0.9:
     resolution: {integrity: sha512-J44/EFkcEpSlceL4frtK0g5nEjPlJLYSnPN+eQed9ePp6HXf4WUwCeU7QhAS0ScIm6whK9auVygc8lkDshlM+Q==}
-    dev: false
-
-  /@fontsource/open-sans@5.0.11:
-    resolution: {integrity: sha512-H3asfQirkh9avht/qxeMFDhAxBzLi9qH0rQAAVv5TxmZL9vvmZc0e70Z6gXPem6BB1+gUsT9QSqgGqH60rpuuA==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.11:
