@@ -4,7 +4,7 @@ import BlurCircle from '@/components/shared/BlurCircle.astro'
 import SEOTags from '@/components/seo/SEOTags.astro'
 import type { HeadTags } from '@/utils/types/HeadTags'
 
-import '@fontsource/open-sans'
+import '@fontsource-variable/open-sans'
 import '#/styled-system/styles.css'
 import { container } from '#/styled-system/patterns'
 
@@ -42,7 +42,7 @@ const headTags = Astro.props
     <slot />
     <style is:global>
       html {
-        font-family: 'Open Sans';
+        font-family: 'Open Sans Variable', sans-serif;
       }
     </style>
   </body>
