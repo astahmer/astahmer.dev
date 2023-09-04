@@ -1,24 +1,27 @@
 ---
-import type { HTMLAttributes } from "astro/types";
+import type { HTMLAttributes } from 'astro/types'
+import { css } from 'styled-system/css'
+import type { SystemStyleObject } from 'styled-system/types'
 
-type Props = HTMLAttributes<"a"> & {
-  label: string;
-  isUnderline?: boolean;
-};
+type Props = HTMLAttributes<'a'> & {
+  label: string
+  css?: SystemStyleObject
+  isUnderline?: boolean
+}
 
-const { label, isUnderline, ...props } = Astro.props;
+const { label, css: cssProp, isUnderline, ...props } = Astro.props
 ---
 
 <a
   href={props.href}
   class:list={{
-    ["hover:text-neutral-100 cursor-pointer"]: true,
-    ["underline decoration-dashed underline-offset-8"]: isUnderline,
+    [css(cssProp ?? {}, { _hover: { color: 'neutral.100' }, cursor: 'pointer' })]: true,
+    [css({ textDecorationLine: 'underline', textDecorationStyle: 'dashed', textUnderlineOffset: '8px' })]: isUnderline,
   }}
   {...props}
   rel="noreferrer"
   target="_blank"
 >
   {label}
-  <span class="sr-only">{label} link</span>
+  <span class={css({ srOnly: true })}>{label} link</span>
 </a>

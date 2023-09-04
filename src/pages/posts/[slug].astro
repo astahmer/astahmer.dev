@@ -1,32 +1,91 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
-import formatDate from "@/utils/formatDate";
+import { type CollectionEntry, getCollection } from 'astro:content'
+import Layout from '@/layouts/Layout.astro'
+import { formatDate } from '@/utils/formatDate'
+import { css, cx } from 'styled-system/css'
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
+  const posts = await getCollection('posts')
 
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
-  }));
+  }))
 }
 
 type Props = {
-  post: CollectionEntry<"posts">;
-};
+  post: CollectionEntry<'posts'>
+}
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const { post } = Astro.props
+const { Content } = await post.render()
+
+const postStyles = css({
+  '& p': {
+    lineHeight: 'relaxed',
+  },
+  '& code': {
+    // borderRadius: "sm",
+    // bg: "neutral.800",
+    // px: "1",
+    // py: "2px",
+    // color: "orange.500",
+    borderRadius: 'sm',
+    bg: 'neutral.800',
+    px: '1',
+    py: '2px',
+    color: 'red.500',
+  },
+  '& h2': {
+    mt: '6',
+    fontSize: '3xl',
+    color: 'neutral.100',
+  },
+  '& h3': {
+    mt: '4',
+    fontSize: 'xl',
+    color: 'neutral.100',
+  },
+  '& a': {
+    color: 'neutral.100',
+    textDecoration: 'underline',
+  },
+  '& ul': {
+    listStyleType: 'disc',
+  },
+  '& blockquote': {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '2',
+    '&:before': {
+      height: 'auto',
+      width: '1',
+      maxWidth: '1px',
+      bg: 'red.400',
+      content: "''",
+    },
+  },
+  '& pre': {
+    p: '4',
+    '& > code': {
+      bg: 'transparent',
+    },
+  },
+})
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
-  <main class="post mx-auto flex w-full max-w-prose flex-col gap-4">
+  <main
+    class={cx(
+      postStyles,
+      css({ ml: 'auto', mr: 'auto', display: 'flex', w: 'full', maxW: 'prose', flexDir: 'column', gap: '4' }),
+    )}
+  >
     <header role="presentation">
-      <h1 class="text-md">
+      <h1 class={css({ textStyle: 'md' })}>
         {post.data.title} - {formatDate(post.data.publishedAt)}
       </h1>
-      <p class="italic">{post.data.description}</p>
+      <p class={css({ fontStyle: 'italic' })}>{post.data.description}</p>
     </header>
 
     <Content />

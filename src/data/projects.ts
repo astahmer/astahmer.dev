@@ -1,27 +1,37 @@
 export type Project = {
-  title: string;
-  techs: string[];
-  link: string;
-  isComingSoon?: boolean;
-};
+  title: string
+  techs?: string[]
+  link: string
+  description?: string
+}
 
-const projects: Project[] = [
+export const projects = [
   {
-    title: "Dictionary App",
-    techs: ["ReactJS (NextJS)", "react-query", "zod"],
-    link: "https://github.com/MaeWolff/dictionary-app",
+    title: 'Panda CSS',
+    description: '🐼 Universal, Type-Safe, CSS-in-JS Framework for Product Teams ⚡️',
+    link: 'https://panda-css.com/',
   },
   {
-    title: "Portfolio / Lina BLIDI",
-    techs: ["ReactJS (NextJS)", "TypeScript"],
-    link: "https://www.linablidi.fr/",
+    title: 'LightningCSS AST Viewer',
+    techs: ['Panda CSS', 'lightningcss', 'xstate', 'React', 'TypeScript'],
+    link: 'https://lightningcss-ast-viewer.vercel.app/',
   },
   {
-    title: "Portfolio / Template",
-    techs: ["Astro"],
-    link: "/",
-    isComingSoon: true,
+    title: 'typed-openapi',
+    description: 'Generate a headless Typescript API client from an OpenAPI spec',
+    techs: ['Panda CSS', 'OpenAPI', 'React', 'TypeScript'],
+    link: 'https://typed-openapi-web.vercel.app/',
   },
-];
-
-export default projects;
+  {
+    title: 'tw2panda',
+    description: 'Easily migrate code from tailwind to Panda CSS',
+    techs: ['Panda CSS', 'xstate', 'React', 'TypeScript'],
+    link: 'https://tailwind-to-panda.vercel.app/',
+  },
+  {
+    title: 'openapi-zod-client',
+    description: 'Generate a zodios API client from an OpenAPI spec',
+    techs: ['Chakra-UI', 'OpenAPI', 'Zod', 'Zodios', 'React', 'TypeScript'],
+    link: 'https://openapi-zod-client.vercel.app/',
+  },
+] satisfies Project[]

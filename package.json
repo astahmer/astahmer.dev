@@ -5,25 +5,28 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "prebuild": "pnpm panda codegen && MODE=prod pnpm panda",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "astro": "astro"
+    "astro": "astro",
+    "fmt": "prettier --write src && prettier --write src/**/*.astro"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^1.3.1",
-    "@astrojs/tailwind": "^3.1.3",
-    "@fontsource/open-sans": "^5.0.1",
-    "astro": "^2.5.5",
-    "astro-seo": "0.7.2",
-    "tailwindcss": "^3.3.2"
+    "@astrojs/sitemap": "^3.0.0",
+    "@fontsource/open-sans": "^5.0.11",
+    "astro": "^3.0.8",
+    "astro-seo": "0.8.0"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "5.59.7",
-    "eslint": "8.41.0",
-    "eslint-plugin-astro": "0.27.1",
-    "prettier": "2.8.8",
-    "prettier-plugin-astro": "0.9.0",
-    "prettier-plugin-tailwindcss": "0.3.0"
+    "@astrojs/check": "^0.2.0",
+    "@pandacss/astro": "^0.13.1",
+    "@pandacss/dev": "^0.13.1",
+    "@typescript-eslint/parser": "6.6.0",
+    "eslint": "8.48.0",
+    "eslint-plugin-astro": "0.29.0",
+    "prettier": "3.0.3",
+    "prettier-plugin-astro": "0.12.0",
+    "typescript": "^5.2.2"
   }
 }

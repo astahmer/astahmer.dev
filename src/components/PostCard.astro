@@ -1,25 +1,50 @@
 ---
-import formatDate from "@/utils/formatDate";
+import { formatDate } from '@/utils/formatDate'
+import { css } from 'styled-system/css'
 
 type Props = {
-  title: string;
-  publishedAt: Date;
-  description: string;
-  slug: string;
-};
+  title: string
+  publishedAt: Date
+  description: string
+  slug: string
+}
 
-const { title, publishedAt, description, slug } = Astro.props;
+const { title, publishedAt, description, slug } = Astro.props
 ---
 
 <a
-  class="group flex max-w-sm cursor-pointer flex-col gap-2 rounded-md border border-neutral-700 p-4 transition-all duration-300 hover:-translate-y-2 hover:border-neutral-400"
+  class={css({
+    display: 'flex',
+    maxWidth: 'sm',
+    cursor: 'pointer',
+    flexDirection: 'column',
+    gap: '2',
+    borderRadius: 'md',
+    borderWidth: '1px',
+    borderColor: 'neutral.700',
+    padding: '4',
+    transition: 'all',
+    transitionDuration: '250ms',
+    transitionTimingFunction: 'cubic-bezier(.4,0,.2,1)',
+    _hover: {
+      transform: 'translateY(calc(token(spacing.2) * -1))',
+      borderColor: 'neutral.400',
+    },
+  })}
   href={`/posts/${slug}`}
 >
   <div
-    class="flex w-full flex-col justify-between gap-2 md:flex-row md:items-center"
+    class={css({
+      display: 'flex',
+      width: 'full',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      gap: '2',
+      md: { flexDirection: 'row', alignItems: 'center' },
+    })}
   >
-    <p class="text-neutral-100">{title}</p>
-    <div class="flex flex-row items-center gap-4">
+    <p class={css({ color: 'neutral.100' })}>{title}</p>
+    <div class={css({ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '4' })}>
       <p>{formatDate(publishedAt)}</p>
 
       <svg
@@ -27,23 +52,20 @@ const { title, publishedAt, description, slug } = Astro.props;
         height="18"
         viewBox="0 0 18 18"
         fill="none"
-        class="transition-all duration-300 group-hover:translate-x-1"
+        class={css({
+          transition: 'all',
+          transitionDuration: '250ms',
+          transitionTimingFunction: 'cubic-bezier(.4,0,.2,1)',
+          _groupHover: {
+            transform: 'translateX(token(spacing.1))',
+          },
+        })}
       >
-        <path
-          d="M5.25 12.75L12.75 5.25"
-          stroke="#999999"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-        <path
-          d="M5.25 5.25H12.75V12.75"
-          stroke="#999999"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
+        <path d="M5.25 12.75L12.75 5.25" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M5.25 5.25H12.75V12.75" stroke="#999999" stroke-linecap="round" stroke-linejoin="round"></path>
       </svg>
     </div>
   </div>
 
-  <p class="truncate">
-    {description}
-  </p>
+  <p class={css({ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' })}>{description}</p>
 </a>

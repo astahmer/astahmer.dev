@@ -1,3 +1,4 @@
-export default function formatDate(date: Date) {
-  return new Intl.DateTimeFormat("en-GB").format(date);
+const intl = new Intl.DateTimeFormat('en-GB')
+export function formatDate(date: Date) {
+  return intl.format(date)
 }

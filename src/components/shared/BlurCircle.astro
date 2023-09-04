@@ -1,20 +1,42 @@
 ---
-import type { TailwindColor } from "@/utils/types/tailwind";
-import { MAP_COLOR_VARIANT_TO_BG } from "@/utils/mapVariants";
+import { css } from 'styled-system/css'
+import type { SystemStyleObject } from 'styled-system/types'
 
 type Props = {
-  position: "bottom" | "top";
-  color: TailwindColor;
-};
+  position: 'bottom' | 'top'
+  bgColor: SystemStyleObject['bgColor']
+}
 
-const { position, color } = Astro.props;
+const { position, bgColor } = Astro.props
 ---
 
 <div
   class:list={{
-    [`fixed z-0 h-[134px] w-[134px] lg:w-[300px] lg:h-[300px] rounded-full ${MAP_COLOR_VARIANT_TO_BG[color]} blur-[150px] md:blur-[350px] opacity-50`]: true,
-    ["left-0 top-0"]: position === "top",
-    ["right-0 bottom-0"]: position === "bottom",
+    [css({
+      pos: 'fixed',
+      zIndex: '0',
+      h: '200px',
+      w: '200px',
+      lg: { w: '300px', h: '300px' },
+      rounded: 'full',
+      '--blur': '250px',
+      sm: { '--blur': '250px' },
+      filter: 'blur(var(--blur))',
+      opacity: '0.8',
+      pointerEvents: 'none',
+      bgColor,
+      // w: '700px',
+      // h: '3000px',
+      // rounded: 'full',
+      // '--blur': '250px',
+      // md: { '--blur': '350px' },
+      // filter: 'blur(var(--blur))',
+      // opacity: '0.5',
+      // pointerEvents: 'none',
+      // bgColor,
+    })]: true,
+    [css({ left: '0', top: '0' })]: position === 'top',
+    [css({ right: '0', bottom: '0' })]: position === 'bottom',
   }}
 >
 </div>
