@@ -22,7 +22,7 @@ export const presentation = {
   description: `I'm a frenchy *freelance web developer* with over *7 years* of experience.
   I mostly work with *TypeScript/React/NodeJS*. <br />
 
-  Feel free to reach out if you want me to contribute to your team or project !`,
+  Feel free to reach out if you want to work with me !`,
   socials: [
     {
       label: 'Twitter',
