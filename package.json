@@ -16,6 +16,7 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.0.0",
     "@fontsource-variable/open-sans": "^5.0.9",
+    "@vercel/analytics": "^1.0.2",
     "astro": "^3.0.8",
     "astro-compress": "^2.0.15",
     "astro-seo": "0.8.0"
