@@ -1,0 +1,140 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content'
+import Layout from '@/layouts/Layout.astro'
+import { formatDate } from '@/utils/formatDate'
+import { css, cx } from '#/styled-system/css'
+import { prose } from '#/styled-system/recipes'
+import SEOTags from '@/components/seo/SEOTags.astro'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts')
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }))
+}
+
+type Props = {
+  post: CollectionEntry<'posts'>
+}
+
+const { post } = Astro.props
+const { Content } = await post.render()
+
+const articleStyles = css({
+  color: 'neutral.400',
+  '& code': {
+    borderRadius: 'sm',
+    bg: 'neutral.800',
+    px: '1',
+    py: '2px',
+    color: 'yellow.500',
+  },
+  '& h1': {
+    fontSize: '4xl',
+    lineHeight: '1.1',
+    color: 'white',
+  },
+  '& h2': {
+    fontSize: '3xl',
+    color: 'neutral.100',
+    lineHeight: '1.1',
+  },
+  '& h3': {
+    mt: '4',
+    fontSize: 'xl',
+    color: 'neutral.100',
+  },
+  '& a': {
+    color: 'yellow.100',
+    textDecoration: 'underline',
+  },
+  '& ul': {
+    listStyleType: 'disc',
+  },
+  '& blockquote': {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '2',
+    '&:before': {
+      height: 'auto',
+      width: '1',
+      maxWidth: '1px',
+      bg: 'red.400',
+      content: "''",
+    },
+  },
+  '& pre': {
+    p: '4',
+    '& > code': {
+      bg: 'transparent',
+    },
+  },
+  '& .group': {
+    pos: 'relative',
+    '& a': {
+      opacity: 0,
+      pos: 'absolute',
+      left: '-2.5ch',
+      pr: '3',
+      color: 'gray.600!',
+      textDecorationLine: 'none',
+      transition: 'common',
+      _groupHover: { opacity: '1' },
+      _hover: { color: 'yellow.200!' },
+    },
+  },
+})
+---
+
+<Layout title={post.data.title} description={post.data.description}>
+  <SEOTags
+    slot="head"
+    title={post.data.title}
+    description={post.data.description}
+    image={`${import.meta.env.SITE}/blog/${post.slug}/og.png`}
+    canonical={`${import.meta.env.SITE}/blog/${post.slug}/`}
+    publishedTime={post.data.publishedAt.toISOString()}
+  />
+  <article>
+    <header role="navigation">
+      <a
+        class={css({
+          textDecoration: 'underline',
+          _hover: { color: 'sky.100' },
+        })}
+        href="/">Home</a
+      >
+    </header>
+    <main
+      class={cx(
+        prose(),
+        articleStyles,
+        css({
+          ml: 'auto',
+          mr: 'auto',
+          w: 'full',
+          maxW: 'prose',
+        }),
+      )}
+    >
+      <header role="presentation">
+        <time datetime={post.data.publishedAt.toISOString()}>
+          {formatDate(post.data.publishedAt)}
+        </time>
+        <h1 class={css({ textStyle: 'md' })}>
+          {post.data.title}
+        </h1>
+        <p class={css({ fontStyle: 'italic' })}>{post.data.description}</p>
+      </header>
+
+      <Content />
+    </main>
+  </article>
+  <style is:global>
+    .group:hover a {
+      opacity: 1;
+    }
+  </style>
+</Layout>

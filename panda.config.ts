@@ -1,13 +1,15 @@
 import { defineConfig } from '@pandacss/dev'
-import { themePreset } from 'theme'
+import { themePreset } from './theme/preset'
+import typographyPreset from 'pandacss-preset-typography/dist/index.mjs'
 
 const hash = Boolean(process.env['MODE'])
 const minify = hash
 
 export default defineConfig({
+  presets: ['@pandacss/dev/presets', typographyPreset(), themePreset],
   hash,
   minify,
-  strictTokens: true,
+  strictTokens: false,
   // Whether to use css reset
   preflight: true,
 
@@ -16,9 +18,6 @@ export default defineConfig({
 
   // Files to exclude
   exclude: [],
-
-  // Useful for theme customization
-  theme: themePreset.theme,
 
   // The output directory for your css system
   outdir: 'styled-system',

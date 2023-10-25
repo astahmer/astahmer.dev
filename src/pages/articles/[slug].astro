@@ -5,31 +5,26 @@ import { formatDate } from '@/utils/formatDate'
 import { css, cx } from '#/styled-system/css'
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts')
+  const articles = await getCollection('articles')
 
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
   }))
 }
 
 type Props = {
-  post: CollectionEntry<'posts'>
+  article: CollectionEntry<'articles'>
 }
 
-const { post } = Astro.props
-const { Content } = await post.render()
+const { article } = Astro.props
+const { Content } = await article.render()
 
-const postStyles = css({
+const articleStyles = css({
   '& p': {
     lineHeight: 'relaxed',
   },
   '& code': {
-    // borderRadius: "sm",
-    // bg: "neutral.800",
-    // px: "1",
-    // py: "2px",
-    // color: "orange.500",
     borderRadius: 'sm',
     bg: 'neutral.800',
     px: '1',
@@ -40,6 +35,7 @@ const postStyles = css({
     mt: '6',
     fontSize: '3xl',
     color: 'neutral.100',
+    lineHeight: '1.1',
   },
   '& h3': {
     mt: '4',
@@ -74,18 +70,18 @@ const postStyles = css({
 })
 ---
 
-<Layout title={post.data.title} description={post.data.description}>
+<Layout title={article.data.title} description={article.data.description}>
   <main
     class={cx(
-      postStyles,
+      articleStyles,
       css({ ml: 'auto', mr: 'auto', display: 'flex', w: 'full', maxW: 'prose', flexDir: 'column', gap: '4' }),
     )}
   >
     <header role="presentation">
       <h1 class={css({ textStyle: 'md' })}>
-        {post.data.title} - {formatDate(post.data.publishedAt)}
+        {article.data.title} - {formatDate(article.data.publishedAt)}
       </h1>
-      <p class={css({ fontStyle: 'italic' })}>{post.data.description}</p>
+      <p class={css({ fontStyle: 'italic' })}>{article.data.description}</p>
     </header>
 
     <Content />

@@ -13,10 +13,10 @@ function convertAsteriskToStrongTag(str: string) {
     .replace(
       '[Panda CSS]',
       `<strong class="${css({
-        color: 'yellow.400',
+        color: 'yellow.300',
       })}"><a target="_blank" href="https://panda-css.com/">Panda CSS</a></strong>`,
     )
-    .replace(/\*{1,2}(.*?)\*{1,2}/g, `<strong class="${css({ color: 'sky.300' })}">$1</strong>`)
+    .replace(/\*{1,2}(.*?)\*{1,2}/g, `<strong class="${css({ color: 'sky.50' })}">$1</strong>`)
     .replace('\n', '<br />')
 }
 ---
@@ -53,7 +53,7 @@ function convertAsteriskToStrongTag(str: string) {
 
     <article class={css({ display: 'flex', flexDir: 'column', gap: '8' })}>
       <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between', gap: '2' })}>
-        <h3 class={css({ textStyle: 'lg', color: 'neutral.100' })}>Featured projects</h3>
+        <h3 class={css({ textStyle: 'lg', color: 'neutral.100' })}>Featured opensource projects</h3>
       </header>
       {projects.length === 0 && <p>Oops, I must work^^^^^</p>}
 

@@ -36,6 +36,11 @@ export const presentation = {
       css: css.raw({ fontWeight: 'bold', color: 'rgba(255, 255, 255, 0.85)' }),
     },
     {
+      label: 'Bluesky',
+      link: 'https://bsky.app/profile/astahmer.dev',
+      css: css.raw({ fontWeight: 'bold', color: 'gray.400' }),
+    },
+    {
       label: 'LinkedIn',
       link: 'https://www.linkedin.com/in/alexandre-stahmer/',
       css: css.raw({ fontWeight: 'bold', color: 'gray.400' }),

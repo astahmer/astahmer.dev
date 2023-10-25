@@ -1,5 +1,4 @@
 ---
-import Header from '../components/Header.astro'
 import BlurCircle from '@/components/shared/BlurCircle.astro'
 import SEOTags from '@/components/seo/SEOTags.astro'
 import type { HeadTags } from '@/utils/types/HeadTags'
@@ -7,6 +6,7 @@ import type { HeadTags } from '@/utils/types/HeadTags'
 import '@fontsource-variable/open-sans'
 import '#/styled-system/styles.css'
 import { container } from '#/styled-system/patterns'
+import { css } from '#/styled-system/css'
 
 export type Props = HeadTags
 
@@ -25,6 +25,8 @@ const headTags = Astro.props
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 
+  <slot name="head" />
+
   <body
     class={container({
       ml: 'auto',
@@ -41,13 +43,13 @@ const headTags = Astro.props
       pb: '8',
       textStyle: 'sm',
       color: 'neutral.400',
-      md: { gap: '12', pt: '16', pb: '16' },
+      md: { gap: '12', pt: '12', pb: '12' },
+      background: 'radial-gradient(circle, #00000c 20%, #011422 100%)',
     })}
   >
-    <Header />
-    <BlurCircle position="top" bgColor="sky.400" />
-    <BlurCircle position="bottom" bgColor="#A9E5BB" />
-    <slot />
+    <BlurCircle position="top" bgColor="#00011c" zIndex="0" />
+    <BlurCircle position="bottom" bgColor="#153e5c" opacity="0.2" />
+    <div class={css({ position: 'relative' })}><slot /></div>
     <style is:global>
       html {
         font-family: 'Open Sans Variable', sans-serif;

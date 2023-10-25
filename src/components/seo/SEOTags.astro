@@ -3,9 +3,13 @@ import { SEO } from 'astro-seo'
 import { SITE_URL } from '@/data/config'
 import type { HeadTags } from '@/utils/types/HeadTags'
 
-type Props = HeadTags
+interface Props extends HeadTags {
+  image?: string
+  canonical: string
+  publishedTime?: string
+}
 
-const { title, description, noindex, og } = Astro.props
+const { title, description, noindex, og, canonical, publishedTime, image } = Astro.props
 
 const DEFAULT_TITLE_PAGE = 'Alexandre Stahmer - Web Developer'
 const DEFAULT_DESCRIPTION_PAGE = 'Frenchy freelance, working mostly with React, TypeScript, and Panda CSS.'
@@ -14,7 +18,7 @@ const DEFAULT_URL_SITE = SITE_URL
 const openGraph = {
   title: title || og?.title || DEFAULT_TITLE_PAGE,
   type: og?.type || 'website',
-  image: og?.image || '/opengraph-image.jpg',
+  image: image || og?.image || '/opengraph-image.jpg',
   alt: og?.alt || 'astro portfolio template image',
   url: DEFAULT_URL_SITE,
   description: og?.description || DEFAULT_DESCRIPTION_PAGE,
@@ -27,6 +31,7 @@ const openGraph = {
     title={title || DEFAULT_TITLE_PAGE}
     description={description || DEFAULT_DESCRIPTION_PAGE}
     noindex={noindex || false}
+    canonical={canonical}
     openGraph={{
       basic: { title: openGraph.title, type: openGraph.type, image: openGraph.image },
       image: { alt: openGraph.alt },
@@ -34,7 +39,7 @@ const openGraph = {
     twitter={{ creator: '@astahmer_dev' }}
     extend={{
       link: [
-        { rel: 'icon', href: '/favicon.svg' },
+        { rel: 'icon', href: '/favicon.png' },
         { rel: 'sitemap', href: '/sitemap-index.xml' },
       ],
       meta: [
@@ -51,4 +56,5 @@ const openGraph = {
       ],
     }}
   />
+  {publishedTime && <meta property="article:published_time" content={publishedTime} />}
 </head>
