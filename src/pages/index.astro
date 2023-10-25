@@ -10,6 +10,12 @@ import { css } from '#/styled-system/css'
 
 function convertAsteriskToStrongTag(str: string) {
   return str
+    .replace(
+      '[Panda CSS]',
+      `<strong class="${css({
+        color: 'yellow.400',
+      })}"><a target="_blank" href="https://panda-css.com/">Panda CSS</a></strong>`,
+    )
     .replace(/\*{1,2}(.*?)\*{1,2}/g, `<strong class="${css({ color: 'sky.300' })}">$1</strong>`)
     .replace('\n', '<br />')
 }

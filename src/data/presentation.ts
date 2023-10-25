@@ -21,6 +21,7 @@ export const presentation = {
   profile: '',
   description: `I'm a frenchy *freelance web developer* with over *7 years* of experience.
   I mostly work with *TypeScript/React/NodeJS*. <br />
+  I'm also a core maintainer of [Panda CSS] <br />
 
   Feel free to reach out if you want to work with me !`,
   socials: [
@@ -33,11 +34,6 @@ export const presentation = {
       label: 'Github',
       link: 'https://github.com/astahmer',
       css: css.raw({ fontWeight: 'bold', color: 'rgba(255, 255, 255, 0.85)' }),
-    },
-    {
-      label: 'Calendly',
-      link: 'https://calendly.com/alexandre-stahmer',
-      css: css.raw({ fontWeight: 'bold', color: 'gray.400' }),
     },
     {
       label: 'LinkedIn',
