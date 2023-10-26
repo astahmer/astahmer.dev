@@ -98,8 +98,7 @@ export async function GET({ props }: Props) {
                     fontSize: '68px',
                     color: '#f0f9ff',
                   },
-                  // children: "👋 Hey, I'm Alex, freelance web developer",
-                  children: 'Freelance web developer ⚡',
+                  children: post.data.title,
                 },
               },
             ],
@@ -123,7 +122,7 @@ export async function GET({ props }: Props) {
                   style: {
                     color: '#fefce8',
                   },
-                  children: 'astahmer.dev',
+                  children: 'astahmer.dev - ' + formatDate(post.data.date),
                 },
               },
             ],

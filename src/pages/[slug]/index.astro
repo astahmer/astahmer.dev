@@ -93,8 +93,8 @@ const articleStyles = css({
     slot="head"
     title={post.data.title}
     description={post.data.description}
-    image={`${import.meta.env.SITE}/blog/${post.slug}/og.png`}
-    canonical={`${import.meta.env.SITE}/blog/${post.slug}/`}
+    image={`${import.meta.env.SITE}/${post.slug}/og.png`}
+    canonical={`${import.meta.env.SITE}/${post.slug}/`}
     publishedTime={post.data.publishedAt.toISOString()}
   />
   <article>
