@@ -1,27 +1,26 @@
 ---
-import { SEO } from 'astro-seo'
+import { SEO, type Props as SEOProps } from 'astro-seo'
 import { SITE_URL } from '@/data/config'
-import type { HeadTags } from '@/utils/types/HeadTags'
 
-interface Props extends HeadTags {
+export interface Props extends Partial<SEOProps> {
   image?: string
   canonical: string
   publishedTime?: string
 }
 
-const { title, description, noindex, og, canonical, publishedTime, image } = Astro.props
+const { title, description, noindex, openGraph: og, canonical, publishedTime, image } = Astro.props
 
 const DEFAULT_TITLE_PAGE = 'Alexandre Stahmer - Web Developer'
 const DEFAULT_DESCRIPTION_PAGE = 'Frenchy freelance, working mostly with React, TypeScript, and Panda CSS.'
 const DEFAULT_URL_SITE = SITE_URL
 
 const openGraph = {
-  title: title || og?.title || DEFAULT_TITLE_PAGE,
-  type: og?.type || 'website',
-  image: image || og?.image || '/opengraph-image.png',
-  alt: og?.alt || 'astro portfolio template image',
+  title: title || og?.basic?.title || DEFAULT_TITLE_PAGE,
+  type: og?.basic?.type || 'website',
+  image: String(image || og?.image?.url || '/opengraph-image.png'),
+  alt: og?.image?.alt || 'astro portfolio template image',
   url: DEFAULT_URL_SITE,
-  description: og?.description || DEFAULT_DESCRIPTION_PAGE,
+  description: og?.optional?.description || DEFAULT_DESCRIPTION_PAGE,
 }
 ---
 
@@ -35,6 +34,7 @@ const openGraph = {
     openGraph={{
       basic: { title: openGraph.title, type: openGraph.type, image: openGraph.image },
       image: { alt: openGraph.alt },
+      optional: { description, locale: 'en_US', siteName: DEFAULT_TITLE_PAGE },
     }}
     twitter={{ creator: '@astahmer_dev' }}
     extend={{

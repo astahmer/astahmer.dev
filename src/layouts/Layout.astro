@@ -1,14 +1,13 @@
 ---
 import BlurCircle from '@/components/shared/BlurCircle.astro'
-import SEOTags from '@/components/seo/SEOTags.astro'
-import type { HeadTags } from '@/utils/types/HeadTags'
+import SEOTags, { type Props as SEOTagProps } from '@/components/seo/SEOTags.astro'
 
 import '@fontsource-variable/open-sans'
 import '#/styled-system/styles.css'
 import { container } from '#/styled-system/patterns'
 import { css } from '#/styled-system/css'
 
-export type Props = HeadTags
+export type Props = SEOTagProps
 
 const headTags = Astro.props
 ---

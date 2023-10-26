@@ -4,7 +4,6 @@ import Layout from '@/layouts/Layout.astro'
 import { formatDate } from '@/utils/formatDate'
 import { css, cx } from '#/styled-system/css'
 import { prose } from '#/styled-system/recipes'
-import SEOTags from '@/components/seo/SEOTags.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts')
@@ -88,15 +87,17 @@ const articleStyles = css({
 })
 ---
 
-<Layout title={post.data.title} description={post.data.description}>
-  <SEOTags
-    slot="head"
-    title={post.data.title}
-    description={post.data.description}
-    image={`${import.meta.env.SITE}/${post.slug}/og.png`}
-    canonical={`${import.meta.env.SITE}/${post.slug}/`}
-    publishedTime={post.data.publishedAt.toISOString()}
-  />
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  canonical={`${import.meta.env.SITE}${post.slug}/`}
+  publishedTime={post.data.publishedAt.toISOString()}
+  openGraph={{
+    image: {
+      url: `${import.meta.env.SITE}${post.slug}/og.png`,
+    },
+  } as any}
+>
   <article>
     <header role="navigation">
       <a
