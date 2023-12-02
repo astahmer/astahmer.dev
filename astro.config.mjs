@@ -16,7 +16,7 @@ const viz = Boolean(process.env['MODE'] === 'viz')
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [sitemap(), robotsTxt(), compressor(), Compress(), panda()],
+  integrations: [sitemap(), robotsTxt(), compressor(), Compress()],
   vite: {
     plugins: [
       viz
