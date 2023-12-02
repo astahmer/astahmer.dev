@@ -147,7 +147,7 @@ export async function GET({ props }: Props) {
 
 // to generate an image for each blog posts in a collection
 export async function getStaticPaths() {
-  const blogPosts = await getCollection('posts')
+  const blogPosts = await getCollection('articles')
   return blogPosts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
