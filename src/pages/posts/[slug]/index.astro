@@ -30,7 +30,7 @@ const { Content } = await post.render()
   publishedTime={post.data.publishedAt.toISOString()}
   openGraph={{
     image: {
-      url: `${import.meta.env.SITE}${post.slug}/og.png`,
+      url: `${import.meta.env.SITE}/posts/${post.slug}/og.png`,
     },
   } as any}
 >
