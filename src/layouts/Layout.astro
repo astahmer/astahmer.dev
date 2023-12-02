@@ -1,15 +1,23 @@
 ---
-import BlurCircle from '@/components/shared/BlurCircle.astro'
 import SEOTags, { type Props as SEOTagProps } from '@/components/seo/SEOTags.astro'
 
 import '@fontsource-variable/open-sans'
-import '#/styled-system/styles.css'
+// import '#/styled-system/styles.css'
 import { container } from '#/styled-system/patterns'
 import { css } from '#/styled-system/css'
 
-export type Props = SEOTagProps
+export type Props = SEOTagProps & {
+  content?: boolean
+}
 
-const headTags = Astro.props
+declare global {
+  interface Window {
+    va: (...args: any[]) => void
+    vaq: any[]
+  }
+}
+
+const { content, ...headTags } = Astro.props
 ---
 
 <!doctype html>
@@ -32,7 +40,7 @@ const headTags = Astro.props
       mr: 'auto',
       display: 'flex',
       minH: 'screen',
-      maxW: '1080px',
+      maxW: '920px',
       flexDir: 'column',
       gap: '9',
       bgColor: 'neutral.950',
@@ -43,11 +51,11 @@ const headTags = Astro.props
       textStyle: 'sm',
       color: 'neutral.400',
       md: { gap: '12', pt: '12', pb: '12' },
-      background: 'radial-gradient(circle, #00000c 20%, #011422 100%)',
+      background: content
+        ? 'radial-gradient(circle, #00000c 60%, #011422 100%)'
+        : 'radial-gradient(circle, #00000c 20%, #011422 100%)',
     })}
   >
-    <BlurCircle position="top" bgColor="#00011c" zIndex="0" />
-    <BlurCircle position="bottom" bgColor="#153e5c" opacity="0.2" />
     <div class={css({ position: 'relative' })}><slot /></div>
     <style is:global>
       html {

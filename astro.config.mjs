@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
+import panda from '@pandacss/astro'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import { SITE_URL } from './src/data/config'
@@ -15,7 +16,7 @@ const viz = Boolean(process.env['MODE'] === 'viz')
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [sitemap(), robotsTxt(), compressor(), Compress()],
+  integrations: [sitemap(), robotsTxt(), compressor(), Compress(), panda()],
   vite: {
     plugins: [
       viz
