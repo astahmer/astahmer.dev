@@ -10,17 +10,17 @@ type Props = HTMLAttributes<'a'> & {
 }
 
 const { label, css: cssProp, isUnderline, ...props } = Astro.props
+const isInternal = props.href?.toString().startsWith('/')
 ---
 
 <a
   href={props.href}
   class:list={{
-    [css(cssProp ?? {}, { _hover: { color: 'neutral.100' }, cursor: 'pointer' })]: true,
+    [css({ _hover: { color: 'neutral.100' }, cursor: 'pointer' }, cssProp ?? {})]: true,
     [css({ textDecorationLine: 'underline', textDecorationStyle: 'dashed', textUnderlineOffset: '8px' })]: isUnderline,
   }}
   {...props}
-  rel="noreferrer"
-  target="_blank"
+  {...isInternal ? {} : { target: '_blank', rel: 'noopener noreferrer' }}
 >
   {label}
   <span class={css({ srOnly: true })}>{label} link</span>
