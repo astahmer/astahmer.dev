@@ -71,31 +71,32 @@ const articles = await getCollection('articles')
 
       <section class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
         {
-          articles.map((item) => {
-            return (
-              <a
-                href={`/posts/${item.slug}`}
-                class={css({
-                  display: 'flex',
-                  flexDir: 'column',
-                  gap: '2',
-                  p: '4',
-                  rounded: 'md',
-                  bga: 'neutral.900/30',
-                  textDecoration: 'none',
-                  transition: 'all 0.2s ease-in-out',
-                  border: '1px solid token(colors.neutral.700)',
-                  '&:hover': {
-                    bga: 'neutral.700/40',
-                    // rgb(64 64 64 / 40%)
-                  },
-                })}
-              >
-                <h4 class={css({ textStyle: 'md', color: 'neutral.100' })}>{item.data.title}</h4>
-                <p class={css({ textStyle: 'sm', color: 'neutral.300' })}>{item.data.description}</p>
-              </a>
-            )
-          })
+          articles
+            .filter((item) => item.data.isPublish)
+            .map((item) => {
+              return (
+                <a
+                  href={`/posts/${item.slug}`}
+                  class={css({
+                    display: 'flex',
+                    flexDir: 'column',
+                    gap: '2',
+                    p: '4',
+                    rounded: 'md',
+                    bga: 'neutral.900/30',
+                    textDecoration: 'none',
+                    transition: 'all 0.2s ease-in-out',
+                    border: '1px solid token(colors.neutral.700)',
+                    '&:hover': {
+                      bga: 'neutral.700/40',
+                    },
+                  })}
+                >
+                  <h4 class={css({ textStyle: 'md', color: 'neutral.100' })}>{item.data.title}</h4>
+                  <p class={css({ textStyle: 'sm', color: 'neutral.300' })}>{item.data.description}</p>
+                </a>
+              )
+            })
         }
       </section>
     </article>

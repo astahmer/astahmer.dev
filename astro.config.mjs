@@ -16,6 +16,9 @@ const viz = Boolean(process.env['MODE'] === 'viz')
 
 // https://astro.build/config
 export default defineConfig({
+  redirects: {
+    '/posts/how-does-xxx-compares-to-panda-css': '/posts/how-does-xxx-compare-to-panda-css',
+  },
   integrations: [sitemap(), robotsTxt(), compressor(), Compress()],
   vite: {
     plugins: [

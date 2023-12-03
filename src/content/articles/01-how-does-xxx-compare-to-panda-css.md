@@ -1,8 +1,8 @@
 ---
-title: '"How does xxx compares to Panda CSS"'
+title: '"How does xxx compare to Panda CSS"'
 publishedAt: 2023-12-02
 description: "And why it's hard to answer this question"
-slug: 'how-does-xxx-compares-to-panda-css'
+slug: 'how-does-xxx-compare-to-panda-css'
 isPublish: true
 ---
 
@@ -20,7 +20,7 @@ technical solution that helps people, **without getting into the politics of it.
 
 Of course I would be, at least a bit, biased towards Panda CSS; being both a core contributor and user. That being said,
 I tried different styling solutions before and there's a reason I ended up using/contributing to Panda CSS. I'm not
-saying that Panda CSS is the superior stying solution out there, but it's the best solution for me and my use-cases.
+saying that Panda CSS is the superior styling solution out there, but it's the best solution for me and my use-cases.
 
 ## Instead, why Panda CSS?
 
@@ -101,7 +101,7 @@ Panda has a lightweight JS runtime (**we still generate all your CSS at build-ti
 step, it serves the purpose of transforming the CSS-in-JS object syntax to class names strings. While we try to keep is
 as small as possible, some people might not want to add any JS.
 
-This means that when you're passing a css property (ex: `color: "blue.300"`), it's not transformed to className (ex
+This means that when you're passing a CSS property (ex: `color: "blue.300"`), it's not transformed to className (ex
 `text_blue_300`) at compile-time, hence the lightweight JS runtime in your `outdir` (defaults to `styled-system`)
 
 This limitation doesn't exist if you use some way to pre-render your components to static HTML, for example using
