@@ -2,7 +2,7 @@
 title: '"How does xxx compare to Panda CSS"'
 publishedAt: 2023-12-02
 description: "And why it's hard to answer this question"
-slug: 'how-does-xxx-compare-to-panda-css'
+slug: 'how-does-xxx-compares-to-panda-css'
 isPublish: true
 ---
 
