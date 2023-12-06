@@ -8,6 +8,7 @@ import Layout from '@/layouts/Layout.astro'
 import { presentation } from '@/data/presentation'
 import { projects } from '@/data/projects'
 import { css } from '#/styled-system/css'
+import { formatDate } from '@/utils/formatDate'
 
 function convertAsteriskToStrongTag(str: string) {
   return str
@@ -21,7 +22,9 @@ function convertAsteriskToStrongTag(str: string) {
     .replace('\n', '<br />')
 }
 
-const articles = await getCollection('articles')
+const articles = (await getCollection('articles')).sort(function (first, second) {
+  return second.data.publishedAt.getTime() - first.data.publishedAt.getTime()
+})
 ---
 
 <Layout>
@@ -70,7 +73,7 @@ const articles = await getCollection('articles')
           <Link
             css={{ textStyle: 'lg', color: 'neutral.100', _hover: { color: 'yellow.300' } }}
             href="/posts"
-            label="Posts"
+            label={'Posts' + (articles.length > 0 ? ` (${articles.length})` : '')}
           />
         </h3>
       </header>
@@ -85,7 +88,6 @@ const articles = await getCollection('articles')
                   href={`/posts/${item.slug}`}
                   class={css({
                     display: 'flex',
-                    flexDir: 'column',
                     gap: '2',
                     p: '4',
                     rounded: 'md',
@@ -98,8 +100,13 @@ const articles = await getCollection('articles')
                     },
                   })}
                 >
-                  <h4 class={css({ textStyle: 'md', color: 'neutral.100' })}>{item.data.title}</h4>
-                  <p class={css({ textStyle: 'sm', color: 'neutral.300' })}>{item.data.description}</p>
+                  <div class={css({ display: 'flex', flexDir: 'column', gap: '2' })}>
+                    <h4 class={css({ textStyle: 'sm', color: 'neutral.100' })}>{item.data.title}</h4>
+                    <p class={css({ textStyle: 'xs', color: 'neutral.300' })}>{item.data.description}</p>
+                  </div>
+                  <div class={css({ display: 'flex', ml: 'auto', textStyle: 'xs', color: 'neutral.300' })}>
+                    <time datetime={item.data.publishedAt.toISOString()}>{formatDate(item.data.publishedAt)}</time>
+                  </div>
                 </a>
               )
             })
