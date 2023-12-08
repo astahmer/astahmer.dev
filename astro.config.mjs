@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
+import mdx from '@astrojs/mdx'
 import panda from '@pandacss/astro'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -11,7 +12,7 @@ import Compress from 'astro-compress'
 import { h } from 'hastscript'
 import addClasses from 'rehype-add-classes'
 import rehypeExternalLinks from 'rehype-external-links'
-
+import preact from '@astrojs/preact'
 const viz = Boolean(process.env['MODE'] === 'viz')
 
 // https://astro.build/config
@@ -19,11 +20,28 @@ export default defineConfig({
   redirects: {
     '/posts/how-does-xxx-compare-to-panda-css': '/posts/how-does-xxx-compares-to-panda-css',
   },
-  integrations: [sitemap(), robotsTxt(), compressor(), Compress()],
+  integrations: [
+    mdx(),
+    //
+    // preact({ compat: true }),
+    sitemap(),
+    robotsTxt(),
+    Compress(),
+    compressor(),
+  ],
   vite: {
     plugins: [
       viz
-        ? visualizer({ brotliSize: true, gzipSize: true, open: true, exclude: [{ bundle: '**/node_modules/**' }] })
+        ? visualizer({
+            brotliSize: true,
+            gzipSize: true,
+            open: true,
+            exclude: [
+              {
+                bundle: '**/node_modules/**',
+              },
+            ],
+          })
         : null,
     ].filter(Boolean),
   },
@@ -38,7 +56,12 @@ export default defineConfig({
           content: h('span.h-anchor', ['#']),
         },
       ],
-      [addClasses, { 'h2,h3,h4,h5,h6': 'group' }],
+      [
+        addClasses,
+        {
+          'h2,h3,h4,h5,h6': 'group',
+        },
+      ],
       [
         rehypeExternalLinks,
         {
