@@ -1,0 +1,128 @@
+---
+import { css } from '#/styled-system/css'
+import { processPanels } from './tabs-rehype'
+
+// https://github.com/withastro/starlight/blob/e0352809062b2ee1e5588f7c8c09af8e6f117b5d/packages/starlight/user-components/Tabs.astro
+const panelHtml = await Astro.slots.render('default')
+const { html, panels } = processPanels(panelHtml)
+---
+
+<starlight-tabs class={css({ display: 'block' })}>
+  {
+    panels && (
+      <div
+        class={css({
+          overflowX: 'auto',
+        })}
+      >
+        <ul
+          role="tablist"
+          class={css({
+            display: 'flex',
+            listStyle: 'none',
+            borderBottom: '1px solid token(colors.gray.400)',
+            padding: 0,
+          })}
+        >
+          {panels.map(({ label, panelId, tabId }, idx) => (
+            <li role="presentation" class={css({ mb: '-2px', p: 0 })}>
+              <a
+                role="tab"
+                class={css({
+                  display: 'block',
+                  padding: '0 1.25rem',
+                  textDecoration: 'none',
+                  borderBottom: '1px solid token(colors.gray.400)',
+                  color: 'gray.300',
+                  outlineOffset: '-.1875rem',
+                  '&[aria-selected]': {
+                    color: 'white',
+                    borderBottom: '2px solid token(colors.blue.300)',
+                    fontWeight: 'bold',
+                  },
+                })}
+                href={'#' + panelId}
+                id={tabId}
+                aria-selected={idx === 0 && 'true'}
+                tabindex={idx !== 0 ? -1 : 0}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+  <Fragment set:html={html} />
+</starlight-tabs>
+
+<script>
+  class StarlightTabs extends HTMLElement {
+    tabs: HTMLAnchorElement[]
+    panels: HTMLElement[]
+
+    constructor() {
+      super()
+      const tablist = this.querySelector<HTMLUListElement>('[role="tablist"]')!
+      this.tabs = [...tablist.querySelectorAll<HTMLAnchorElement>('[role="tab"]')]
+      this.panels = [...this.querySelectorAll<HTMLElement>(':scope > [role="tabpanel"]')]
+
+      this.tabs.forEach((tab, i) => {
+        // Handle clicks for mouse users
+        tab.addEventListener('click', (e) => {
+          e.preventDefault()
+          const currentTab = tablist.querySelector('[aria-selected]')
+          if (e.currentTarget !== currentTab) {
+            this.switchTab(e.currentTarget as HTMLAnchorElement, i)
+          }
+        })
+
+        // Handle keyboard input
+        tab.addEventListener('keydown', (e) => {
+          const index = this.tabs.indexOf(e.currentTarget as any)
+          // Work out which key the user is pressing and
+          // Calculate the new tab's index where appropriate
+          const nextIndex =
+            e.key === 'ArrowLeft'
+              ? index - 1
+              : e.key === 'ArrowRight'
+                ? index + 1
+                : e.key === 'Home'
+                  ? 0
+                  : e.key === 'End'
+                    ? this.tabs.length - 1
+                    : null
+          if (nextIndex === null) return
+          if (this.tabs[nextIndex]) {
+            e.preventDefault()
+            this.switchTab(this.tabs[nextIndex], nextIndex)
+          }
+        })
+      })
+    }
+
+    switchTab(newTab: HTMLAnchorElement | null | undefined, index: number) {
+      if (!newTab) return
+
+      // Mark all tabs as unselected and hide all tab panels.
+      this.tabs.forEach((tab) => {
+        tab.removeAttribute('aria-selected')
+        tab.setAttribute('tabindex', '-1')
+      })
+      this.panels.forEach((oldPanel) => {
+        oldPanel.hidden = true
+      })
+
+      // Show new panel and mark new tab as selected.
+      const newPanel = this.panels[index]
+      if (newPanel) newPanel.hidden = false
+      // Restore active tab to the default tab order.
+      newTab.removeAttribute('tabindex')
+      newTab.setAttribute('aria-selected', 'true')
+      newTab.focus()
+    }
+  }
+
+  customElements.define('starlight-tabs', StarlightTabs)
+</script>

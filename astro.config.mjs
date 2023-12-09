@@ -12,7 +12,9 @@ import Compress from 'astro-compress'
 import { h } from 'hastscript'
 import addClasses from 'rehype-add-classes'
 import rehypeExternalLinks from 'rehype-external-links'
+import remarkToc from 'remark-toc'
 import preact from '@astrojs/preact'
+import expressiveCode from 'astro-expressive-code'
 const viz = Boolean(process.env['MODE'] === 'viz')
 
 // https://astro.build/config
@@ -21,6 +23,7 @@ export default defineConfig({
     '/posts/how-does-xxx-compare-to-panda-css': '/posts/how-does-xxx-compares-to-panda-css',
   },
   integrations: [
+    expressiveCode(),
     mdx(),
     //
     // preact({ compat: true }),
@@ -47,6 +50,8 @@ export default defineConfig({
   },
   site: SITE_URL,
   markdown: {
+    // Applied to .md and .mdx files
+    // remarkPlugins: [remarkToc()],
     rehypePlugins: [
       rehypeSlug,
       [

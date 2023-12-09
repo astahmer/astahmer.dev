@@ -8,5 +8,6 @@
     },
     "jsx": "react-jsx",
     "jsxImportSource": "preact"
-  }
+  },
+  "include": ["src", "theme", "styled-system"]
 }

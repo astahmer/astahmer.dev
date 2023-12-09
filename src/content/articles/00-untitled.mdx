@@ -6,4 +6,80 @@ slug: 'untitled'
 isPublish: false
 ---
 
+import { Card, CardGrid, Tabs, TabItem } from '@/components/ui'
+
 <span>some text</span>
+
+<Tabs>
+<TabItem label="npm">
+
+```sh
+npm create astro@latest -- --template starlight
+```
+
+</TabItem>
+<TabItem label="pnpm">
+
+```sh
+pnpm create astro --template starlight
+```
+
+</TabItem>
+<TabItem label="Yarn">
+
+```sh
+yarn create astro --template starlight
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+<CardGrid>
+  <Card title="Documentation that delights" icon="open-book">
+    Includes: Site navigation, search, internationalization, SEO, easy-to-read typography, code highlighting, dark mode
+    and more.
+  </Card>
+  <Card title="Powered by Astro" icon="rocket">
+    Leverage the full power and performance of Astro. Extend Starlight with your favorite Astro integrations and
+    libraries.
+  </Card>
+  <Card title="Markdown, Markdoc, and MDX" icon="document">
+    Bring your favorite markup language. Starlight gives you built-in frontmatter validation with TypeScript
+    type-safety.
+  </Card>
+  <Card title="Bring your own UI components" icon="puzzle">
+    Starlight ships as a framework-agnostic, complete docs solution. Extend with React, Vue, Svelte, Solid, and more.
+  </Card>
+</CardGrid>
+
+---
+
+```tsx {4, 8, 12} "css" ins={5} ins="styled"
+import { css } from 'styled-system/css'
+
+export const App = () => {
+  return (
+    <div
+      className={css({
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        h: 'full',
+      })}
+    >
+      <styled.button
+        rounded="md"
+        fontWeight="semibold"
+        height="10"
+        px="4"
+        bg={{ base: 'yellow.500', _dark: 'yellow.300' }}
+        color={{ base: 'white', _dark: 'gray.800' }}
+      >
+        Button
+      </styled.button>
+    </div>
+  )
+}
+```
