@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content'
 import ProjectCard from '@/components/project-card.astro'
 import SocialLinks from '@/components/social-links.astro'
 import Link from '@/components/ui/link.astro'
-import Layout from '@/layouts/Layout.astro'
+import Layout from '@/layouts/layout.astro'
 
 import { presentation } from '@/data/presentation'
 import { projects } from '@/data/projects'
@@ -22,7 +22,7 @@ function convertAsteriskToStrongTag(str: string) {
     .replace('\n', '<br />')
 }
 
-const articles = (await getCollection('articles')).sort(function (first, second) {
+const articles = (await getCollection('articles', (entry) => entry.data.isPublish)).sort(function (first, second) {
   return second.data.publishedAt.getTime() - first.data.publishedAt.getTime()
 })
 ---

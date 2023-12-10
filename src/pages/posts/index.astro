@@ -1,16 +1,25 @@
 ---
 import { getCollection } from 'astro:content'
-import Layout from '@/layouts/Layout.astro'
+import Layout from '@/layouts/layout.astro'
 import { formatDate } from '@/utils/formatDate'
 import { css } from '#/styled-system/css'
 
-const posts = (await getCollection('articles')).sort(function (first, second) {
+const posts = (await getCollection('articles', (entry) => entry.data.isPublish)).sort(function (first, second) {
   return second.data.publishedAt.getTime() - first.data.publishedAt.getTime()
 })
 ---
 
 <Layout title="All Posts">
-  <main class={css({ display: 'flex', flexDir: 'column', gap: '20' })}>
+  <header role="navigation">
+    <a
+      class={css({
+        textDecoration: 'underline',
+        _hover: { color: 'sky.100' },
+      })}
+      href="/">Home</a
+    >
+  </header>
+  <main class={css({ display: 'flex', flexDir: 'column', gap: '20', mt: '10' })}>
     <h1 class={css({ fontSize: '2xl', lineHeight: '2xl', color: 'neutral.100' })}>Posts</h1>
 
     <article class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>

@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
 import mdx from '@astrojs/mdx'
-import panda from '@pandacss/astro'
+import panda from '@pandacss/postcss'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import { SITE_URL } from './src/data/config'
@@ -33,6 +33,11 @@ export default defineConfig({
     compressor(),
   ],
   vite: {
+    css: {
+      postcss: {
+        plugins: [panda()],
+      },
+    },
     plugins: [
       viz
         ? visualizer({
@@ -51,7 +56,7 @@ export default defineConfig({
   site: SITE_URL,
   markdown: {
     // Applied to .md and .mdx files
-    // remarkPlugins: [remarkToc()],
+    // remarkPlugins: [remarkToc({ maxDepth: 3, tight: true })],
     rehypePlugins: [
       rehypeSlug,
       [
