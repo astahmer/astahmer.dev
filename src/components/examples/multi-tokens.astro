@@ -1,0 +1,20 @@
+---
+import { css } from '#/styled-system/css'
+import { stack } from '#/styled-system/patterns'
+---
+
+<div class={stack({ direction: 'row' })}>
+  <div data-theme="pink" data-color-mode="dark">
+    <h4 class={css({ color: 'text' })}>Pink dark</h4>
+  </div>
+  <div data-theme="blue" data-color-mode="dark">
+    <h4 class={css({ color: 'text' })}>Blue dark</h4>
+  </div>
+
+  <div data-theme="pink" data-color-mode="light">
+    <h4 class={css({ color: 'text' })}>Pink light</h4>
+  </div>
+  <div data-theme="blue" data-color-mode="light">
+    <h4 class={css({ color: 'text' })}>Blue light</h4>
+  </div>
+</div>

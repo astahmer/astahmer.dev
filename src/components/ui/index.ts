@@ -1,6 +1,6 @@
 import Card from './card.astro'
 import CardGrid from './card-grid.astro'
-import FileTree from './card-grid.astro'
+import FileTree from './file-tree.astro'
 import Icon from './icon.astro'
 import Link from './link.astro'
 import Tabs from './tabs.astro'
