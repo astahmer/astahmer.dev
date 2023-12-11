@@ -2,7 +2,7 @@ import { defineConfig } from '@pandacss/dev'
 import { themePreset } from './theme/preset'
 import typographyPreset from 'pandacss-preset-typography/dist/index.mjs'
 
-const hash = Boolean(process.env['MODE'])
+const hash = false && Boolean(process.env['MODE'])
 const minify = hash
 
 export default defineConfig({
