@@ -1,5 +1,6 @@
 ---
 import { css } from '#/styled-system/css'
+import { wrap } from '#/styled-system/patterns'
 import { processPanels } from './tabs-rehype'
 
 // https://github.com/withastro/starlight/blob/e0352809062b2ee1e5588f7c8c09af8e6f117b5d/packages/starlight/user-components/Tabs.astro
@@ -17,11 +18,11 @@ const { html, panels } = processPanels(panelHtml)
       >
         <ul
           role="tablist"
-          class={css({
-            display: 'flex',
+          class={wrap({
             listStyle: 'none',
             borderBottom: '1px solid token(colors.gray.400)',
             padding: 0,
+            gap: 0,
           })}
         >
           {panels.map(({ label, panelId, tabId }, idx) => (
@@ -35,6 +36,7 @@ const { html, panels } = processPanels(panelHtml)
                   borderBottom: '1px solid token(colors.gray.400)',
                   color: 'gray.300',
                   outlineOffset: '-.1875rem',
+                  whiteSpace: 'nowrap',
                   '&[aria-selected]': {
                     color: 'white',
                     borderBottom: '2px solid token(colors.blue.300)',

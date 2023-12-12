@@ -274,7 +274,7 @@ This `raw` function will return what you passed in (or transform the object for 
 for the `static analysis`**, to tell the Panda `extractor` that you're creating a `style object` and we should generate
 the CSS for it.
 
-```ts del={4-5} ins={7-8}
+```ts del={4-5} ins={7-8} "css.raw"
 // file-1.ts
 import { css } from 'styled-system/css'
 
@@ -285,7 +285,7 @@ export const base = css.raw({ display: 'flex', bg: 'color.500' })
 // ✅ this will generate CSS as expected
 ```
 
-```ts
+```ts "css.raw"
 // file-2.ts
 import { css } from 'styled-system/css'
 import { base } from './file-1'
@@ -608,7 +608,8 @@ theme.
 
 ## Composite values
 
-You can also create composite values, like a `border` that would be composed of a `width`, `style` and a `color`.
+Using the inline `token` fn, you can also create composite values, like a `border` that would be composed of a `width`,
+`style` and a `color`.
 
 ```tsx
 import { css } from 'styled-system/css'
@@ -618,6 +619,10 @@ css({ border: '2px solid token(colors.blue.300)' })
 // is equivalent to
 css({ borderWidth: '2px', borderStyle: 'solid', borderColor: 'blue.300' })
 ```
+
+## Debug utility
+
+TODO playground / live example ?
 
 ## Static generator
 
@@ -942,23 +947,259 @@ What better way to showcase what Panda CSS can do than with some concrete exampl
 
 ## css
 
-TODO
+The `css` function is the main API of Panda CSS, it's used to generate CSS from your style objects. It does so by
+extracting its arguments, resolving each property/value combinations, in the static analysis step and generating an
+atomic CSS rule for each of them.
 
-any token/semantic token/utility/css property/css var known value vs arbitrary known condition vs arbitrary merging raw
-conditions eval return class list
+At runtime, it transforms the object-syntax (that you provide) to a class string composed of those atomic classes. Most
+Panda features are using the `css` function under the hood. (`cva`, `recipes`, `patterns`, `styled` factory, etc...).
+That means that anything you can do with the `css` function, you can do the same in those features.
+
+- Property keys can be: any config `breakpoints` / `conditions` / `utility` / `shorthands` / `arbitrary` selectors / CSS
+  built-in properties / CSS variables
+- Property values can be: any config `tokens` / `semantic tokens` / `utility` specific values / arbitrary values / CSS
+  built-in values / conditions as object / token path (only when using a CSS variable as key)
+
+- Has a [`.raw()`](#raw) function to mark the object as a style object for the Panda static extractor
+- Can use the inline `token(value, fallback)` function that will be transformed at compile-time to a CSS variable (using
+  postcss)
+
+<Tabs>
+<TabItem label="token.ts">
+
+```tsx "blue:" "300:" "blue.300" "#93c5fd" "text_blue_300" "--colors-blue-300"
+// in panda.config.ts
+import { defineConfig } from '@pandacss/dev'
+
+export default defineConfig({
+  // ...
+  theme: {
+    extend: {
+      tokens: {
+        colors: {
+          blue: {
+            300: { value: '#93c5fd' },
+          },
+        },
+      },
+    },
+  },
+})
+
+// in app.tsx
+import { css } from 'styled-system/css'
+
+const className = css({ color: 'blue.300' })
+// => `text_blue_300`
+// will create a CSS var `--colors-blue-300` with a value set to `#93c5fd`
+```
+
+</TabItem>
+<TabItem label="semantic.ts">
+
+```tsx "primary:" "{colors.blue.300}" "primary" "text_primary" "--colors-primary"
+import { css } from 'styled-system/css'
+
+// in panda.config.ts
+import { defineConfig } from '@pandacss/dev'
+
+export default defineConfig({
+  // ...
+  theme: {
+    extend: {
+      semanticTokens: {
+        colors: {
+          primary: { value: '{colors.blue.300}' },
+        },
+      },
+    },
+  },
+})
+
+// in app.tsx
+import { css } from 'styled-system/css'
+
+const className = css({ color: 'primary' })
+// => `text_primary`
+// will create a new CSS variable `--colors-primary` that itself references `--colors-blue-300`
+```
+
+</TabItem>
+<TabItem label="utility.ts">
+
+```tsx
+// in panda.config.ts
+import { defineConfig } from '@pandacss/dev'
+
+export default defineConfig({
+  // ...
+  utility: {
+    extend: {
+      display: {
+        className: 'd',
+      },
+      backgroundColor: {
+        shorthand: 'bgColor',
+        className: 'bg',
+        values: 'colors',
+      },
+
+      debug: {
+        className: 'debug',
+        values: { type: 'boolean' },
+        transform(value) {
+          if (!value) return {}
+          return {
+            outline: '1px solid blue !important',
+            '&>*': {
+              outline: '1px solid red !important',
+            },
+          }
+        },
+      },
+    },
+  },
+})
+
+// in app.tsx
+import { css } from 'styled-system/css'
+
+const className = css({ display: 'flex', debug: true, bgColor: 'red' })
+// => `d_flex debug bg_red`
+```
+
+</TabItem>
+<TabItem label="arbitrary.ts">
+
+```tsx "#fde047" "gray.800!" "token(colors.blue.300)" "colors.blue.400" "fontSizes.2xl"
+import { css } from 'styled-system/css'
+
+const className = css({
+  color: '#fde047', // you can use any CSS value
+  bg: 'gray.800!', // you can mark any value as important with `!` or `!important`
+
+  // you can use composite values with the inline `token` function
+  border: '1px solid token(colors.blue.300)',
+
+  // when using a CSS variable as key, the value can be a token path
+  '--my-color': 'colors.blue.400',
+  '--my-font-size': 'fontSizes.2xl',
+})
+// => `text_#fde047 bg_gray_800!`
+```
+
+</TabItem>
+<TabItem label="conditions.ts">
+
+```tsx "dark:" ".dark &" "_dark" "md"
+// in panda.config.ts
+import { defineConfig } from '@pandacss/dev'
+
+export default defineConfig({
+  // ...
+  conditions: {
+    extend: {
+      dark: '.dark &', // any child of a `.dark` element,
+      hover: '&:hover', // any hovered element
+      highlighted: '&:is([data-highlighted], :focus)', // you can use `:is` to combine selectors
+    },
+  },
+  theme: {
+    extend: {
+      breakpoints: {
+        md: '768px',
+      },
+    },
+  },
+})
+
+// in app.tsx
+import { css } from 'styled-system/css'
+
+const className = css({
+  color: 'blue.800',
+  _dark: {
+    // condition object
+    color: 'green.300',
+    // you can nest conditions indefinitely
+    _hover: {
+      color: 'red.500',
+      bg: 'gray.800',
+    },
+  },
+  fontSize: {
+    // property-based conditions
+    base: '16px', // base means the current condition path (e.g nothing here)
+    md: '18px', // this is a breakpoint, it's not prefixed with `_`
+    _highlighted: '2xl',
+  },
+  '&[data-selected]': {
+    // arbitrary conditions are also fine !
+    bg: 'blue.500',
+  },
+})
+```
+
+</TabItem>
+<TabItem label="raw.ts">
+
+```tsx
+// in styles.ts
+import { css } from 'styled-system/css'
+
+export const styles = css.raw({ color: 'blue.300', bg: 'white' })
+// returns the object as is, serves as a marker for the static extractor
+// especially useful to export styles and use them in other files
+
+// button.ts
+import { styles } from './styles'
+
+export const Button = (props) => {
+  return <button className={css(styles(), props.css)}>Click me</button>
+}
+
+// app.ts
+import { Button } from './button'
+
+export const App = () => {
+  return <Button css={{ color: 'red.500' }} />
+  // would result in { color: 'red.500', bg: 'white' }
+}
+```
+
+</TabItem>
+</Tabs>
 
 ## cx
 
-just concatenate class names convenient
+You can use the `cx` function to concatenate multiple class names together.
+
+```tsx
+import { css, cx } from 'styled-system/css'
+
+const cardClass = 'my-card'
+const className = cx(cardClass, css({ color: 'blue.300' }))
+// => `my-card text_blue_300`
+```
 
 ## cva
 
-atomic recipe (cva) style by variants can still use anything like css generate atomic css raw
-https://panda-css.com/docs/concepts/recipes#atomic-recipe-or-cva
-https://panda-css.com/docs/concepts/recipes#should-i-use-atomic-or-config-recipes-
+`cva` allows you to create a re-usable styles based on variants, that still produces atomic CSS classes. They're the
+atomic equivalent of the `config recipe`.
 
-```ts
-// badge.ts
+`cva` base and variants styles will be always be generated, no matter if they're used or not.
+
+You can read more [here](https://panda-css.com/docs/concepts/recipes#should-i-use-atomic-or-config-recipes-) to
+understand the difference between [recipes](https://panda-css.com/docs/concepts/recipes#config-recipe) and
+[cva](https://panda-css.com/docs/concepts/recipes#atomic-recipe-or-cva).
+
+Inside the `base` and `variants` styles, you can use anything that you can use in the [`css`](#css) function and
+[even merge multiple `css` and `cva` together](https://panda-css.com/docs/concepts/merging-styles#merging-cva--css-styles).
+
+<Tabs>
+<TabItem label="badge.ts">
+
+```ts "success"
 export const badge = cva({
   base: {
     fontWeight: 'medium',
@@ -985,31 +1226,159 @@ export const badge = cva({
     status: 'default',
   },
 })
+
+const className = badge({ status: 'success' })
+// => `font-weight_medium px_3 rounded_md text_white bg_green_500`
 ```
+
+</TabItem>
+<TabItem label="styles-merging.ts">
+
+```ts "css.raw" "buttonStyles.raw"
+import { css, cx, cva } from 'styled-system/css'
+
+const overrideStyles = css.raw({
+  bg: 'red',
+  color: 'white',
+})
+
+const buttonStyles = cva({
+  base: {
+    bg: 'blue',
+    border: '1px solid black',
+  },
+  variants: {
+    size: {
+      small: { fontSize: '12px' },
+    },
+  },
+})
+
+const className = css(
+  // returns the resolved style object
+  buttonStyles.raw({ size: 'small' }),
+  // add the override styles
+  overrideStyles,
+)
+
+// => 'bg_red border_1px_solid_black color_white font-size_12px'
+```
+
+</TabItem>
+</Tabs>
 
 ## recipes
 
-re-usable components
+tl;dr: Like `cva` but scoped with a className instead of generating atomic CSS classes.
 
-predictable class names
+`config recipes` allows you to create a re-usable styles based on variants, including responsive variants, that produce
+scoped CSS classes. They're the scoped equivalent of the `cva` atomic fn.
 
-JIT generated variants
+`config recipes` base and variants styles will be generated JIT, as in, only when found in the source files.
 
-not mergeable with css
+Since `config recipes` are scoped by a className that you provide, they generate very predictable CSS rules, which makes
+them very easy to override using raw CSS. This can be particularly useful when creating a component library.
 
-variant based
+You can read more [here](https://panda-css.com/docs/concepts/recipes#should-i-use-atomic-or-config-recipes-) to
+understand the difference between [recipes](https://panda-css.com/docs/concepts/recipes#config-recipe) and
+[cva](https://panda-css.com/docs/concepts/recipes#atomic-recipe-or-cva).
 
-cva equivalent
+Inside the `base` and `variants` styles, you can use anything that you can use in the [`css`](#css) function.
 
 ## slot recipes
 
-like recipes but with slots multipart component (button+icon, dialog, menu)
+tl;dr: Like `config recipes` but with `slots`, allowing you to style multipart components.
+
+This is a special kind of recipe that allows you to create a re-usable styles based on `slots`, that produce scoped CSS
+classes. Each slot should map to a component part, for example a `button` could have a `icon` slot, a `label` slot, a
+`loading` slot, etc.
+
+These slots can then be styled together, reacting to the same variants. For example, your `button` could have a `size`
+variant that would apply to both the `icon` and `label` slots, slightly changing their font-size and padding.
+
+The same upside and downsides from the `config recipes` apply here.
+
+You can read more [here](https://panda-css.com/docs/concepts/recipes#should-i-use-atomic-or-config-recipes-) to
+understand the difference between
+[config (slot) recipes](https://panda-css.com/docs/concepts/slot-recipes#config-slot-recipe) and
+[sva](https://panda-css.com/docs/concepts/slot-recipes#atomic-slot-recipe-or-sva).
+
+```tsx
+import { button } from 'styled-system/recipes'
+
+const className = button({
+  className: 'title',
+  slots: ['root', 'label', 'icon'],
+  base: {
+    root: { display: 'flex', rounded: 'md' },
+    label: { fontWeight: 'medium', px: '3' },
+    icon: { mr: '2' },
+  },
+  variants: {
+    size: {
+      small: {
+        icon: { mr: '1' },
+        label: { fontSize: '12px' },
+      },
+      md: {
+        label: { fontSize: '15px' },
+      },
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
+})
+```
 
 ## sva
 
-like cva and for slot recipes
+tl;dr: Like `cva` but for `slot recipes`.
+
+This is a special kind of recipe that allows you to create a re-usable styles based on `slots`, that produce atomic CSS
+classes. Each slot should map to a component part, for example a `button` could have a `icon` slot, a `label` slot, a
+`loading` slot, etc.
+
+These slots can then be styled together, reacting to the same variants. For example, your `button` could have a `size`
+variant that would apply to both the `icon` and `label` slots, slightly changing their font-size and padding.
+
+The same upside and downsides from the `cva` fn apply here.
+
+You can read more [here](https://panda-css.com/docs/concepts/recipes#should-i-use-atomic-or-config-recipes-) to
+understand the difference between
+[config (slot) recipes](https://panda-css.com/docs/concepts/slot-recipes#config-slot-recipe) and
+[sva](https://panda-css.com/docs/concepts/slot-recipes#atomic-slot-recipe-or-sva).
+
+```tsx
+import { sva } from 'styled-system/recipes'
+
+const className = sva({
+  slots: ['root', 'label', 'icon'],
+  base: {
+    root: { display: 'flex', rounded: 'md' },
+    label: { fontWeight: 'medium', px: '3' },
+    icon: { mr: '2' },
+  },
+  variants: {
+    size: {
+      small: {
+        icon: { mr: '1' },
+        label: { fontSize: '12px' },
+      },
+      md: {
+        label: { fontSize: '15px' },
+      },
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
+})
+```
 
 ## styled
+
+TODO
 
 only with config.jsxFramework
 
@@ -1029,9 +1398,27 @@ layout primitives / re-usable piece of styles with utility props raw
 
 ## utility
 
+you provide the className
+
+can have shorthand
+
+can provide values or token category or type (boolean)
+
 ## JS token() / string token()
 
+for composite values, for one-off at-rules
+
+runtime dynamic values
+
+careful with the bundle size, every tokens will be included
+
+can use the token value or reference to a variable
+
 ## .raw(xxx) merging
+
+## jsx style props
+
+## jsx css prop
 
 ## css nesting
 
@@ -1071,6 +1458,12 @@ built-in
 
 ## tokens
 
+predefined categories
+
+close to w3c spec
+
+extendable, nestable
+
 ```ts
 // tokens.ts
 import { defineTokens } from '@pandacss/dev'
@@ -1093,6 +1486,10 @@ export default defineTokens({
 
 ## semantic tokens
 
+like tokens but
+
+create CSS variables that reference other CSS variables
+
 ```ts
 // semantic-tokens.ts
 import { defineSemanticTokens } from '@pandacss/dev'
@@ -1113,12 +1510,37 @@ export default defineSemanticTokens({
 })
 ```
 
+## CLI
+
+find-up
+
+panda init
+
+panda / panda -w
+
+panda cssgen / -w
+
+panda cssgen [artifact]
+
+panda cssgen --minimal
+
+panda codegen / -w
+
+panda debug
+
+panda ship
+
 ### Online Playground
 
 We also have [an online playground](https://play.panda-css.com/) that you can use to try out Panda CSS using the basic
 examples and see if it fits your needs.
 
-TODO AST/CSS tab
+There's also special tab named `AST` at the bottom of the screen in which you can see exactly what the Panda extractor
+sees, which property and values were resolved, there's also a `CSS` tab what CSS will be generated from your code.
+
+These are great tools to debug your code and understand how Panda works. You can also open your developer tools (F12) to
+see the Panda context (just like the one used in the CLI through `@pandacss/node`) that handles the CSS and artifact
+generation.
 
 ---
 
