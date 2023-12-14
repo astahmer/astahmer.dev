@@ -86,9 +86,9 @@ function App() {
 }
 ```
 
-Note: By default, [`config.strictTokens`](https://panda-css.com/docs/references/config#stricttokens) is set to `false`
-and that means you'll get autocompletions from your [`config.theme`](https://panda-css.com/docs/references/config#theme)
-**but you'll also be able to use any CSS value.**
+ℹ️ Note: By default, [`config.strictTokens`](https://panda-css.com/docs/references/config#stricttokens) is set to
+`false` and that means you'll get autocompletions from your
+[`config.theme`](https://panda-css.com/docs/references/config#theme) **but you'll also be able to use any CSS value.**
 
 If you set [`config.strictTokens`](https://panda-css.com/docs/references/config#stricttokens) to `true`, you'll only be
 able to use `tokens` that are included in your `config`, unless using the escape-hatch syntax `[xxx]`:
@@ -255,7 +255,9 @@ export const App = () => {
 
 ## Merging styles
 
-### css()
+Related docs : https://panda-css.com/docs/concepts/merging-styles
+
+### css merging
 
 For example, you can just pass multiple arguments to the `css` function, and they'll be merged together.
 
@@ -266,7 +268,7 @@ css({ display: 'flex', bg: 'color.500' }, { bg: 'red.500', color: 'white' })
 // would result in { display: 'flex', bg: 'red.500', color: 'white' }
 ```
 
-### raw()
+### raw() marker
 
 This can be especially useful with the `.raw()` function, available on `css` / `recipes` / `patterns`.
 
@@ -599,7 +601,7 @@ export const App = () => {
 </TabItem>
 </Tabs>
 
-Note that you could duplicate that `button` object in the `semanticTokens` and just change the color values to get
+ℹ️ Note that you could duplicate that `button` object in the `semanticTokens` and just change the color values to get
 another color palette, with the same nested semantic names, reacting to the same conditions.
 
 e.g you could name it `alert` and have `alert.info` / `alert.warning` / `alert.warning.accent` /
@@ -622,7 +624,7 @@ css({ borderWidth: '2px', borderStyle: 'solid', borderColor: 'blue.300' })
 
 ## Debug utility
 
-TODO playground / live example ?
+TODO live example ?
 
 ## Static generator
 
@@ -645,12 +647,12 @@ Given we want to generate a CSS file at `build-time`, we need to know what CSS t
 and that's where `static analysis` comes in: by scanning your **source files** and finding style usage in there.
 
 I would not really say that `static analysis` is an intended feature, as it
-[also introduces some limitations](<(/posts/how-does-xxx-compares-to-panda-css#static-limitations)>), but I feel like it
+[also introduces some limitations](/posts/how-does-xxx-compares-to-panda-css#static-limitations), but I feel like it
 incidentally **forces you to write better code**, basically it acts like a
 [**pit of success**](https://blog.codinghorror.com/falling-into-the-pit-of-success/).
 
 Since you can't (easily/directly) use `runtime dynamic values`, you'll have to find a way to make it static, and that's
-actually a good thing !
+actually a good thing **both in term of code maitainability and performance** !
 
 ### Smart
 
@@ -660,14 +662,197 @@ different ways to the point **where it doesn't seem static anymore**.
 
 I'm pretty confident it's _one_ of the most advanced static extractor among `build-time` styling solutions !
 
-## Dynamic styling
+### Extractor Examples
+
+Runtime conditions, identifier resolving, static evaluation, all of those just work.
+
+<Tabs>
+<TabItem label="Runtime conditions">
+
+```tsx
+import { css } from '../styled-system/css'
+
+const Button = (props) => {
+  const [isSelected, setIsSelected] = useState(false)
+
+  return (
+    <button
+      // ✅ the static extractor will detect both `blue.500` and `yellow.500`
+      // and will generate the CSS for both
+      // ℹ️ you can nest conditions indefinitely and it would still be fine
+      className={css({ color: isSelected ? 'blue.500' : 'yellow.500' })}
+    >
+      {props.children}
+    </button>
+  )
+}
+```
+
+</TabItem>
+<TabItem label="Identifier resolving">
+
+```tsx
+import { css } from '../styled-system/css'
+
+const colors = {
+  blue: 'blue.500',
+  yellow: 'yellow.500',
+}
+const base = { color: colors.blue } // ✅ this will be resolved inside of the `css`
+const selected = { color: colors['yellow'] } // ✅ this will also be resolved
+
+const Button = (props) => {
+  const isSelected = props.isSelected
+
+  return (
+    <button
+      className={css({
+        ...base,
+        // ✅ you can mix spread and conditions
+        ...(isSelected ? selected : { fontSize: '12px' }),
+      })}
+    >
+      {props.children}
+    </button>
+  )
+}
+
+// ✅ the final CSS would successfully include both `color: blue.500`, `color: yellow.500` and `font-size: 12px`
+```
+
+</TabItem>
+<TabItem label="Static evaluation">
+
+```tsx
+import { css } from '../styled-system/css'
+
+const colorMap = {
+  background: 'red',
+  foreground: 'yellow',
+}
+
+const colorTints = {
+  background: 400,
+  foreground: '100',
+}
+
+const getColor = (name: keyof typeof colorMap) => `${colorMap[name]}.${colorTints[name]}`
+
+const Button = (props) => {
+  const isSelected = props.isSelected
+
+  return (
+    <button
+      className={css({
+        color: getColor('foreground'), // ✅ this will statically evaluate to "yellow.100"
+      })}
+    >
+      {props.children}
+    </button>
+  )
+}
+
+// ✅ the final CSS would successfully include :
+// `color: blue.500`, `color: yellow.500` and `font-size: 12px`
+```
+
+</TabItem>
+</Tabs>
+
+> There are of course still some limitations to static analysis, I wrote a bit about it
+> [here](/posts/how-does-xxx-compares-to-panda-css#static-limitations)
+
+## Runtime dynamic styling
 
 I just said that Panda CSS uses `static analysis` to generate CSS, but that doesn't mean you can't use
 `runtime dynamic values` ! You just have to find a way to make it static.
 
-TODO
+### Using selectors
 
-More examples [here](https://panda-css.com/docs/guides/dynamic-styling)
+Avoid keeping state in your components, and instead use CSS selectors to style your components based on their state.
+
+For example, you can use the `data-xxx` attributes to store the state, and then use the `&[data-xxx]` selector to style
+it.
+
+```diff
+import { styled } from '../styled-system/jsx'
+
+const Button = (props) => {
+-  const [isSelected, setIsSelected] = useState(false)
+
+  return (
+    <button
+-      className={css({ color: isSelected ? 'blue.500' : 'yellow.500' })}
++      className={css({ color: 'yellow.500', '&[data-selected]': { color: 'blue.500' }, })}
+    >
+      {props.children}
+    </button>
+  )
+}
+```
+
+ℹ️ Note that this specific `data-selected` example is
+[built-in with the default conditions](https://panda-css.com/docs/concepts/conditional-styles#reference), so you could
+use it like `_selected: { color: "blue.500" }`.
+
+### Using CSS variables
+
+It's true that you cannot directly use `runtime` values (like variables created from `useState`) inside Panda's
+functions like `css` or `cva`, since those need statically analyzable arguments.
+
+But you can use CSS variables to achieve the same result, using the `style` attribute.
+
+```tsx
+import { css } from '../styled-system/css'
+
+const Button = ({ dynamicColor }) => {
+  return (
+    <button
+      // ✅ you can create a static relationship
+      // between the CSS variable and the dynamic value
+      className={css({ color: 'var(--color)' })}
+      style={{ '--color': dynamicColor }}
+    >
+      {props.children}
+    </button>
+  )
+}
+```
+
+### Using variants
+
+You might have seen this kind of prop-based code with other styling solutions:
+
+```tsx
+const Button = styled.button<{ $primary?: boolean }>`
+  font-size: 1em;
+
+  /* Adapt the colors based on primary prop */
+  background: ${(props) => (props.$primary ? '#BF4F74' : 'white')};
+  color: ${(props) => (props.$primary ? 'white' : '#BF4F74')};
+`
+```
+
+With Panda CSS, you could use an `atomic recipe` (2nd argument of the `styled factory`) to keep the style definition
+static.
+
+Not only does it achieve the same result but you also unlock the possibilities of having multiple styles bound to the
+same variant, and of couse you can create as many variants as you want.
+
+```tsx
+import { styled } from '../styled-system/jsx'
+
+const Button = styled('button', {
+  base: { fontSize: '1em' },
+  variants: {
+    visual: {
+      primary: { bg: 'red.200', color: 'white' },
+    },
+  },
+})
+```
+
+Related documentation is [here](https://panda-css.com/docs/guides/dynamic-styling)
 
 ## Modern
 
@@ -677,7 +862,8 @@ like [`:where`](https://developer.mozilla.org/en-US/docs/Web/CSS/:where) and
 [`:is`](https://developer.mozilla.org/en-US/docs/Web/CSS/:is) in generated styles.
 
 Using the CSS `@layer`, there's no specificity war, for example your `utilities` style would always prevail on your
-`recipes` style, since they're always applied in the right order.
+`recipes` style, since they're always applied in the right order. Read more
+[here](https://panda-css.com/docs/concepts/cascade-layers).
 
 ```css
 @layer reset, base, tokens, recipes, utilities;
@@ -1378,85 +1564,362 @@ const className = sva({
 
 ## styled
 
-TODO
+When using a `JSX`-like framework, you can use the `styled` factory to create a `styled component`, e.g a component that
+can receive JSX `style props`.
 
-only with config.jsxFramework
+`style props` are just properties matching the same name as your `css()` function keys (which means any `breakpoints` /
+`conditions` / `utility` / `shorthands` / CSS built-in property).
 
-component factory
+⚠️ You should NOT rename JSX properties, like using `myColor={color}` instead of `color={color}`. This is due to
+[static limitations](https://panda-css.com/docs/guides/dynamic-styling#property-renaming)
 
-inline or importable recipe
+You can use the `2nd` argument of the `styled` factory to create an inline `atomic recipe` or re-use an existing one.
+(could also be a `config recipe`)
 
-style props (all minimal none)
+You can also create a `styled` component using another one as basis (1st arg), and the previous `atomic recipe` base and
+variants styles will automatically be deep merged with the new one. (new wins in case of conflict)
 
-rename it with config.jsxStyleFactory
+Finally, the `3rd` argument of the `styled` factory allows you to provide default props for your component or override
+which props should be forwarded to the underlying DOM element.
 
-don't rename props nestable
+<Tabs>
+<TabItem label="styled-button.ts">
+
+```tsx
+import { styled } from '../styled-system/jsx'
+
+const StyledButton = styled('button')
+
+const App = () => (
+  <StyledButton bg="blue.500" color="white" py="2" px="4" rounded="md">
+    Button
+  </StyledButton>
+)
+```
+
+</TabItem>
+<TabItem label="inline-recipe.ts">
+
+```tsx
+import { styled } from '../styled-system/jsx'
+
+const Button = styled(
+  'button',
+  {
+    base: {
+      py: '2',
+      px: '4',
+      rounded: 'md',
+    },
+    variants: {
+      variant: {
+        primary: {
+          bg: 'blue.500',
+          color: 'white',
+        },
+        secondary: {
+          bg: 'gray.500',
+          color: 'white',
+        },
+      },
+    },
+  },
+  {
+    defaultProps: {
+      'data-testid': 'button123',
+      variant: 'primary',
+    },
+  },
+)
+
+const App = () => (
+  <Button variant="secondary" mt="10px">
+    Button
+  </Button>
+)
+```
+
+</TabItem>
+<TabItem label="minimal-style-props.ts">
+
+```tsx
+// in panda.config.ts
+import { defineConfig } from '@pandacss/dev'
+
+export default defineConfig({
+  // ...
+  jsxStyleProps: 'minimal',
+  jsxFactory: 'panda', // ℹ️ you can rename the `jsx` factory to `panda` if you want (defaults to `styled`)
+})
+
+// in app.ts
+import { panda } from '../styled-system/jsx'
+
+const StyledButton = panda('button')
+
+const App = () => (
+  // ✅ only the `css` property is available when using `jsxStyleProps: "minimal"`
+  // can be useful to reduce the noise in the auto-completion
+  <StyledButton css={{ bg: 'blue.500', color: 'white', py: '2', px: '4', rounded: 'md' }}>Button</StyledButton>
+)
+```
+
+</TabItem>
+</Tabs>
 
 ## patterns / jsx patterns
 
-layout primitives / re-usable piece of styles with utility props raw
+Patterns are layout primitives that you can use to avoid writing the same CSS over and over again. They also have access
+to the same features as the `css()` function, with the addition of specific `utility` props per pattern (e.g `direction`
+that maps to the `flexDirection` property inside of the `flex` pattern config).
+
+If using a `config.jsxFramework`, Panda will also generate `JSX patterns`, matching the function version. (e.g `flex`
+and `<Flex />`)
+
+```tsx
+import { flex } from '../styled-system/patterns'
+import { Stack } from '../styled-system/jsx'
+
+const App = () => (
+  <div css={flex({ direction: 'row', justify: 'center', align: 'center' })}>
+    <Stack gap="4">
+      <div>Item 1</div>
+      <div>Item 2</div>
+      <div>Item 3</div>
+    </Stack>
+    <Stack gap="4">
+      <div>Item 1</div>
+      <div>Item 2</div>
+      <div>Item 3</div>
+    </Stack>
+  </div>
+)
+```
+
+You can read more on [customizing patterns](https://panda-css.com/docs/customization/patterns) and see the list of
+[built-in patterns here](https://panda-css.com/docs/concepts/patterns#predefined-patterns)
 
 ## utility
 
-you provide the className
+With `utilities`, you can create your own CSS properties that can leverage the same features as the `css()` function:
+`tokens`, `conditions`, etc...
 
-can have shorthand
+For example, one of our most requested feature is integrating Color opacity modifiers, so that you could do something
+like `color: "red.200/50"` and it would change the `alpha` value to `0.5` of the `red.200` color.
 
-can provide values or token category or type (boolean)
+It's actually pretty easy to do so with a custom `utility`:
 
-## JS token() / string token()
+<Tabs>
+<TabItem label="background-alpha.ts">
 
-for composite values, for one-off at-rules
+```ts
+// credit goes to shadow-panda
+// https://github.com/kumaaa-inc/shadow-panda/blob/f8f8afc445ccf12d78b089f80afff4462596f8c4/packages/preset/src/utilities/background-alpha.ts
 
-runtime dynamic values
+import type { UtilityConfig } from '@pandacss/types'
 
-careful with the bundle size, every tokens will be included
+export const backgroundAlpha: UtilityConfig = {
+  backgroundAlpha: {
+    shorthand: ['bga'],
+    property: 'backgroundColor',
+    className: 'background-alpha',
+    values: { type: 'string' },
+    transform: (...args) => {
+      const { value, color } = colorMix(...args)
 
-can use the token value or reference to a variable
+      return {
+        '--sp-bga': value,
+        backgroundColor: `var(--sp-bga, ${color})`,
+      }
+    },
+  },
+}
+```
+
+</TabItem>
+<TabItem label="color-mix.ts">
+
+```ts
+// credit goes to shadow-panda
+// https://github.com/kumaaa-inc/shadow-panda/blob/f8f8afc445ccf12d78b089f80afff4462596f8c4/packages/preset/src/lib/color-mix.ts
+
+import type { PropertyTransform } from '@pandacss/types'
+
+export const colorMix: (...args: Parameters<PropertyTransform>) => {
+  color: string
+  amount: string | number
+  value: string
+} = (value: string, { token }) => {
+  const [color, opacityAmount] = value.split('/')
+  const amount = !isNaN(Number(opacityAmount)) ? Number(opacityAmount) : 100
+  const colorValue = token(`colors.${color}`)
+  const opacityValue = token(`opacity.${amount}`)
+  const amountValue = opacityValue ? Number(opacityValue) * 100 : `${100 - amount}%`
+
+  return {
+    color: colorValue ?? color,
+    amount: amountValue,
+    value: `color-mix(in srgb, transparent ${amountValue}, ${colorValue})`,
+  }
+}
+```
+
+</TabItem>
+<TabItem label="usage.ts">
+
+```ts
+import { css } from 'styled-system/css'
+
+const className = css({ backgroundAlpha: 'red.300/50' })
+// will result in the following CSS:
+
+// .background-alpha_red\.300\/50 {
+//   --sp-bga: color-mix(in srgb, transparent 50%, var(--colors-red-300));
+//   background-color: var(--sp-bga, var(--colors-red-300));
+// }
+
+// you can try it here https://play.panda-css.com/pnaS3don-r
+```
+
+</TabItem>
+</Tabs>
+
+There are other use cases for `utilities`, like
+[`enum values`](https://panda-css.com/docs/customization/utilities#using-enum-values),
+[`mapped values`](https://panda-css.com/docs/customization/utilities#using-mapped-values) or even
+[boolean values](https://panda-css.com/docs/customization/utilities#using-boolean-values).
+
+You can read more on [customizing utilities](https://panda-css.com/docs/customization/utilities) and see the list of
+[built-in utilities here](https://panda-css.com/docs/utilities/background)
+
+## Runtime token()
+
+Panda CSS provides a `token` function that you can use in your runtime JS code to reference a token value.
+
+You can specify a `fallback` argument that will be used if the token value is not found.
+
+```tsx
+import { token } from 'styled-system/css'
+
+const blue = token('colors.blue.300')
+// => `#93c5fd`
+
+const App = (props) => {
+  const color = token(`colors.${props.color}.300`, 'red')
+  return <div style={{ color }}>Hello world</div>
+}
+```
+
+It also has a `.var()` function that will return the token CSS variable instead of a value.
+
+```tsx
+import { token } from 'styled-system/css'
+
+const blue = token('colors.blue.300')
+// => `var(--colors-blue-300)`
+
+const App = (props) => {
+  const color = token.var(`colors.${props.color}.300`, 'red')
+  return <div style={{ color }}>Hello world</div>
+}
+```
+
+## Compile-time string token()
+
+And then there's the `string token` function, which is a compile-time version of the runtime `token` function mentioned
+above.
+
+It's useful for composite values, for example the `border` property :
+
+```tsx
+import { css } from 'styled-system/css'
+
+const className = css({ border: '1px solid token(colors.blue.300)' })
+// => `border_1px_solid_var(--colors-blue-300)`
+```
+
+And can also be used in `at-rule` values, like `@media`:
+
+```tsx
+import { css } from 'styled-system/css'
+
+const className = css({
+  '@media screen and (min-width: token(sizes.4xl))': {
+    color: 'green.400',
+  },
+})
+```
+
+## JSX style props
+
+When using a JSX framework, any property matching the same name as your `css()` function keys (which means any
+`breakpoints` / `conditions` / `utility` / `shorthands` / CSS built-in property) will be extracted by the static
+extractor and transformed to a class string.
+
+The static extractor will extract every `PascalCased` component, so that things "just work" out of the box.
+
+> You can use the `jsxStyleProps` config to customize which style props are available to your components: `all` /
+> `minimal` (only the `css` property) / `none`
+
+## JSX css prop
+
+The `css` property is a special property that will always be extracted without the need for the `.raw` marker. You can
+use it to dynamically [merge styles](#merging-styles) together.
+
+Since every PascalCased component will be extracted, as long as what you pass in the `css` property remains statically
+analyzable, everything will work as expected without any effort.
+
+```tsx
+const Button = (props) => {
+  const { css: cssProp, ...rest } = props
+
+  return <button {...rest} className={css({ p: 4, color: 'blue.300' }, props.css)} />
+}
+
+const App = () => {
+  return <Button css={{ color: 'red.500' }} />
+  // would result in { p: 4, color: 'red.500' }
+}
+```
 
 ## .raw(xxx) merging
 
-## jsx style props
+See [`raw()`](http://localhost:4321/posts/why-would-i-choose-panda#raw-marker)
 
-## jsx css prop
+## Runtime conditions
 
-## css nesting
+See the [first static extractor example](#extractor-examples) or
+[more examples in the docs](https://panda-css.com/docs/guides/dynamic-styling#runtime-conditions).
+
+## CSS nesting
+
+Panda supports CSS nesting, which means that you can use the `&` syntax to target children and siblings.
+
+```tsx
+css({
+  bg: 'red.400',
+  '& span': {
+    color: 'pink.400',
+    // can nest indefinitely
+    // please don't do that though
+  },
+})
+```
+
+Quoting [the docs](https://panda-css.com/docs/concepts/writing-styles#native-css-nesting):
+
+> ⚠️ We recommend not using descendant selectors as they can lead to specificity issues when managing style overrides.
+> Colocating styles directly on the element is the preferred way of writing styles in Panda.
 
 ## colorPalette
 
-## textStyles
+See [virtual color](#virtual-color-palette)
 
-## breakpoints
-
-array syntax
-
-inline
-
-nestable
-
-object syntax
-
-breakpoint range
-
-single breakpoint
-
-custom
-
-hide from/to
-
-## keyframes
-
-## conditions
-
-arbitrary
-
-nestable
-
-custom
-
-built-in
+## Theme
 
 ## tokens
+
+TODO
 
 predefined categories
 
@@ -1486,6 +1949,8 @@ export default defineTokens({
 
 ## semantic tokens
 
+TODO
+
 like tokens but
 
 create CSS variables that reference other CSS variables
@@ -1510,11 +1975,210 @@ export default defineSemanticTokens({
 })
 ```
 
+## conditions
+
+- You can use them with the `css` function, `cva`, `recipes`, `patterns`, `styled` factory, etc... nestable
+- Every condition starts with a `_` prefix to differentiate them
+- You can use a condition object or a property-based condition
+- You can nest conditions indefinitely
+- You can find the list of built-in conditions [here](https://panda-css.com/docs/concepts/conditional-styles#reference).
+
+<Tabs>
+<TabItem label="demo.ts">
+
+```tsx
+import { css } from 'styled-system/css'
+
+const className = css({
+  color: 'blue.800',
+  _dark: {
+    // condition object
+    color: 'green.300',
+    // you can nest conditions indefinitely
+    _hover: {
+      color: 'red.500',
+      bg: 'gray.800',
+    },
+  },
+  fontSize: {
+    // property-based conditions
+    base: '16px', // base means the current condition path (e.g nothing here)
+    md: '18px', // this is a breakpoint, it's not prefixed with `_`
+    _highlighted: '2xl',
+  },
+  '&[data-selected]': {
+    // arbitrary conditions are also fine !
+    bg: 'blue.500',
+  },
+})
+```
+
+</TabItem>
+<TabItem label="built-ins.ts">
+
+```tsx
+import { css } from 'styled-system/css'
+
+const className = css({
+  color: 'blue.800',
+  _hover: {
+    color: 'red.500',
+    _disabled: {
+      color: 'gray.500',
+    },
+  },
+})
+
+// you could also write it in the property-based syntax
+
+const className = css({
+  color: 'blue.800',
+  _hover: {
+    color: 'red.500',
+    _disabled: {
+      color: 'gray.500',
+    },
+  },
+})
+```
+
+</TabItem>
+<TabItem label="custom.ts">
+
+```ts
+// https://panda-css.com/docs/customization/conditions
+import { defineConfig } from '@pandacss/dev'
+
+export default defineConfig({
+  conditions: {
+    extend: {
+      groupHover: '[role=group]:where(:hover, [data-hover]) &',
+      withTestid: '&[data-testid]',
+      pinkTheme: '[data-theme=pink] &',
+    },
+  },
+})
+```
+
+</TabItem>
+<TabItem label="arbitrary.ts">
+
+```tsx
+import { css } from 'styled-system/css'
+
+const className = css({
+  // `&` means the current element
+  '&:focus': {
+    color: 'red.500',
+  },
+  // can use any CSS selector
+  '&[data-selected]': {
+    bg: 'blue.500',
+  },
+  // targeting children is possible (⚠️ but NOT recommended)
+  '& span': {
+    bg: 'blue.500',
+  },
+  // you can use multiple selectors
+  '&[data-highlighted], :hover': {
+    fontSize: '2xl',
+  },
+  // or even an `at-rule`
+  '@media screen and (min-width: md)': {
+    color: 'green.300',
+  },
+  // and reference a token path inside of it
+  '@media screen and (min-width: token(sizes.4xl))': {
+    color: 'green.300',
+  },
+})
+```
+
+</TabItem>
+<TabItem label="arbitrary.ts">
+{/*  */}
+</TabItem>
+</Tabs>
+
+## breakpoints
+
+A special kind of `conditions` that allows you to create responsive styles and directly maps to CSS `@media` queries.
+
+<Tabs>
+  <TabItem label="object-syntax.ts">{/*  */}</TabItem>
+  <TabItem label="object-syntax.ts">{/*  */}</TabItem>
+</Tabs>
+
+Docs: https://panda-css.com/docs/concepts/responsive-design
+
+array syntax
+
+inline
+
+nestable
+
+object syntax
+
+breakpoint range
+
+single breakpoint
+
+custom
+
+hide from/to
+
+### textStyles
+
+`textStyles` are a practical way to compose styles for typography properties (`fontSize`, `fontWeight`, `lineHeight`,
+`letterSpacing`, etc...) under a single utility.
+
+```tsx
+// in panda.config.ts
+
+import { defineConfig } from '@pandacss/dev'
+
+export default defineConfig({
+  // ...
+  theme: {
+    extend: {
+      textStyles: {
+        heading: {
+          value: {
+            fontSize: '4xl',
+            fontWeight: 'bold',
+            lineHeight: '1.2',
+          },
+        },
+      },
+    },
+  },
+})
+
+// in app.ts
+import { css } from 'styled-system/css'
+
+const className = css({ textStyle: 'heading' })
+// => `textStyle_heading`
+
+// and generate the following CSS:
+// .textStyle_heading {
+//   font-size: var(--font-sizes-4xl);
+//   font-weight: var(--font-weights-bold);
+//   line-height: 1.2;
+// }
+```
+
+Docs: https://panda-css.com/docs/theming/text-styles
+
+## keyframes
+
+TODO
+
 ## CLI
 
-find-up
+TODO
 
-panda init
+panda init if you don't remember the @layer xxx
 
 panda / panda -w
 
