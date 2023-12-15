@@ -19,7 +19,6 @@
     "@astrojs/preact": "^3.0.1",
     "@astrojs/sitemap": "^3.0.3",
     "@fontsource-variable/open-sans": "^5.0.18",
-    "@vercel/analytics": "^1.1.1",
     "@vercel/og": "^0.5.20",
     "astro": "^4.0.3",
     "astro-compress": "^2.2.3",
