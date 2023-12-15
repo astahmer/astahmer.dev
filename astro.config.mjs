@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
 import mdx from '@astrojs/mdx'
-import panda from '@pandacss/postcss'
+import panda from '@pandacss/dev/postcss'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import { SITE_URL } from './src/data/config'
