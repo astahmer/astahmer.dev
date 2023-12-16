@@ -25,12 +25,16 @@ const { content, ...headTags } = Astro.props
 <!doctype html>
 <html lang="en">
   <SEOTags {...headTags} />
-  <script async src="https://umami-nu-bice.vercel.app/script.js" data-website-id="4a4b809f-3b38-4291-a236-4e4b31cfe28c"
-  ></script>
+  <script
+    async
+    src="https://umami-nu-bice.vercel.app/script.js"
+    data-website-id="4a4b809f-3b38-4291-a236-4e4b31cfe28c"
+    data-domains="astahmer.dev"></script>
 
   <slot name="head" />
 
   <body
+    data-content={content ? 'true' : undefined}
     class={container({
       ml: 'auto',
       mr: 'auto',
@@ -47,9 +51,10 @@ const { content, ...headTags } = Astro.props
       textStyle: 'sm',
       color: 'neutral.400',
       md: { gap: '12', pt: '12', pb: '12' },
-      background: content
-        ? 'radial-gradient(circle, #00000c 60%, #011422 100%)'
-        : 'radial-gradient(circle, #00000c 20%, #011422 100%)',
+      background: 'radial-gradient(circle, #00000c 20%, #011422 100%)',
+      '&[data-content]': {
+        bg: 'radial-gradient(circle, #00000c 60%, #011422 100%)',
+      },
     })}
   >
     <div class={css({ position: 'relative' })}><slot /></div>
