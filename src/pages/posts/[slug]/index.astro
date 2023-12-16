@@ -56,7 +56,8 @@ const { Content } = await post.render()
         <time datetime={post.data.publishedAt.toISOString()}>
           {formatDate(post.data.publishedAt)}
         </time>
-        <h1>
+        <h1 id="top" class="group">
+          <a aria-hidden="true" tabindex="-1" href="#top"><span class="h-anchor">#</span></a>
           {post.data.title}
         </h1>
         <p class={css({ fontStyle: 'italic' })}>{post.data.description}</p>

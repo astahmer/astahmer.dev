@@ -1,6 +1,6 @@
 ---
 title: '"Why would I choose Panda ?"'
-publishedAt: 2023-12-10
+publishedAt: 2023-12-16
 description: "And why it's easier to answer this question"
 slug: 'why-would-i-choose-panda'
 isPublish: true
@@ -22,6 +22,80 @@ knowledgeable with Panda; I mostly wrote about Panda's
 
 This time, I feel like this question is more about what **strengths** Panda has to offer. And I've got tons of answers
 for that !
+
+---
+
+This post will be split in 4 parts:
+
+<details>
+<summary>1. [An overview of the main features](#build-time-css)</summary>
+
+- 1.0. [Build-time CSS](#build-time-css)
+- 1.1. [Atomic CSS](#atomic-css)
+- 1.2. [Type-safety](#type-safety)
+- 1.3. [Batteries included](#batteries-included)
+- 1.4. [Extendable](#extendable)
+- 1.5. [CSS-in-JS](#css-in-js)
+- 1.6. [Style props](#style-props)
+- 1.7. [Merging styles](#merging-styles)
+- 1.8. [Static analysis](#static-analysis)
+- 1.9. [Runtime dynamic styling](#runtime-dynamic-styling)
+- 1.10. [Static generator](#static-generator)
+- 1.11. [Modern](#modern)
+- 1.12. [Multi-Theme tokens](#multi-theme-tokens)
+- 1.13. [Virtual color palette](#virtual-color-palette)
+
+</details>
+<details>
+<summary>2. [A look at the possible use-cases](#use-cases)</summary>
+
+- 2.0. [Styling solution](#styling-solution)
+- 2.1. [Design system](#design-system--component-library)
+- 2.2 [Token generator](#token-generator)
+- 2.3 [Styling engine](#styling-engine)
+
+</details>
+<details>
+<summary>3. [A summary of the DX](#developer-experience-dx)</summary>
+
+- 3.0. [Easy to learn](#easy-to-learn)
+- 3.1. [Easy to use](#easy-to-use)
+- 3.2. [Easy to customize](#easy-to-customize)
+- 3.3. [Easy to distribute](#easy-to-distribute)
+
+</details>
+<details>
+<summary>4. [A concise API reference with examples](#api-examples)</summary>
+
+- 4.0. [css](#css)
+- 4.1. [cx](#cx)
+- 4.2. [cva](#cva)
+- 4.3. [config recipes](#recipes)
+- 4.4. [slot recipes](#slot-recipes)
+- 4.5. [sva](#sva)
+- 4.6. [styled](#styled)
+- 4.7. [patterns](#patterns--jsx-patterns)
+- 4.8. [utility](#utility)
+- 4.9. [Runtime token()](#runtime-token)
+- 4.10. [Compile-time string token()](#compile-time-string-token)
+- 4.11. [JSX style props](#jsx-style-props)
+- 4.12. [JSX css prop](#jsx-css-prop)
+- 4.13. [.raw(xxx) merging](#rawxxx-merging)
+- 4.14. [Runtime conditions](#runtime-conditions)
+- 4.15. [CSS nesting](#css-nesting)
+- 4.16. [colorPalette](#colorpalette)
+- 5.0. [Theme](#theme)
+- 5.1. [tokens](#tokens)
+- 5.2. [semantic tokens](#semantic-tokens)
+- 5.3. [conditions](#conditions)
+- 5.4. [breakpoints](#breakpoints)
+- 5.5. [shorthands](#shorthands)
+- 5.6. [textStyles](#textstyles)
+- 5.7. [keyframes](#keyframes)
+- 6.0. [CLI](#cli)
+- 7.0. [Online playground](#online-playground)
+
+</details>
 
 So, from the endless list of styling solutions and [`CSS-in-JS`](#css-in-js) libraries, why should you choose Panda?
 
@@ -63,8 +137,8 @@ Panda CSS leverages `TypeScript` to provide type-safety.
 
 This means that you'll get autocompletion, type-checking and you'll be yelled at if you do something wrong. ⚠️
 
-This also means that you don't need a VSCode extension to get autocompletion, it's **built-in**. _(tho, we've been
-working on a VSCode extension that provides **super-powered autocompletion and even more features**)_
+This also means that you don't need a VSCode extension to get autocompletion and type-safety, it's **built-in**. _(tho,
+we've been working on a VSCode extension that provides **super-powered autocompletion and even more features**)_
 
 ```tsx {7} "blue.300" "2xl" "123px" "_hover" "&:focus"
 import { css } from '../styled-system/css'
@@ -125,7 +199,10 @@ install anything):
   [utilities](https://panda-css.com/docs/utilities/background) /
   [patterns](https://panda-css.com/docs/concepts/patterns)
 - `@pandacss/preset-panda`, which contains the [default theme](https://panda-css.com/docs/customization/theme)
-  _(keyframes / breakpoints / tokens / textStyles)_
+  _([`keyframes`](https://panda-css.com/docs/customization/theme#keyframes) /
+  [`breakpoints`](https://panda-css.com/docs/concepts/responsive-design) /
+  [`tokens`](https://panda-css.com/docs/theming/tokens) /
+  [`textStyles`](https://panda-css.com/docs/theming/text-styles))_
 
 If those presets don't fit your needs, you can always set
 [`config.eject`](https://panda-css.com/docs/references/config#eject) to `true` to remove them and
@@ -149,9 +226,12 @@ Merging styles ? [Covered.](#merging-styles) Recipes (cva) ? [Gotcha.](https://p
 ### Theming
 
 I mentioned the ability to create your own presets, but of course you can also just customize your `panda.config.ts`
-with your [theme](https://panda-css.com/docs/customization/theme) _(keyframes / breakpoints / tokens / textStyles)_ /
-[conditions](https://panda-css.com/docs/concepts/conditional-styles) /
-[utilities](https://panda-css.com/docs/utilities/background) / [patterns](https://panda-css.com/docs/concepts/patterns)
+with your [theme](https://panda-css.com/docs/customization/theme)
+_([`keyframes`](https://panda-css.com/docs/customization/theme#keyframes) /
+[`breakpoints`](https://panda-css.com/docs/concepts/responsive-design) /
+[`tokens`](https://panda-css.com/docs/theming/tokens) / [`textStyles`](https://panda-css.com/docs/theming/text-styles))
+/ [conditions](https://panda-css.com/docs/concepts/conditional-styles) /
+[utilities](https://panda-css.com/docs/utilities/background) / [patterns](https://panda-css.com/docs/concepts/patterns)_
 to fit your needs.
 
 Using the `extend` keyword inside of any of those config options will allow you to add your own customizations on top of
@@ -177,7 +257,7 @@ tailored to your needs.
   [`styled` factory](https://panda-css.com/docs/concepts/style-props#factory-function) and
   [`JSX patterns`](https://panda-css.com/docs/concepts/style-props#jsx-patterns) ? Set
   [`config.jsxStyleProps`](https://panda-css.com/docs/references/config#jsxstyleprops) to `minimal` (that only allows
-  the `css` special property) or `none` to disable them completely.
+  the [`css`](#jsx-css-prop) special property) or `none` to disable them completely.
 
 - Need to change the `@layer` names ? Set [`config.layers`](https://panda-css.com/docs/references/config#layers) to
   whatever you need. (Can be useful to avoid naming conflicts with other styling libraries !)
@@ -207,7 +287,7 @@ This is basically the idea of colocation taken to the next level.
 Well, actually with Panda it's not really `CSS-in-JS`, it's more like `CSS-in-TS` since we've got
 [type-safety](#type-safety) all over the place.
 
-And that works with most JSX-like frameworks, like [React](https://panda-css.com/docs/installation/nextjs) /
+And that works with most JSX-like frameworks: [React](https://panda-css.com/docs/installation/nextjs) /
 [Preact](https://panda-css.com/docs/installation/preact) / [Svelte](https://panda-css.com/docs/installation/svelte) /
 [Vue](https://panda-css.com/docs/installation/vue) / [Solid](https://panda-css.com/docs/installation/solidjs) /
 [Qwik](https://panda-css.com/docs/installation/qwik)
@@ -262,10 +342,10 @@ Related docs : https://panda-css.com/docs/concepts/merging-styles
 
 For example, you can just pass multiple arguments to the `css` function, and they'll be merged together.
 
-```tsx {7-8}
+```tsx {7-8} "blue.500" "red.500"
 import { css } from 'styled-system/css'
 
-css({ display: 'flex', bg: 'color.500' }, { bg: 'red.500', color: 'white' })
+css({ display: 'flex', bg: 'blue.500' }, { bg: 'red.500', color: 'white' })
 // would result in { display: 'flex', bg: 'red.500', color: 'white' }
 ```
 
@@ -273,22 +353,22 @@ css({ display: 'flex', bg: 'color.500' }, { bg: 'red.500', color: 'white' })
 
 This can be especially useful with the `.raw()` function, available on `css` / `recipes` / `patterns`.
 
-This `raw` function will return what you passed in (or transform the object for `patterns`), and **serves as a marker
-for the `static analysis`**, to tell the Panda `extractor` that you're creating a `style object` and we should generate
-the CSS for it.
+This `raw` function will return what you passed in (except when used on `patterns`, it will transform the object back to
+a `css`-compatible object), and **serves as a marker for the `static analysis`**, to tell the Panda `extractor` that
+you're creating a `style object` and we should generate the CSS for it.
 
-```ts del={4-5} ins={7-8} "css.raw"
+```ts del={4-5} ins={7-8} "css.raw" "blue.500" "bg.500"
 // file-1.ts
 import { css } from 'styled-system/css'
 
-export const base = { display: 'flex', bg: 'color.500' }
+export const base = { display: 'flex', bg: 'blue.500' }
 // ❌ this will not generate any CSS
 
-export const base = css.raw({ display: 'flex', bg: 'color.500' })
+export const base = css.raw({ display: 'flex', bg: 'blue.500' })
 // ✅ this will generate CSS as expected
 ```
 
-```ts "css.raw"
+```ts "css.raw" "red.500"
 // file-2.ts
 import { css } from 'styled-system/css'
 import { base } from './file-1'
@@ -303,11 +383,259 @@ You can also use the `cx` function to merge multiple class names together.
 
 ```tsx {7-8}
 import { css, cx } from 'styled-system/css'
-const className = cx(css({ display: 'flex', bg: 'color.500' }), 'my-class')
-// would result in something like 'd_flex text_color_500 my-class'
+const className = cx(css({ display: 'flex', bg: 'blue.500' }), 'my-class')
+// would result in something like 'd_flex text_blur_500 my-class'
 ```
 
 More examples are available [here](https://panda-css.com/docs/concepts/writing-styles#merging-styles)
+
+## Static analysis
+
+### Pit of success
+
+Given we want to generate a CSS file at `build-time`, we need to know what CSS to generate **before** running your app,
+and that's where `static analysis` comes in: by scanning your **source files** and finding style usage in there.
+
+I would not really say that `static analysis` is an intended feature, as it
+[also introduces some limitations](/posts/how-does-xxx-compares-to-panda-css#static-limitations), but I feel like it
+incidentally **forces you to write better code**, basically it acts like a
+[**pit of success**](https://blog.codinghorror.com/falling-into-the-pit-of-success/).
+
+Since you can't (easily/directly) use `runtime dynamic values`, you'll have to find a way to make it static, and that's
+actually a good thing **both in term of code maitainability and performance** !
+
+### Smart
+
+In addition to that benefit, our static extractor
+[is pretty smart](/posts/how-does-xxx-compares-to-panda-css#static-limitations), it can detect style usage in many
+different ways to the point **where it doesn't seem static anymore**.
+
+I'm pretty confident it's _one_ of the most advanced static extractor among `build-time` styling solutions !
+
+### Extractor Examples
+
+Runtime conditions, identifier resolving, static evaluation, all of those just work.
+
+<Tabs>
+<TabItem label="Runtime conditions">
+
+```tsx "isSelected ? 'blue.500' : 'yellow.500'"
+import { css } from '../styled-system/css'
+
+const Button = (props) => {
+  const [isSelected, setIsSelected] = useState(false)
+
+  return (
+    <button
+      // ✅ the static extractor will detect both `blue.500` and `yellow.500`
+      // and will generate the CSS for both
+      // ℹ️ you can nest conditions indefinitely and it would still be fine
+      className={css({ color: isSelected ? 'blue.500' : 'yellow.500' })}
+    >
+      {props.children}
+    </button>
+  )
+}
+```
+
+</TabItem>
+<TabItem label="Identifier resolving">
+
+```tsx "selected" "colors"
+import { css } from '../styled-system/css'
+
+const colors = {
+  blue: 'blue.500',
+  yellow: 'yellow.500',
+}
+const base = { color: colors.blue } // ✅ this will be resolved inside of the `css`
+const selected = { color: colors['yellow'] } // ✅ this will also be resolved
+
+const Button = (props) => {
+  const isSelected = props.isSelected
+
+  return (
+    <button
+      className={css({
+        ...base,
+        // ✅ you can mix spread and conditions
+        ...(isSelected ? selected : { fontSize: '12px' }),
+      })}
+    >
+      {props.children}
+    </button>
+  )
+}
+
+// ✅ the final CSS would successfully include both `color: blue.500`, `color: yellow.500` and `font-size: 12px`
+```
+
+</TabItem>
+<TabItem label="Static evaluation">
+
+```tsx "getColor" "colorMap"
+import { css } from '../styled-system/css'
+
+const colorMap = {
+  background: 'red',
+  foreground: 'yellow',
+}
+
+const colorTints = {
+  background: 400,
+  foreground: '100',
+}
+
+const getColor = (name: keyof typeof colorMap) => `${colorMap[name]}.${colorTints[name]}`
+
+const Button = (props) => {
+  const isSelected = props.isSelected
+
+  return (
+    <button
+      className={css({
+        color: getColor('foreground'), // ✅ this will statically evaluate to "yellow.100"
+      })}
+    >
+      {props.children}
+    </button>
+  )
+}
+
+// ✅ the final CSS would successfully include :
+// `color: blue.500`, `color: yellow.500`
+```
+
+</TabItem>
+</Tabs>
+
+> There are of course still some limitations to static analysis, I wrote a bit about it
+> [here](/posts/how-does-xxx-compares-to-panda-css#static-limitations)
+
+## Runtime dynamic styling
+
+I just said that Panda CSS uses `static analysis` to generate CSS, but that doesn't mean you can't use
+`runtime dynamic values` ! You just have to find a way to make it static.
+
+Related documentation is [here](https://panda-css.com/docs/guides/dynamic-styling)
+
+### Using CSS variables
+
+It's true that you cannot directly use `runtime` values (like variables created from `useState`) inside Panda's
+functions like `css` or `cva`, since those need statically analyzable arguments.
+
+But you can use CSS variables to achieve the same result, using the `style` attribute.
+
+```tsx
+import { css } from '../styled-system/css'
+
+const Button = ({ dynamicColor }) => {
+  return (
+    <button
+      // ✅ you can create a static relationship
+      // between the CSS variable and the dynamic value
+      className={css({ color: 'var(--color)' })}
+      style={{ '--color': dynamicColor }}
+    >
+      {props.children}
+    </button>
+  )
+}
+```
+
+### Using variants
+
+You might have seen this kind of prop-based code with other styling solutions:
+
+```tsx
+const Button = styled.button<{ $primary?: boolean }>`
+  font-size: 1em;
+
+  /* Adapt the colors based on primary prop */
+  background: ${(props) => (props.$primary ? '#BF4F74' : 'white')};
+  color: ${(props) => (props.$primary ? 'white' : '#BF4F74')};
+`
+```
+
+With Panda CSS, you could use an `atomic recipe` (2nd argument of the `styled factory` or `cva`) to keep the style
+definition static.
+
+Not only does it achieve the same result but you also unlock the possibilities of having multiple styles bound to the
+same variant, and of course you can create as many variants as you want.
+
+```tsx
+import { styled } from '../styled-system/jsx'
+
+const Button = styled('button', {
+  base: { fontSize: '1em' },
+  variants: {
+    visual: {
+      primary: { bg: 'red.200', color: 'white' },
+    },
+  },
+})
+```
+
+### Best practices
+
+Avoid dynamically updating the styles, and instead use CSS selectors to style your components based on their state.
+
+For example, you can use the `data-xxx` attributes to store the state, and then use the `&[data-xxx]` selector to style
+it.
+
+```diff
+import { styled } from '../styled-system/jsx'
+
+const Button = (props) => {
+  const [isSelected, setIsSelected] = useState(false)
+
+  return (
+    <button
+-      className={css({ color: isSelected ? 'blue.500' : 'yellow.500' })}
++      data-selected={isSelected ? '' : undefined}
++      className={css({ color: 'yellow.500', '&[data-selected]': { color: 'blue.500' }, })}
+    >
+      {props.children}
+    </button>
+  )
+}
+```
+
+ℹ️ Note that this specific `data-selected` example is
+[built-in with the default conditions](https://panda-css.com/docs/concepts/conditional-styles#reference), so you could
+use it like `_selected: { color: "blue.500" }`.
+
+## Static generator
+
+Panda analyzes your code to generate CSS, but it also provides a way to generate CSS from rules that you can provide in
+the `config.staticCss` option. This is useful:
+
+- when the static extractor can't find a style usage in your code (e.g. if you're using something too dynamic or a
+  runtime-only value)
+- [to get rid of the lightweight JS runtime](/posts/how-does-xxx-compares-to-panda-css#lightweight-js-runtime) entirely
+  by directly using the generated CSS atomic classes
+- to pre-generate the CSS for a [component library](#component-library)
+
+https://panda-css.com/docs/guides/static
+
+## Modern
+
+Panda uses modern CSS features like
+[cascade layers (`@layer`)](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer), CSS variables, modern selectors
+like [`:where`](https://developer.mozilla.org/en-US/docs/Web/CSS/:where) and
+[`:is`](https://developer.mozilla.org/en-US/docs/Web/CSS/:is) in generated styles.
+
+Using the CSS `@layer`, there's no specificity war, for example your `utilities` style would always prevail on your
+`recipes` style, since they're always applied in the right order. Read more
+[here](https://panda-css.com/docs/concepts/cascade-layers).
+
+```css
+@layer reset, base, tokens, recipes, utilities;
+```
+
+That being said, if you need to support older browsers you can always use
+[this `postcss` plugin](https://www.npmjs.com/package/@csstools/postcss-cascade-layers) to polyfill the `@layer` syntax
+and specifity.
 
 ## Multi-Theme tokens
 
@@ -369,9 +697,9 @@ export default defineSemanticTokens.colors({
 </TabItem>
 </Tabs>
 
-Since Panda is based on CSS variables, that also means you can override the `data-theme` at runtime, and it will
+Since Panda is based on CSS variables, that also means you can override the `data-theme` anytime in the DOM, and it will
 automatically update the colors. You could even replace the theme colors by overriding the current CSS variables with a
-`style={xxx}` attribute, useful for example if you want to let your users customize the colors.
+`style={xxx}` attribute, useful for example if you want to let your users customize the colors at runtime.
 
 ---
 
@@ -380,7 +708,7 @@ automatically update the colors. You could even replace the theme colors by over
 One of the most powerful feature, yet not very well known, is the ability to create a
 [virtual color palette](https://panda-css.com/docs/guides/virtual-color) from your tokens.
 
-This allows you to refer to a dynamic color by its shade (50 to 900 in the built-in preset)
+This allows you to refer to a dynamic color by its shade (`50` to `900` in the built-in preset)
 [or its semantic name](https://panda-css.com/docs/guides/virtual-color#semantic-virtual-colors), and it will
 automatically resolve to the current color palette.
 
@@ -390,7 +718,7 @@ automatically resolve to the current color palette.
 </TabItem>
 <TabItem label="color-palette.ts">
 
-```tsx
+```tsx "colorPalette"
 import { css, cva, cx } from '../styled-system/css'
 
 const button = cva({
@@ -439,6 +767,9 @@ modes (light/dark), statically. I went a bit crazy with this next example, but i
 
 <Tabs>
 <TabItem label="multi-theme-demo">
+
+<small>ℹ️ You can hover the buttons for even more madness !</small>
+
   <VirtualColorExample />
 </TabItem>
 <TabItem label="panda.config.ts">
@@ -609,349 +940,9 @@ e.g you could name it `alert` and have `alert.info` / `alert.warning` / `alert.w
 `alert.warning.accent.secondary` all able to handle `light` / `dark` color modes for both the `main` and `secondary`
 theme.
 
-## Composite values
-
-Using the inline `token` fn, you can also create composite values, like a `border` that would be composed of a `width`,
-`style` and a `color`.
-
-```tsx
-import { css } from 'styled-system/css'
-
-css({ border: '2px solid token(colors.blue.300)' })
-
-// is equivalent to
-css({ borderWidth: '2px', borderStyle: 'solid', borderColor: 'blue.300' })
-```
-
-## Debug utility
-
-This is a custom utility, built-in the base preset, that you can use to debug your styles, it will add an `outline`
-attribute to the element and all its children. Simple, but quite useful !
-
-<Tabs>
-<TabItem label="Demo">
-  <DebugUtilityExample />
-</TabItem>
-<TabItem label="usage.ts">
-
-```tsx "debug: true"
-<div className={center({ h: 'full' })}>
-  <div
-    className={css({
-      p: '6',
-      m: '4',
-      w: 'md',
-      boxShadow: 'md',
-      borderRadius: 'md',
-      _dark: { bg: '#262626', color: 'white' },
-      debug: true,
-    })}
-  >
-    <div
-      className={css({
-        textStyle: 'xl',
-        fontWeight: 'semibold',
-        pb: '2',
-      })}
-    >
-      Team Members
-    </div>
-    <div
-      className={css({
-        textStyle: 'lg',
-      })}
-    >
-      Content
-    </div>
-  </div>
-</div>
-```
-
-</TabItem>
-<TabItem label="panda.config.ts">
-
-If you wonder how it works, here's the full code of the `debug` utility:
-
-```tsx
-import { defineConfig } from '@pandacss/dev'
-
-export default defineConfig({
-  // ...
-  utilities: {
-    extend: {
-      debug: {
-        className: 'debug',
-        values: { type: 'boolean' },
-        transform(value) {
-          if (!value) return {}
-          return {
-            outline: '1px solid blue !important',
-            '&>*': {
-              outline: '1px solid red !important',
-            },
-          }
-        },
-      },
-    },
-  },
-})
-```
-
-The debug utility is already in the built-in presets so you don't need to add it manually !
-
-</TabItem>
-</Tabs>
-
-## Static generator
-
-Panda analyzes your code to generate CSS, but it also provides a way to generate CSS from rules that you can provide in
-the `config.staticCss` option. This is useful:
-
-- when the static extractor can't find a style usage in your code (e.g. if you're using something too dynamic or a
-  runtime-only value)
-- [to get rid of the lightweight JS runtime](/posts/how-does-xxx-compares-to-panda-css#lightweight-js-runtime) entirely
-  by directly using the generated CSS atomic classes
-- to pre-generate the CSS for a [component library](#component-library)
-
-https://panda-css.com/docs/guides/static
-
-## Static analysis
-
-### Pit of success
-
-Given we want to generate a CSS file at `build-time`, we need to know what CSS to generate **before** running your app,
-and that's where `static analysis` comes in: by scanning your **source files** and finding style usage in there.
-
-I would not really say that `static analysis` is an intended feature, as it
-[also introduces some limitations](/posts/how-does-xxx-compares-to-panda-css#static-limitations), but I feel like it
-incidentally **forces you to write better code**, basically it acts like a
-[**pit of success**](https://blog.codinghorror.com/falling-into-the-pit-of-success/).
-
-Since you can't (easily/directly) use `runtime dynamic values`, you'll have to find a way to make it static, and that's
-actually a good thing **both in term of code maitainability and performance** !
-
-### Smart
-
-In addition to that benefit, our static extractor
-[is pretty smart](/posts/how-does-xxx-compares-to-panda-css#static-limitations), it can detect style usage in many
-different ways to the point **where it doesn't seem static anymore**.
-
-I'm pretty confident it's _one_ of the most advanced static extractor among `build-time` styling solutions !
-
-### Extractor Examples
-
-Runtime conditions, identifier resolving, static evaluation, all of those just work.
-
-<Tabs>
-<TabItem label="Runtime conditions">
-
-```tsx
-import { css } from '../styled-system/css'
-
-const Button = (props) => {
-  const [isSelected, setIsSelected] = useState(false)
-
-  return (
-    <button
-      // ✅ the static extractor will detect both `blue.500` and `yellow.500`
-      // and will generate the CSS for both
-      // ℹ️ you can nest conditions indefinitely and it would still be fine
-      className={css({ color: isSelected ? 'blue.500' : 'yellow.500' })}
-    >
-      {props.children}
-    </button>
-  )
-}
-```
-
-</TabItem>
-<TabItem label="Identifier resolving">
-
-```tsx
-import { css } from '../styled-system/css'
-
-const colors = {
-  blue: 'blue.500',
-  yellow: 'yellow.500',
-}
-const base = { color: colors.blue } // ✅ this will be resolved inside of the `css`
-const selected = { color: colors['yellow'] } // ✅ this will also be resolved
-
-const Button = (props) => {
-  const isSelected = props.isSelected
-
-  return (
-    <button
-      className={css({
-        ...base,
-        // ✅ you can mix spread and conditions
-        ...(isSelected ? selected : { fontSize: '12px' }),
-      })}
-    >
-      {props.children}
-    </button>
-  )
-}
-
-// ✅ the final CSS would successfully include both `color: blue.500`, `color: yellow.500` and `font-size: 12px`
-```
-
-</TabItem>
-<TabItem label="Static evaluation">
-
-```tsx
-import { css } from '../styled-system/css'
-
-const colorMap = {
-  background: 'red',
-  foreground: 'yellow',
-}
-
-const colorTints = {
-  background: 400,
-  foreground: '100',
-}
-
-const getColor = (name: keyof typeof colorMap) => `${colorMap[name]}.${colorTints[name]}`
-
-const Button = (props) => {
-  const isSelected = props.isSelected
-
-  return (
-    <button
-      className={css({
-        color: getColor('foreground'), // ✅ this will statically evaluate to "yellow.100"
-      })}
-    >
-      {props.children}
-    </button>
-  )
-}
-
-// ✅ the final CSS would successfully include :
-// `color: blue.500`, `color: yellow.500` and `font-size: 12px`
-```
-
-</TabItem>
-</Tabs>
-
-> There are of course still some limitations to static analysis, I wrote a bit about it
-> [here](/posts/how-does-xxx-compares-to-panda-css#static-limitations)
-
-## Runtime dynamic styling
-
-I just said that Panda CSS uses `static analysis` to generate CSS, but that doesn't mean you can't use
-`runtime dynamic values` ! You just have to find a way to make it static.
-
-### Using selectors
-
-Avoid keeping state in your components, and instead use CSS selectors to style your components based on their state.
-
-For example, you can use the `data-xxx` attributes to store the state, and then use the `&[data-xxx]` selector to style
-it.
-
-```diff
-import { styled } from '../styled-system/jsx'
-
-const Button = (props) => {
--  const [isSelected, setIsSelected] = useState(false)
-
-  return (
-    <button
--      className={css({ color: isSelected ? 'blue.500' : 'yellow.500' })}
-+      className={css({ color: 'yellow.500', '&[data-selected]': { color: 'blue.500' }, })}
-    >
-      {props.children}
-    </button>
-  )
-}
-```
-
-ℹ️ Note that this specific `data-selected` example is
-[built-in with the default conditions](https://panda-css.com/docs/concepts/conditional-styles#reference), so you could
-use it like `_selected: { color: "blue.500" }`.
-
-### Using CSS variables
-
-It's true that you cannot directly use `runtime` values (like variables created from `useState`) inside Panda's
-functions like `css` or `cva`, since those need statically analyzable arguments.
-
-But you can use CSS variables to achieve the same result, using the `style` attribute.
-
-```tsx
-import { css } from '../styled-system/css'
-
-const Button = ({ dynamicColor }) => {
-  return (
-    <button
-      // ✅ you can create a static relationship
-      // between the CSS variable and the dynamic value
-      className={css({ color: 'var(--color)' })}
-      style={{ '--color': dynamicColor }}
-    >
-      {props.children}
-    </button>
-  )
-}
-```
-
-### Using variants
-
-You might have seen this kind of prop-based code with other styling solutions:
-
-```tsx
-const Button = styled.button<{ $primary?: boolean }>`
-  font-size: 1em;
-
-  /* Adapt the colors based on primary prop */
-  background: ${(props) => (props.$primary ? '#BF4F74' : 'white')};
-  color: ${(props) => (props.$primary ? 'white' : '#BF4F74')};
-`
-```
-
-With Panda CSS, you could use an `atomic recipe` (2nd argument of the `styled factory`) to keep the style definition
-static.
-
-Not only does it achieve the same result but you also unlock the possibilities of having multiple styles bound to the
-same variant, and of course you can create as many variants as you want.
-
-```tsx
-import { styled } from '../styled-system/jsx'
-
-const Button = styled('button', {
-  base: { fontSize: '1em' },
-  variants: {
-    visual: {
-      primary: { bg: 'red.200', color: 'white' },
-    },
-  },
-})
-```
-
-Related documentation is [here](https://panda-css.com/docs/guides/dynamic-styling)
-
-## Modern
-
-Panda uses modern CSS features like
-[cascade layers (`@layer`)](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer), CSS variables, modern selectors
-like [`:where`](https://developer.mozilla.org/en-US/docs/Web/CSS/:where) and
-[`:is`](https://developer.mozilla.org/en-US/docs/Web/CSS/:is) in generated styles.
-
-Using the CSS `@layer`, there's no specificity war, for example your `utilities` style would always prevail on your
-`recipes` style, since they're always applied in the right order. Read more
-[here](https://panda-css.com/docs/concepts/cascade-layers).
-
-```css
-@layer reset, base, tokens, recipes, utilities;
-```
-
-That being said, if you need to support older browsers you can always
-[this `postcss` plugin](https://www.npmjs.com/package/@csstools/postcss-cascade-layers) to polyfill the `@layer` syntax
-and specifity.
-
 ---
 
-## Usage
+## Use cases
 
 ## Styling solution
 
@@ -1000,7 +991,7 @@ the `TokenDictionary`, extract CSS from your code... You could
 [create a bundler's plugin](/posts/how-does-xxx-compares-to-panda-css#why-not-a-bundler-plugin) with that, or you could
 probably even create your own `extractor` and use it to generate CSS from your non-typescript code.
 
-## Static Extractor
+### Static Extractor
 
 Speaking of the static `@pandacss/extractor`, it actually doesn't use any Panda-related code, its only dependency is
 `ts-morph` (a wrapper around `typescript` parser). You could also use it to extract static values from any function or
@@ -1012,29 +1003,31 @@ JSX in your code.
 
 ## Easy to learn
 
-It's just the CSS you know already, using `camelCase` instead of `kebab-case`, with the additions of autosuggestions for
-`tokens` and `conditions` and even raw values and selectors.
+It's just the CSS you know already, using `camelCase` instead of `kebab-case`, with the additions of `type-safety`
+autosuggestions for `tokens` and `conditions` while still allowing raw values and selectors.
 
 There's no need to learn a new syntax, no need to remember which class to use for whatever property, everything will
 feel very familiar and intuitive, in addition to the autocompletion and type-safety built-in.
 
 ## Easy to use
 
-Since all Panda does it generating a CSS, you can use it anywhere. ¹
+Since all Panda does it generating a CSS, you can use it anywhere with our [`CLI`](#cli). ¹
 
 We also provide a `postcss` plugin to skip the CSS file import step and having another process (CLI with `--watch`) to
 run in parallel.
 
 While Panda brings many features to the table, you can choose to use a very small API surface, using only the `css`
-function to style your components, and that's it. If you're not a fan of [`CSS-in-JS`](#css-in-js), that's ok too.
+function to style your components, and that's it. If you're not a fan of [`CSS-in-JS`](#css-in-js), that's also fine.
 
 Maybe colocation isn't your thing at all ? It's fine, you can keep your style objects in a separate file. It _just
 works_.
 
-Getting started is as easy as installing the CLI and running the `panda` command in your project.
+[Getting started](https://panda-css.com/docs/installation/postcss) is as easy as installing the CLI and running the
+`panda init -p` command in your project.
 
 ```sh
 pnpm add -D @pandacss/dev
+panda init -p
 ```
 
 ¹. A real-world example : I'm not really familiar with Angular, but it seems to require a dedicated integration to work
@@ -1042,24 +1035,40 @@ with CSS-in-JS libraries. There's even [an issue opened](https://github.com/angu
 for Panda, but as the author mentioned, it's not really needed since you can just use the CLI + the generated CSS file.
 Still, I can see the convenience !
 
+## Easy to customize
+
+Even though Panda CSS comes with [batteries-included](#batteries-included), you can customize it to fit your needs.
+
+Using the `panda.config` you can extend the default one or create your own theme (`tokens` / `breakpoints` /
+`textStyles` / etc .. ) and even create your own `utilities` / `conditions` / `patterns.`
+
+You can disable/omit features that you don't need, like `shorthands`, `jsxStyleProps` or even `jsxFramework` entirely !
+If you feel like `type-safety` must be enforced, you can set `strictTokens` to `true`.
+
 ## Easy to distribute
 
 Panda can be distributed in different ways, depending on your needs.
 
+We have a documentation page related to this topic:
+[component library](https://panda-css.com/docs/guides/component-library) and there are a few examples in
+[this repository](https://github.com/astahmer/panda-monorepo-setup)
+
 ### Preset
 
-Using a preset is the easiest way to distribute your Design System (tokens, breakpoints, recipes, etc) with other Panda
-users.
+Using a preset is the easiest way to distribute your Design System (`tokens`, `breakpoints`, `recipes`, etc) with other
+Panda users.
 
 It's as simple as picking a few options from your `panda.config.ts`, creating a new `preset.ts` file and exporting those
 options.
 
-```ts
+```diff
 // preset.ts
 
-import { definePreset } from '@pandacss/dev'
+- import { defineConfig } from '@pandacss/dev'
++ import { definePreset } from '@pandacss/dev'
 
-export const acmePreset = definePreset({
+- export default defineConfig({
++ export default definePreset({
   theme: {
     extend: {
       tokens: {
@@ -1075,7 +1084,7 @@ You can then publish it to npm and anyone can use it by installing it and adding
 ```ts
 // panda.config.ts
 
-import { acmePreset } from '@acme-org/panda-preset'
+import acmePreset from '@acme-org/panda-preset'
 import { defineConfig } from '@pandacss/dev'
 
 export default defineConfig({
@@ -1090,15 +1099,15 @@ There are a few hand-picked presets listed in [EcoPanda](https://www.ecopanda.de
 
 ### CSS file
 
-You can also distribute your library CSS by generating a static file using the CLI, and use it anywhere.
+You can also distribute your library CSS by generating a static file using the [CLI](#cli), and use it anywhere.
 
 ```sh
 # generate the static CSS file
 panda cssgen --outfile dist/styles.css
 ```
 
-> This of course means that you shouldn't expose any Panda API (`css` / `recipes` / etc..) to your users because it
-> would not generate any additional CSS.
+> ⚠️ This of course means that you shouldn't directly expose any Panda API (`css` / `recipes` / etc..) to your users
+> because it would not generate any additional CSS.
 
 ### Component library
 
@@ -1172,7 +1181,8 @@ This is because:
    from your library and the one from your users.
 
 If you don't share the same module specifier, users will end up bundling the code for 2 different `css` functions, `cva`
-etc.
+etc; one from your library (`@acme/styled-system`) and one from your users outdir (`styled-system` by default) which is
+not ideal.
 
 - set your outdir package name (`@acme/styled-system`) as external in your build step so that you don't bundle it with
   your components, ex: `tsup src/index.tsx --external @acme-org/styled-system`
@@ -1183,16 +1193,7 @@ Summary:
 
 1. publish a Panda `preset` so people can use your design system tokens
 2. an outdir package (`@acme-org/styled-system`) so your users can override or extend your design system tokens
-3. and of course your components (`@acme-org/components`) using the `@acme-org/styled-system`
-
----
-
-If you intend to distribute it to anyone (not just Panda users), you probably just want to distribute a static CSS file
-with your components, and that's it.
-
-We have a documentation page related to this topic:
-[component library](https://panda-css.com/docs/guides/component-library) and there are a few examples in
-[this repository](https://github.com/astahmer/panda-monorepo-setup)
+3. and of course your components (`@acme-org/components`) using the `@acme-org/styled-system` as `external`
 
 ### Copy-paste
 
@@ -1207,13 +1208,15 @@ published on npm and then you can just pick the components you need and copy-pas
 ## Interlude
 
 Let's take a little break. If you reached this far, you probably have a good idea of what `Panda CSS` is, and what it
-can do for you. The part below is mostly consise explanations/examples of what the documentation already covers (I
-shamelessly took some part of it), so that you can have a quick overview/reference of the API surface.
+can do for you.
+
+The part below is mostly concise explanations/examples of what the documentation already covers (I shamelessly took
+small parts of it), so that you can have a quick overview/reference of the API surface.
 
 This should also help searching for a specific feature, since the documentation is pretty long, and this is a one-page
-reference.
+reference searchable with `cmd+f`.
 
-If you want to learn more about a specific topic, I encourage you to read the documentation, it's pretty good !
+If you want to learn more about a specific topic, I encourage you to read the related documentation, it's pretty good !
 
 ---
 
@@ -1221,24 +1224,26 @@ If you want to learn more about a specific topic, I encourage you to read the do
 
 What better way to showcase what Panda CSS can do than with some concrete examples ?
 
-## css
+### css
 
-The `css` function is the main API of Panda CSS, it's used to generate CSS from your style objects. It does so by
-extracting its arguments, resolving each property/value combinations, in the static analysis step and generating an
-atomic CSS rule for each of them.
+The `css` function is the main API of Panda CSS, it's used to generate CSS from your style objects.
 
-At runtime, it transforms the object-syntax (that you provide) to a class string composed of those atomic classes. Most
-Panda features are using the `css` function under the hood. (`cva`, `recipes`, `patterns`, `styled` factory, etc...).
-That means that anything you can do with the `css` function, you can do the same in those features.
+In the static analysis step we extract each arguments, resolving each style object property/value combinations, and
+generating an atomic CSS rule for each of them.
+
+At runtime, it transforms the object-syntax (that you provide) to a class string composed of atomic classes. Most Panda
+features are using the `css` function under the hood. (`cva`, `recipes`, `patterns`, `styled` factory, etc...). That
+means that anything you can do with the `css` function, you can do the same in those features.
 
 - Property keys can be: any config `breakpoints` / `conditions` / `utility` / `shorthands` / `arbitrary` selectors / CSS
   built-in properties / CSS variables
 - Property values can be: any config `tokens` / `semantic tokens` / `utility` specific values / arbitrary values / CSS
   built-in values / conditions as object / token path (only when using a CSS variable as key)
 
-- Has a [`.raw()`](#raw) function to mark the object as a style object for the Panda static extractor
+- Has a [`.raw()`](#raw-marker) function to mark the object as a style object for the Panda static extractor
 - Can use the inline `token(value, fallback)` function that will be transformed at compile-time to a CSS variable (using
   postcss)
+- Will smartly merge each arguments together, including `css.raw()`, `{cvaFn}.raw()` or `{patternFn}.raw()` calls
 
 <Tabs>
 <TabItem label="token.ts">
@@ -1353,6 +1358,7 @@ import { css } from 'styled-system/css'
 const className = css({
   color: '#fde047', // you can use any CSS value
   bg: 'gray.800!', // you can mark any value as important with `!` or `!important`
+  // => `text_#fde047 bg_gray_800!`
 
   // you can use composite values with the inline `token` function
   border: '1px solid token(colors.blue.300)',
@@ -1361,7 +1367,6 @@ const className = css({
   '--my-color': 'colors.blue.400',
   '--my-font-size': 'fontSizes.2xl',
 })
-// => `text_#fde047 bg_gray_800!`
 ```
 
 </TabItem>
@@ -1446,7 +1451,7 @@ export const App = () => {
 </TabItem>
 </Tabs>
 
-## cx
+### cx
 
 You can use the `cx` function to concatenate multiple class names together.
 
@@ -1458,7 +1463,7 @@ const className = cx(cardClass, css({ color: 'blue.300' }))
 // => `my-card text_blue_300`
 ```
 
-## cva
+### cva
 
 `cva` allows you to create a re-usable styles based on variants, that still produces atomic CSS classes. They're the
 atomic equivalent of the `config recipe`.
@@ -1543,7 +1548,7 @@ const className = css(
 </TabItem>
 </Tabs>
 
-## recipes
+### recipes
 
 tl;dr: Like `cva` but scoped with a className instead of generating atomic CSS classes.
 
@@ -1561,7 +1566,7 @@ understand the difference between [recipes](https://panda-css.com/docs/concepts/
 
 Inside the `base` and `variants` styles, you can use anything that you can use in the [`css`](#css) function.
 
-## slot recipes
+### slot recipes
 
 tl;dr: Like `config recipes` but with `slots`, allowing you to style multipart components.
 
@@ -1580,9 +1585,11 @@ understand the difference between
 [sva](https://panda-css.com/docs/concepts/slot-recipes#atomic-slot-recipe-or-sva).
 
 ```tsx
-import { button } from 'styled-system/recipes'
+// in button.recipe.ts
 
-const className = button({
+import { defineSlotRecipe } from '@pandacss/dev'
+
+export const button = defineSlotRecipe({
   className: 'title',
   slots: ['root', 'label', 'icon'],
   base: {
@@ -1605,9 +1612,32 @@ const className = button({
     size: 'md',
   },
 })
+
+// in panda.config.ts
+
+import { defineConfig } from '@pandacss/dev'
+import { button } from './button.recipe'
+
+export default defineConfig({
+  // ...
+  theme: {
+    extend: {
+      slotRecipes: {
+        button,
+      },
+    },
+  },
+})
+
+// in app.ts
+
+import { button } from 'styled-system/recipes'
+
+const className = button({ size: 'small' })
+// => `button_size_small`
 ```
 
-## sva
+### sva
 
 tl;dr: Like `cva` but for `slot recipes`.
 
@@ -1652,7 +1682,7 @@ const className = sva({
 })
 ```
 
-## styled
+### styled
 
 When using a `JSX`-like framework, you can use the `styled` factory to create a `styled component`, e.g a component that
 can receive JSX `style props`.
@@ -1666,8 +1696,9 @@ can receive JSX `style props`.
 You can use the `2nd` argument of the `styled` factory to create an inline `atomic recipe` or re-use an existing one.
 (could also be a `config recipe`)
 
-You can also create a `styled` component using another one as basis (1st arg), and the previous `atomic recipe` base and
-variants styles will automatically be deep merged with the new one. (new wins in case of conflict)
+You can also create a `styled` component [using another one as basis](https://play.panda-css.com/JUa2RxiZle) (1st arg),
+and the previous `atomic recipe` base and variants styles will automatically be deep merged with the new one. (new wins
+in case of conflict)
 
 Finally, the `3rd` argument of the `styled` factory allows you to provide default props for your component or override
 which props should be forwarded to the underlying DOM element.
@@ -1755,9 +1786,56 @@ const App = () => (
 ```
 
 </TabItem>
+<TabItem label="recursive-merging.ts">
+
+```tsx
+// https://play.panda-css.com/JUa2RxiZle
+import { cx, cva } from 'styled-system/css'
+import { styled } from 'styled-system/jsx'
+import { center, stack } from 'styled-system/patterns'
+
+const button = cva({
+  base: {
+    borderRadius: 'md',
+    fontWeight: 'semibold',
+    h: '10',
+    px: '4',
+  },
+  variants: {
+    visual: {
+      solid: {
+        bg: { base: 'colorPalette.500', _dark: 'colorPalette.300' },
+        color: { base: 'white', _dark: 'gray.800' },
+      },
+    },
+  },
+})
+
+const sizes = cva({
+  base: { colorPalette: 'blue' },
+  variants: {
+    size: {
+      lg: { px: '8', fontSize: '24px' },
+    },
+  },
+})
+
+const StyledButton = styled('button', button)
+const Merged = styled(StyledButton, sizes)
+
+const App = () => {
+  return (
+    <Merged visual="solid" size="lg">
+      With size merged
+    </Merged>
+  )
+}
+```
+
+</TabItem>
 </Tabs>
 
-## patterns / jsx patterns
+### patterns / jsx patterns
 
 Patterns are layout primitives that you can use to avoid writing the same CSS over and over again. They also have access
 to the same features as the `css()` function, with the addition of specific `utility` props per pattern (e.g `direction`
@@ -1789,7 +1867,7 @@ const App = () => (
 You can read more on [customizing patterns](https://panda-css.com/docs/customization/patterns) and see the list of
 [built-in patterns here](https://panda-css.com/docs/concepts/patterns#predefined-patterns)
 
-## utility
+### utility
 
 With `utilities`, you can create your own CSS properties that can leverage the same features as the `css()` function:
 `tokens`, `conditions`, etc...
@@ -1802,11 +1880,12 @@ It's actually pretty easy to do so with a custom `utility`:
 <Tabs>
 <TabItem label="background-alpha.ts">
 
-```ts
+```ts "colorMix"
 // credit goes to shadow-panda
 // https://github.com/kumaaa-inc/shadow-panda/blob/f8f8afc445ccf12d78b089f80afff4462596f8c4/packages/preset/src/utilities/background-alpha.ts
 
 import type { UtilityConfig } from '@pandacss/types'
+import { colorMix } from './color-mix.ts'
 
 export const backgroundAlpha: UtilityConfig = {
   backgroundAlpha: {
@@ -1857,7 +1936,7 @@ export const colorMix: (...args: Parameters<PropertyTransform>) => {
 </TabItem>
 <TabItem label="usage.ts">
 
-```ts
+```ts "/50"
 import { css } from 'styled-system/css'
 
 const className = css({ backgroundAlpha: 'red.300/50' })
@@ -1882,7 +1961,86 @@ There are other use cases for `utilities`, like
 You can read more on [customizing utilities](https://panda-css.com/docs/customization/utilities) and see the list of
 [built-in utilities here](https://panda-css.com/docs/utilities/background)
 
-## Runtime token()
+#### Debug utility
+
+This is a built-in [utility](#utility), included in the base preset, that you can use to debug your styles, it will add
+an `outline` attribute to the element and all its children. Simple, but quite useful !
+
+<Tabs>
+<TabItem label="Demo">
+  <DebugUtilityExample />
+</TabItem>
+<TabItem label="usage.ts">
+
+```tsx "debug: true"
+<div className={center({ h: 'full' })}>
+  <div
+    className={css({
+      p: '6',
+      m: '4',
+      w: 'md',
+      boxShadow: 'md',
+      borderRadius: 'md',
+      _dark: { bg: '#262626', color: 'white' },
+      debug: true,
+    })}
+  >
+    <div
+      className={css({
+        textStyle: 'xl',
+        fontWeight: 'semibold',
+        pb: '2',
+      })}
+    >
+      Team Members
+    </div>
+    <div
+      className={css({
+        textStyle: 'lg',
+      })}
+    >
+      Content
+    </div>
+  </div>
+</div>
+```
+
+</TabItem>
+<TabItem label="panda.config.ts">
+
+If you wonder how it works, here's the full code of the `debug` utility:
+
+```tsx
+import { defineConfig } from '@pandacss/dev'
+
+export default defineConfig({
+  // ...
+  utilities: {
+    extend: {
+      debug: {
+        className: 'debug',
+        values: { type: 'boolean' },
+        transform(value) {
+          if (!value) return {}
+          return {
+            outline: '1px solid blue !important',
+            '&>*': {
+              outline: '1px solid red !important',
+            },
+          }
+        },
+      },
+    },
+  },
+})
+```
+
+The debug utility is already in the built-in presets so you don't need to add it manually !
+
+</TabItem>
+</Tabs>
+
+### Runtime token()
 
 Panda CSS provides a `token` function that you can use in your runtime JS code to reference a token value.
 
@@ -1914,18 +2072,21 @@ const App = (props) => {
 }
 ```
 
-## Compile-time string token()
+### Compile-time string token()
 
 And then there's the `string token` function, which is a compile-time version of the runtime `token` function mentioned
 above.
 
-It's useful for composite values, for example the `border` property :
+Using the inline `token` fn, you can also create composite values, like a `border` that would be composed of a `width`,
+`style` and a `color`.
 
 ```tsx
 import { css } from 'styled-system/css'
 
-const className = css({ border: '1px solid token(colors.blue.300)' })
-// => `border_1px_solid_var(--colors-blue-300)`
+css({ border: '2px solid token(colors.blue.300)' })
+
+// is equivalent to
+css({ borderWidth: '2px', borderStyle: 'solid', borderColor: 'blue.300' })
 ```
 
 And can also be used in `at-rule` values, like `@media`:
@@ -1940,7 +2101,7 @@ const className = css({
 })
 ```
 
-## JSX style props
+### JSX style props
 
 When using a JSX framework, any property matching the same name as your `css()` function keys (which means any
 `breakpoints` / `conditions` / `utility` / `shorthands` / CSS built-in property) will be extracted by the static
@@ -1951,7 +2112,7 @@ The static extractor will extract every `PascalCased` component, so that things 
 > You can use the `jsxStyleProps` config to customize which style props are available to your components: `all` /
 > `minimal` (only the `css` property) / `none`
 
-## JSX css prop
+### JSX css prop
 
 The `css` property is a special property that will always be extracted without the need for the `.raw` marker. You can
 use it to dynamically [merge styles](#merging-styles) together.
@@ -1972,16 +2133,16 @@ const App = () => {
 }
 ```
 
-## .raw(xxx) merging
+### .raw(xxx) merging
 
-See [`raw()`](http://localhost:4321/posts/why-would-i-choose-panda#raw-marker)
+See [`raw()`](#raw-marker)
 
-## Runtime conditions
+### Runtime conditions
 
 See the [first static extractor example](#extractor-examples) or
 [more examples in the docs](https://panda-css.com/docs/guides/dynamic-styling#runtime-conditions).
 
-## CSS nesting
+### CSS nesting
 
 Panda supports CSS nesting, which means that you can use the `&` syntax to target children and siblings.
 
@@ -2001,13 +2162,13 @@ Quoting [the docs](https://panda-css.com/docs/concepts/writing-styles#native-css
 > ⚠️ We recommend not using descendant selectors as they can lead to specificity issues when managing style overrides.
 > Colocating styles directly on the element is the preferred way of writing styles in Panda.
 
-## colorPalette
+### colorPalette
 
 See [virtual color](#virtual-color-palette)
 
 ## Theme
 
-## tokens
+### tokens
 
 Tokens are at the core of the Panda CSS design system. They're a way to define your design system values in a
 centralized place, and then reference them in your styles.
@@ -2058,7 +2219,7 @@ export default defineTokens({
 })
 ```
 
-## semantic tokens
+### semantic tokens
 
 Same as [tokens](#tokens) but can reference other tokens.
 
@@ -2084,13 +2245,15 @@ export default defineSemanticTokens({
 })
 ```
 
-## conditions
+### conditions
 
 - You can use them with the `css` function, `cva`, `recipes`, `patterns`, `styled` factory, etc... nestable
 - Every condition starts with a `_` prefix to differentiate them
 - You can use a condition object or a property-based condition
 - You can nest conditions indefinitely
 - You can find the list of built-in conditions [here](https://panda-css.com/docs/concepts/conditional-styles#reference).
+
+Docs: https://panda-css.com/docs/concepts/conditional-styles
 
 <Tabs>
 <TabItem label="demo.ts">
@@ -2172,7 +2335,7 @@ export default defineConfig({
 </TabItem>
 <TabItem label="arbitrary.ts">
 
-```tsx
+```tsx "&"
 import { css } from 'styled-system/css'
 
 const className = css({
@@ -2209,7 +2372,7 @@ const className = css({
 </TabItem>
 </Tabs>
 
-## breakpoints
+### breakpoints
 
 A special kind of `conditions` that allows you to create responsive styles and directly maps to CSS `@media` queries.
 
@@ -2218,7 +2381,7 @@ Docs: https://panda-css.com/docs/concepts/responsive-design
 <Tabs>
   <TabItem label="object-syntax.ts">
 
-```tsx
+```tsx "lg" {8}
 <span
   className={css({
     fontWeight: 'medium',
@@ -2238,7 +2401,7 @@ Docs: https://panda-css.com/docs/concepts/responsive-design
   </TabItem>
   <TabItem label="array-syntax.ts">
 
-```tsx
+```tsx {6}
 // Panda also accepts arrays as values for responsive styles.
 // Pass the corresponding value for each breakpoint in the array. Using our previous code as an example:
 <span
@@ -2254,7 +2417,7 @@ Docs: https://panda-css.com/docs/concepts/responsive-design
   </TabItem>
   <TabItem label="breakpoints-targets.ts">
 
-```tsx
+```tsx "mdToXl" "lgOnly"
 <span
   className={css({
     // range
@@ -2286,7 +2449,9 @@ Docs: https://panda-css.com/docs/utilities/display#hiding-elements
 `textStyles` are a practical way to compose styles for typography properties (`fontSize`, `fontWeight`, `lineHeight`,
 `letterSpacing`, etc...) under a single utility.
 
-```tsx
+Docs: https://panda-css.com/docs/theming/text-styles
+
+```tsx "textStyles" "heading"
 // in panda.config.ts
 
 import { defineConfig } from '@pandacss/dev'
@@ -2322,9 +2487,36 @@ const className = css({ textStyle: 'heading' })
 // }
 ```
 
-Docs: https://panda-css.com/docs/theming/text-styles
+### shorthands
 
-## keyframes
+`Shorthands` are a way to create shorter names for properties that you use often. They are enabled by default in the
+config and the built-in `presets` come with a few of them.
+
+If you prefer not to use them, you can disable them by setting `shorthands: false` in your config.
+
+Docs: https://panda-css.com/docs/concepts/writing-styles#shorthand-properties
+
+```tsx "bg" "rounded" "p:"
+import { css } from '../styled-system/css'
+
+// without shorthands
+const styles = css({
+  backgroundColor: 'gainsboro',
+  padding: '10px 15px',
+  borderRadius: '9999px',
+})
+
+// with shorthands
+const styles = css({
+  bg: 'gainsboro',
+  p: '10px 15px',
+  rounded: '9999px',
+})
+```
+
+### keyframes
+
+Docs: https://panda-css.com/docs/customization/theme#keyframes
 
 ```ts
 import { defineConfig } from '@pandacss/dev'
@@ -2371,8 +2563,6 @@ without surprise, will generate the following CSS:
 }
 ```
 
-https://panda-css.com/docs/customization/theme#keyframes
-
 ## CLI
 
 [Panda CLI](https://panda-css.com/docs/installation/cli), included when you install `@pandacss/dev`, allows you to
@@ -2385,33 +2575,37 @@ CLI reference is [here](https://panda-css.com/docs/references/cli).
 
 Here's a quicky summary:
 
-- `panda init` will help you get started with a `panda.config.ts`, or can also be used if you don't remember the
-  `@layer` order
+- [`panda init`](https://panda-css.com/docs/references/cli#panda-init) will help you get started with a
+  `panda.config.ts`, or can also be used if you don't remember the `@layer` order
 
-- `panda` will generate the CSS (from your `config.include`) + and lightweight runtime in your `config.outdir`, and
-  watch for changes with the `-w` or `--watch` flag. It's the same as `panda cssgen && panda codegen`
+- [`panda`](https://panda-css.com/docs/references/cli#panda) will generate the CSS (from your `config.include`) + and
+  lightweight runtime in your `config.outdir`, and watch for changes with the `-w` or `--watch` flag. It's the same as
+  `panda cssgen && panda codegen`
 
-- `panda cssgen` will only generate the CSS (from your `config.include`)
+- [`panda cssgen`](https://panda-css.com/docs/references/cli#panda-cssgen) will only generate the CSS (from your
+  `config.include`)
 
 - `panda cssgen [artifact]`, will only generate the CSS related to the given `artifact`, which can be one of:
   `preflight` | `tokens` | `static` | `global` | `keyframes`
 
 - `panda cssgen --minimal` will only generate the CSS related to the style usage found in your `config.include`
 
-- `panda codegen` will generate the lightweight runtime in your `config.outdir`
+- [`panda codegen`](https://panda-css.com/docs/references/cli#panda-codegen) will generate the lightweight runtime in
+  your `config.outdir`
 
-- `panda debug` will generate 1 `.css` file and 1 `.json` file for each of your source files, allowing you to see what
-  was generated (css) and what was extracted (json) by file.
+- [`panda debug`](https://panda-css.com/docs/references/cli#panda-debug) will generate 1 `.css` file and 1 `.json` file
+  for each of your source files, allowing you to see what was generated (css) and what was extracted (json) by file.
 
-- `panda ship` will generate 1 `.json` file that contains the summary of what style usage was found in your source
-  files. You can then use this `.json` file in any `config.include` as if you had included the source files, which can
-  be useful to distribute a npm package using Panda without including the source files.
+- [`panda ship`](https://panda-css.com/docs/references/cli#panda-ship) will generate 1 `.json` file that contains the
+  summary of the style usage found from your source files. You can then use this `.json` file in any `config.include` as
+  if you had included the source files, which can be useful to distribute the CSS of a npm package using Panda without
+  publishing the source files.
 
-If you're concerned about the performance of the postcss plugin, the CLI is a great alternative. We don't have much
+ℹ️ If you're concerned about the performance of the postcss plugin, the CLI is a great alternative. We don't have much
 control over how often the postcss plugin will be called, but we can control how many times we call the CLI. (e.g only
 when we need to)
 
-### Online Playground
+## Online Playground
 
 We also have [an online playground](https://play.panda-css.com/) that you can use to try out Panda CSS using the basic
 examples and see if it fits your needs.
@@ -2432,3 +2626,5 @@ will build with it and how it will evolve in the future.
 
 I'm happy to answer any specific questions you have about Panda CSS. Feel free to
 [@ me on Twitter](https://twitter.com/astahmer_dev) or on [Panda CSS discord](https://discord.gg/VQrkpsgSx7).
+
+[Back to top](#top)
