@@ -106,7 +106,7 @@ you wrote (source files) and generate CSS from it.
 
 This is a huge advantage over `runtime` styling solutions, not only because it's **faster** (no need to compute/inject
 style at runtime, on each render, which could cause style recalculations for the browser), but also because it means
-that we can a generate a raw CSS file that you can use (and cache !) **anywhere**.
+that we can generate a raw CSS file that you can use (and cache !) **anywhere**.
 
 ## Atomic CSS
 
@@ -384,7 +384,7 @@ You can also use the `cx` function to merge multiple class names together.
 ```tsx {7-8}
 import { css, cx } from 'styled-system/css'
 const className = cx(css({ display: 'flex', bg: 'blue.500' }), 'my-class')
-// would result in something like 'd_flex text_blur_500 my-class'
+// would result in something like 'd_flex bg_blue.500 my-class'
 ```
 
 More examples are available [here](https://panda-css.com/docs/concepts/writing-styles#merging-styles)
@@ -1358,7 +1358,7 @@ import { css } from 'styled-system/css'
 const className = css({
   color: '#fde047', // you can use any CSS value
   bg: 'gray.800!', // you can mark any value as important with `!` or `!important`
-  // => `text_#fde047 bg_gray_800!`
+  // => `text_#fde047 bg_gray.800!`
 
   // you can use composite values with the inline `token` function
   border: '1px solid token(colors.blue.300)',
@@ -1460,7 +1460,7 @@ import { css, cx } from 'styled-system/css'
 
 const cardClass = 'my-card'
 const className = cx(cardClass, css({ color: 'blue.300' }))
-// => `my-card text_blue_300`
+// => `my-card text_blue.300`
 ```
 
 ### cva
@@ -1509,7 +1509,7 @@ export const badge = cva({
 })
 
 const className = badge({ status: 'success' })
-// => `font-weight_medium px_3 rounded_md text_white bg_green_500`
+// => `font_medium px_3 rounded_md text_white bg_green.500`
 ```
 
 </TabItem>
@@ -1542,7 +1542,7 @@ const className = css(
   overrideStyles,
 )
 
-// => 'bg_red border_1px_solid_black color_white font-size_12px'
+// => 'bg_red border_1px_solid_black fs_12px text_white'
 ```
 
 </TabItem>
@@ -1634,7 +1634,7 @@ export default defineConfig({
 import { button } from 'styled-system/recipes'
 
 const className = button({ size: 'small' })
-// => `button_size_small`
+// => `button--size_small`
 ```
 
 ### sva
