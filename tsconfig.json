@@ -5,6 +5,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "#/styled-system/*": ["./styled-system/*"]
-    }
-  }
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  },
+  "include": ["src", "theme", "styled-system"]
 }

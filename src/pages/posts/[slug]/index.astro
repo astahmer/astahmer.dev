@@ -1,6 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content'
-import Layout from '@/layouts/Layout.astro'
+import Layout from '@/layouts/layout.astro'
 import { formatDate } from '@/utils/formatDate'
 import { css, cx } from '#/styled-system/css'
 import { prose, article } from '#/styled-system/recipes'
@@ -35,7 +35,7 @@ const { Content } = await post.render()
   } as any}
 >
   <article>
-    <header role="navigation">
+    <header role="navigation" class={css({ display: 'flex', gap: '4' })}>
       <a
         class={css({
           textDecoration: 'underline',
@@ -43,13 +43,21 @@ const { Content } = await post.render()
         })}
         href="/">Home</a
       >
+      <a
+        class={css({
+          textDecoration: 'underline',
+          _hover: { color: 'sky.100' },
+        })}
+        href="/posts">Posts</a
+      >
     </header>
     <main class={cx(prose(), article())}>
       <header role="presentation">
         <time datetime={post.data.publishedAt.toISOString()}>
           {formatDate(post.data.publishedAt)}
         </time>
-        <h1>
+        <h1 id="top" class="group">
+          <a aria-hidden="true" tabindex="-1" href="#top"><span class="h-anchor">#</span></a>
           {post.data.title}
         </h1>
         <p class={css({ fontStyle: 'italic' })}>{post.data.description}</p>
@@ -72,8 +80,7 @@ const { Content } = await post.render()
       data-lang="en"
       data-loading="lazy"
       crossorigin="anonymous"
-      async
-    ></script>
+      async></script>
   </article>
   <style is:global>
     .group:hover a {

@@ -1,0 +1,35 @@
+---
+import { css } from '#/styled-system/css'
+import { center } from '#/styled-system/patterns'
+---
+
+<div class={center({ h: 'full' })}>
+  <div
+    class={css({
+      p: '6',
+      m: '4',
+      w: 'md',
+      boxShadow: 'md',
+      borderRadius: 'md',
+      _dark: { bg: '#262626', color: 'white' },
+      debug: true,
+    })}
+  >
+    <div
+      class={css({
+        textStyle: 'xl',
+        fontWeight: 'semibold',
+        pb: '2',
+      })}
+    >
+      Team Members
+    </div>
+    <div
+      class={css({
+        textStyle: 'lg',
+      })}
+    >
+      Content
+    </div>
+  </div>
+</div>

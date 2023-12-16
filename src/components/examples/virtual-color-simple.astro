@@ -1,0 +1,32 @@
+---
+import { css, cva, cx } from '#/styled-system/css'
+
+const button = cva({
+  base: {
+    padding: 4,
+    // you can also specify a default colorPalette in the `base` recipe key
+    // colorPalette: 'blue',
+    // ^^^^^^^^^^^^^^^^^^^^
+  },
+  variants: {
+    variant: {
+      primary: {
+        bg: { base: 'colorPalette.500', _dark: 'colorPalette.200' },
+        color: { base: 'white', _dark: 'gray.900' },
+      },
+    },
+  },
+  defaultVariants: { variant: 'primary' },
+})
+---
+
+<div class="light">
+  <button class={cx(css({ colorPalette: 'blue' }), button())}>Click me</button>
+  <button class={cx(css({ colorPalette: 'green' }), button())}>Click me</button>
+  <button class={cx(css({ colorPalette: 'red' }), button())}>Click me</button>
+</div>
+<div class="dark">
+  <button class={cx(css({ colorPalette: 'blue' }), button())}>Click me</button>
+  <button class={cx(css({ colorPalette: 'green' }), button())}>Click me</button>
+  <button class={cx(css({ colorPalette: 'red' }), button())}>Click me</button>
+</div>

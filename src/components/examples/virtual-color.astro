@@ -1,0 +1,84 @@
+---
+import { css, cva, cx } from '#/styled-system/css'
+import { flex } from '#/styled-system/patterns'
+
+const button = cva({
+  base: { padding: 4, colorPalette: 'blue' },
+  variants: {
+    variant: {
+      shades: {
+        // we can use CSS var fallbacks to handle different color palettes
+        // setting the `bg` color in a CSS variable so we can use it in the dark mode as fallback
+        '--bg': 'token(colors.colorPalette.500, colors.colorPalette.warning.accent.secondary)',
+        bg: {
+          base: 'var(--bg)',
+          _hover: 'token(colors.colorPalette.700, colors.colorPalette.warning)',
+          _dark: {
+            base: 'token(colors.colorPalette.warning.accent, var(--bg))',
+            _hover: 'token(colors.colorPalette.300, colors.colorPalette.warning)',
+          },
+        },
+        color: { base: 'white', _dark: 'gray.900' },
+      },
+      warning: {
+        bg: {
+          base: 'colorPalette.warning',
+          _hover: 'colorPalette.warning.accent',
+        },
+        color: { base: 'white', _dark: 'gray.900' },
+      },
+      info: {
+        bg: {
+          base: 'colorPalette.info',
+          hover: 'colorPalette.warning.accent.secondary',
+        },
+        color: { base: 'white', _dark: 'gray.900' },
+      },
+    },
+  },
+  defaultVariants: { variant: 'shades' },
+})
+---
+
+<h4>No theme, variant shades</h4>
+<div class={cx('light', flex())}>
+  <span class={css({ p: 4, display: 'inline-block', w: '120px' })}>Light mode</span>
+  <button class={css(button.raw(), { colorPalette: 'blue' })}>Blue</button>
+  <button class={css(button.raw(), { colorPalette: 'green' })}>Green</button>
+  <button class={css(button.raw(), { colorPalette: 'red' })}>Red</button>
+</div>
+
+<div class={cx('dark', flex())}>
+  <span class={css({ p: 4, display: 'inline-block', w: '120px' })}>Dark mode</span>
+  <button class={css(button.raw(), { colorPalette: 'blue' })}>Blue</button>
+  <button class={css(button.raw(), { colorPalette: 'green' })}>Green</button>
+  <button class={css(button.raw(), { colorPalette: 'red' })}>Red</button>
+</div>
+
+<h4>Main theme</h4>
+<div class={cx('light', flex())} data-theme="main">
+  <span class={css({ p: 4, display: 'inline-block', w: '120px' })}>Light mode</span>
+  <button class={css(button.raw({ variant: 'shades' }), { colorPalette: 'button' })}>Shades</button>
+  <button class={css(button.raw({ variant: 'info' }), { colorPalette: 'button' })}>Info</button>
+  <button class={css(button.raw({ variant: 'warning' }), { colorPalette: 'button' })}>Warning</button>
+</div>
+<div class={cx('dark', flex())} data-theme="main">
+  <span class={css({ p: 4, display: 'inline-block', w: '120px' })}>Dark mode</span>
+  <button class={css(button.raw({ variant: 'shades' }), { colorPalette: 'button' })}>Shades</button>
+  <button class={css(button.raw({ variant: 'info' }), { colorPalette: 'button' })}>Info</button>
+  <button class={css(button.raw({ variant: 'warning' }), { colorPalette: 'button' })}>Warning</button>
+</div>
+
+<h4>Secondary theme</h4>
+<div class={cx('light', flex())} data-theme="secondary">
+  <span class={css({ p: 4, display: 'inline-block', w: '120px' })}>Light mode</span>
+  <button class={css(button.raw({ variant: 'shades' }), { colorPalette: 'button' })}>Shades</button>
+  <button class={css(button.raw({ variant: 'info' }), { colorPalette: 'button' })}>Info</button>
+  <button class={css(button.raw({ variant: 'warning' }), { colorPalette: 'button' })}>Warning</button>
+</div>
+<div class={cx('dark', flex())} data-theme="secondary">
+  <span class={css({ p: 4, display: 'inline-block', w: '120px' })}>Dark mode</span>
+  <button class={css(button.raw({ variant: 'shades' }), { colorPalette: 'button' })}>Shades</button>
+  <button class={css(button.raw({ variant: 'info' }), { colorPalette: 'button' })}>Info</button>
+  <button class={css(button.raw({ variant: 'warning' }), { colorPalette: 'button' })}>Warning</button>
+</div>
