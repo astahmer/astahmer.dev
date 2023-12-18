@@ -34,7 +34,7 @@ different ways (`css` / `recipes` / `patterns` / jsx style props, with type-stri
 that to happen. The [ecosystem](https://www.ecopanda.dev/) [is](https://park-ui.com/)
 [growing](https://shadow-panda.dev/), more and more people and companies are using Panda CSS everyday !
 
-A bit more details here: [why Panda CSS](https://panda-css.com/docs/why-panda-css).
+A bit more details here: [why Panda CSS](https://panda-css.com/docs/overview/why-panda).
 
 ## And why NOT Panda CSS?
 
