@@ -1,0 +1,93 @@
+---
+import type { MarkdownHeading } from 'astro'
+
+// Taken from https://gist.github.com/maciejpedzich/000da5c6b3a91290d49a91c9fe940ca3
+
+type Props = {
+  headings: MarkdownHeading[]
+}
+type HeadingWithSubheadings = MarkdownHeading & {
+  subheadings: MarkdownHeading[]
+}
+
+const { headings } = Astro.props
+const grouppedHeadings = headings.reduce((array, heading) => {
+  if (heading.depth === 2) {
+    array.push({ ...heading, subheadings: [] })
+  } else if (heading.depth === 3) {
+    array.at(-1)?.subheadings.push(heading)
+  }
+  return array
+}, [] as HeadingWithSubheadings[])
+---
+
+<nav id="table-of-contents" aria-label="Table Of Contents">
+  <ol>
+    {
+      grouppedHeadings.map((h) => (
+        <li>
+          <a href={`#${h.slug}`}>{h.text.slice(1)}</a>
+          {h.subheadings.length > 0 && (
+            <ol>
+              {h.subheadings.map((sub) => (
+                <li>
+                  <a href={`#${sub.slug}`}>{sub.text.slice(1)}</a>
+                </li>
+              ))}
+            </ol>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<script>
+  // This script tag is useful only if you want to display the TOC alongside the blog post...
+  // ... and highlight the section that the user is currently reading through.
+  // Feel free to remove this tag if you don't need this type of functionality.
+
+  const container = document.querySelector('#table-of-contents')
+  const scrollArea = container?.parentElement
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (!container) return
+
+      for (const entry of entries) {
+        const headingFragment = `#${entry.target.id}`
+        const tocItem = container.querySelector(`a[href="${headingFragment}"]`)
+        if (!tocItem) continue
+
+        if (entry.isIntersecting) {
+          const previouslyActivatedItem = container.querySelector('.active-toc-item')
+
+          previouslyActivatedItem?.classList.remove('active-toc-item')
+          tocItem.classList.add('active-toc-item')
+
+          if (scrollArea) {
+            scrollArea.scrollTop = (tocItem as HTMLElement).offsetTop - scrollArea.offsetTop
+          }
+        } else {
+          const isAnyOtherEntryIntersecting = entries.some((e) => e.target.id !== entry.target.id && e.isIntersecting)
+
+          if (isAnyOtherEntryIntersecting) {
+            tocItem.classList.remove('active-toc-item')
+          }
+        }
+      }
+    },
+    { root: null, rootMargin: '100px', threshold: [1] },
+  )
+
+  const sectionHeadings = document.querySelectorAll('article > main > h2, article > main > h3')
+
+  for (const heading of sectionHeadings) {
+    observer.observe(heading)
+  }
+</script>
+
+<style>
+  .active-toc-item {
+    font-weight: bold;
+  }
+</style>

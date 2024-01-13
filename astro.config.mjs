@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
 import mdx from '@astrojs/mdx'
-import panda from '@pandacss/dev/postcss'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import { SITE_URL } from './src/data/config'
@@ -33,11 +32,6 @@ export default defineConfig({
     compressor(),
   ],
   vite: {
-    css: {
-      postcss: {
-        plugins: [panda()],
-      },
-    },
     plugins: [
       viz
         ? visualizer({
@@ -85,7 +79,10 @@ export default defineConfig({
     ],
     syntaxHighlight: 'shiki',
     shikiConfig: {
-      theme: 'nord',
+      experimentalThemes: {
+        light: 'github-light',
+        dark: 'nord',
+      },
       wrap: false,
     },
   },

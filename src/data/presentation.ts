@@ -21,19 +21,31 @@ export const presentation = {
   profile: '',
   description: `I'm a frenchy *freelance web developer* with over *7 years* of experience.
   I mostly work with *TypeScript/React/NodeJS*. <br />
-  I'm also a core maintainer of [Panda CSS] <br />
+  I'm also one of the co-creator of [Panda CSS] <br />
 
   Feel free to reach out if you want to work with me !`,
   socials: [
     {
       label: 'Twitter',
       link: 'https://twitter.com/astahmer_dev',
-      css: css.raw({ fontWeight: 'bold', color: 'sky.300' }),
+      css: css.raw({
+        fontWeight: 'bold',
+        color: {
+          base: 'sky.500',
+          _dark: 'sky.300',
+        },
+      }),
     },
     {
       label: 'Github',
       link: 'https://github.com/astahmer',
-      css: css.raw({ fontWeight: 'bold', color: 'rgba(255, 255, 255, 0.85)' }),
+      css: css.raw({
+        fontWeight: 'bold',
+        textAlpha: {
+          base: 'gray.500',
+          _dark: 'white/85',
+        },
+      }),
     },
     {
       label: 'Bluesky',

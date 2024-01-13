@@ -4,9 +4,12 @@ import '../base.css'
 
 import SEOTags from '@/components/seo-tags.astro'
 import { type Props as SEOTagProps } from '@/components/seo-tags.astro'
+import ColorModeSwitch from '@/components/color-mode-switch.astro'
 
-import { container } from '#/styled-system/patterns'
+import { container, stack } from '#/styled-system/patterns'
 import { css } from '#/styled-system/css'
+import ColorModeScript from '@/components/color-mode-script.astro'
+import ScrollUpButton from '@/components/scroll-up-btn.astro'
 
 export type Props = SEOTagProps & {
   content?: boolean
@@ -20,13 +23,21 @@ declare global {
 }
 
 const { content, ...headTags } = Astro.props
+const isDev = import.meta.env.DEV
 ---
 
 <!doctype html>
 <html lang="en">
   <SEOTags {...headTags} />
-  <script async src="https://umami-nu-bice.vercel.app/script.js" data-website-id="4a4b809f-3b38-4291-a236-4e4b31cfe28c"
-  ></script>
+  {
+    !isDev && (
+      <script
+        async
+        src="https://umami-nu-bice.vercel.app/script.js"
+        data-website-id="4a4b809f-3b38-4291-a236-4e4b31cfe28c"
+      />
+    )
+  }
 
   <slot name="head" />
 
@@ -40,21 +51,34 @@ const { content, ...headTags } = Astro.props
       maxW: '920px',
       flexDir: 'column',
       gap: '9',
-      bgColor: 'neutral.950',
       pl: '10',
       pr: '10',
       pt: '8',
       pb: '8',
       textStyle: 'sm',
-      color: 'neutral.400',
+      color: 'fg.body',
       md: { gap: '12', pt: '12', pb: '12' },
-      background: 'radial-gradient(circle, #00000c 20%, #011422 100%)',
-      '&[data-content]': {
-        bg: 'radial-gradient(circle, #00000c 60%, #011422 100%)',
+      background: 'gray.100',
+      _dark: {
+        background: 'radial-gradient(circle, #00000c 20%, #011422 100%)',
+        '&[data-content]': {
+          bg: 'radial-gradient(circle, #00000c 60%, #011422 100%)',
+        },
       },
     })}
   >
+    <ColorModeScript />
     <div class={css({ position: 'relative' })}><slot /></div>
+    <div class={css({ position: 'fixed', left: 0, top: '20px', w: '100%', pointerEvents: 'none' })}>
+      <div
+        class={container({ ml: 'auto', mr: 'auto', display: 'flex', minH: 'screen', maxW: '920px', flexDir: 'column' })}
+      >
+        <div class={stack({ ml: 'auto', mr: '20px', alignItems: 'center', pointerEvents: 'auto' })}>
+          <ColorModeSwitch />
+          {content && <ScrollUpButton />}
+        </div>
+      </div>
+    </div>
     <style is:global>
       html {
         font-family: 'Open Sans Variable', sans-serif;

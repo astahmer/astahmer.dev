@@ -2,7 +2,7 @@ import { getCollection, type CollectionEntry } from 'astro:content'
 import fs from 'fs'
 import path from 'path'
 import { ImageResponse } from '@vercel/og'
-import { formatDate } from '@/utils/formatDate'
+import { formatDate } from '@/utils/format-date'
 
 interface Props {
   params: { slug: string }
@@ -122,7 +122,7 @@ export async function GET({ props }: Props) {
                   style: {
                     color: '#fefce8',
                   },
-                  children: 'astahmer.dev - ' + formatDate(post.data.date),
+                  children: 'astahmer.dev - ' + formatDate(post.data.publishedAt),
                 },
               },
             ],

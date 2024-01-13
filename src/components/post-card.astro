@@ -1,0 +1,41 @@
+---
+import { css } from '#/styled-system/css'
+import { formatDate } from '@/utils/format-date'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  data: CollectionEntry<'articles'>
+}
+
+const { data: item } = Astro.props
+---
+
+<a
+  href={`/posts/${item.slug}`}
+  class={css({
+    display: 'flex',
+    gap: '2',
+    p: '4',
+    rounded: 'md',
+    bga: {
+      _hover: 'neutral.300/40',
+      _dark: {
+        base: 'neutral.900/40',
+        _hover: 'neutral.700/40',
+      },
+    },
+    textDecoration: 'none',
+    transition: 'all 0.2s ease-in-out',
+    border: '1px solid token(colors.neutral.700)',
+  })}
+>
+  <div class={css({ display: 'flex', flexDir: 'column', gap: '2' })}>
+    <h4 class={css({ textStyle: 'sm', color: 'fg.heading', fontWeight: 'semibold' })}>
+      {item.data.title}
+    </h4>
+    <p class={css({ textStyle: 'xs', color: 'fg.subtle' })}>{item.data.description}</p>
+  </div>
+  <div class={css({ display: 'flex', ml: 'auto', textStyle: 'xs', color: 'fg.subtle' })}>
+    <time datetime={item.data.publishedAt.toISOString()}>{formatDate(item.data.publishedAt)}</time>
+  </div>
+</a>

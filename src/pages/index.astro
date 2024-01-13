@@ -1,24 +1,35 @@
 ---
-import { getCollection } from 'astro:content'
 import ProjectCard from '@/components/project-card.astro'
 import SocialLinks from '@/components/social-links.astro'
 import Link from '@/components/ui/link.astro'
 import Layout from '@/layouts/layout.astro'
+import { getCollection } from 'astro:content'
 
+import { css } from '#/styled-system/css'
+import PostSection from '@/components/post-section.astro'
 import { presentation } from '@/data/presentation'
 import { projects } from '@/data/projects'
-import { css } from '#/styled-system/css'
-import { formatDate } from '@/utils/formatDate'
 
 function convertAsteriskToStrongTag(str: string) {
   return str
     .replace(
       '[Panda CSS]',
       `<strong class="${css({
-        color: 'yellow.300',
+        color: {
+          base: 'yellow.400',
+          _dark: 'yellow.300',
+        },
       })}"><a target="_blank" href="https://panda-css.com/">Panda CSS</a></strong>`,
     )
-    .replace(/\*{1,2}(.*?)\*{1,2}/g, `<strong class="${css({ color: 'sky.50' })}">$1</strong>`)
+    .replace(
+      /\*{1,2}(.*?)\*{1,2}/g,
+      `<strong class="${css({
+        color: {
+          base: 'sky.600',
+          _dark: 'sky.50',
+        },
+      })}">$1</strong>`,
+    )
     .replace('\n', '<br />')
 }
 
@@ -43,13 +54,21 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
         )
       }
 
-      <div class={css({ display: 'flex', flexDir: 'column', gap: '8' })}>
-        <h1 class={css({ textStyle: '3xl', color: 'neutral.100' })}>
+      <div class={css({ display: 'flex', flexDir: 'column', gap: '6' })}>
+        <h1 class={css({ textStyle: '3xl', color: 'fg.heading' })}>
           {presentation.title}
         </h1>
 
         <h2
-          class={css({ w: 'auto', maxW: '60ch', lineHeight: 'normal' })}
+          class={css({
+            w: 'auto',
+            maxW: '60ch',
+            lineHeight: 'normal',
+            textStyle: 'md',
+            color: {
+              _light: 'fg.body',
+            },
+          })}
           set:html={convertAsteriskToStrongTag(presentation.description)}
         />
 
@@ -57,9 +76,9 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
       </div>
     </article>
 
-    <article class={css({ display: 'flex', flexDir: 'column', gap: '8' })}>
-      <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between', gap: '2' })}>
-        <h3 class={css({ textStyle: 'lg', color: 'neutral.100' })}>Featured opensource projects</h3>
+    <article class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
+      <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between' })}>
+        <h3 class={css({ textStyle: 'lg', color: 'fg.heading' })}>Featured opensource projects</h3>
       </header>
 
       <section class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
@@ -67,60 +86,20 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
       </section>
     </article>
 
-    <article class={css({ display: 'flex', flexDir: 'column', gap: '8' })}>
-      <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between', gap: '2' })}>
-        <h3>
-          <Link
-            css={{ textStyle: 'lg', color: 'neutral.100', _hover: { color: 'yellow.300' } }}
-            href="/posts"
-            label={'Posts' + (articles.length > 0 ? ` (${articles.length})` : '')}
-          />
-        </h3>
-      </header>
+    <PostSection articles={articles} />
 
-      <section class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
-        {
-          articles
-            .filter((item) => item.data.isPublish)
-            .map((item) => {
-              return (
-                <a
-                  href={`/posts/${item.slug}`}
-                  class={css({
-                    display: 'flex',
-                    gap: '2',
-                    p: '4',
-                    rounded: 'md',
-                    bga: 'neutral.900/30',
-                    textDecoration: 'none',
-                    transition: 'all 0.2s ease-in-out',
-                    border: '1px solid token(colors.neutral.700)',
-                    '&:hover': {
-                      bga: 'neutral.700/40',
-                    },
-                  })}
-                >
-                  <div class={css({ display: 'flex', flexDir: 'column', gap: '2' })}>
-                    <h4 class={css({ textStyle: 'sm', color: 'neutral.100' })}>{item.data.title}</h4>
-                    <p class={css({ textStyle: 'xs', color: 'neutral.300' })}>{item.data.description}</p>
-                  </div>
-                  <div class={css({ display: 'flex', ml: 'auto', textStyle: 'xs', color: 'neutral.300' })}>
-                    <time datetime={item.data.publishedAt.toISOString()}>{formatDate(item.data.publishedAt)}</time>
-                  </div>
-                </a>
-              )
-            })
-        }
-      </section>
-    </article>
-
-    <article class={css({ display: 'flex', flexDir: 'column', gap: '8' })}>
+    <article class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
       <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between', gap: '2' })}>
-        <h3 class={css({ textStyle: 'lg', color: 'neutral.100' })}>Get in touch</h3>
+        <h3 class={css({ textStyle: 'lg', color: 'fg.heading' })}>Get in touch</h3>
       </header>
       <p>
         Email me at <Link href={`mailto:${presentation.mail}`} label={presentation.mail} /> or DM me using my social
         links.
+      </p>
+      <p>
+        This website is built with <Link href="https://astro.build/" label="Astro" /> and{' '}
+        <Link href="https://panda-css.com/" label="Panda CSS" />. Source code is available on{' '}
+        <Link href="https://github.com/astahmer/astahmer.dev" label="Github" />.
       </p>
 
       <SocialLinks />

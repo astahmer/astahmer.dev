@@ -30,7 +30,7 @@ const techString = formatTechs(techs ?? [])
           transitionTimingFunction: 'cubic-bezier(.4,0,.2,1)',
           _hover: {
             transform: 'translateY(calc(token(spacing.2) * -1))',
-            borderColor: 'neutral.400',
+            borderColor: 'fg.body',
           },
           md: { flexDirection: 'row', alignItems: 'center' },
         })}
@@ -47,7 +47,7 @@ const techString = formatTechs(techs ?? [])
             w: 'full',
           })}
         >
-          <p class={css({ color: 'neutral.100' })}>{title}</p>
+          <p class={css({ color: 'fg.heading', fontWeight: 'semibold' })}>{title}</p>
           <div class={flex({ direction: 'row', flex: '1', fontSize: 'xs' })}>
             {description ? <p>{description}</p> : null}
             <p class={css({ display: 'inline-block', ml: 'auto' })}>{techString}</p>

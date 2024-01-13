@@ -1,0 +1,34 @@
+---
+import { css } from '#/styled-system/css'
+import type { CollectionEntry } from 'astro:content'
+import PostCard from './post-card.astro'
+import { Link } from './ui'
+
+interface Props {
+  articles: CollectionEntry<'articles'>[]
+}
+
+const { articles } = Astro.props
+---
+
+<article class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
+  <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between' })}>
+    <h3>
+      <Link
+        css={{ textStyle: 'lg', color: 'fg.heading', _hover: { color: 'yellow.300' } }}
+        href="/posts"
+        label={'Posts' + (articles.length > 0 ? ` (${articles.length})` : '')}
+      />
+    </h3>
+  </header>
+
+  <section class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
+    {
+      articles
+        .filter((item) => item.data.isPublish)
+        .map((item) => {
+          return <PostCard data={item} />
+        })
+    }
+  </section>
+</article>

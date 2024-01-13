@@ -1,0 +1,20 @@
+---
+import { css } from '#/styled-system/css'
+---
+
+<header role="navigation" class={css({ display: 'flex', gap: '4' })}>
+  <a
+    class={css({
+      textDecoration: 'underline',
+      _hover: { color: 'fg.secondary' },
+    })}
+    href="/">Home</a
+  >
+  <a
+    class={css({
+      textDecoration: 'underline',
+      _hover: { color: 'fg.secondary' },
+    })}
+    href="/posts">Posts</a
+  >
+</header>

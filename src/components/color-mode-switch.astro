@@ -1,0 +1,38 @@
+---
+import { css } from '#/styled-system/css'
+---
+
+<div>
+  <button type="button" id="color-mode-switch" class={css({ p: 2, fontSize: 'xl', height: '36px', width: '36px' })}>
+    <span data-icon class={css({ pointerEvents: 'none', transition: 'opacity 0.2s ease-in', opacity: 0 })}> </span>
+  </button>
+</div>
+
+<script>
+  import { type ColorMode, getStoredColorMode, registerColorModeListener, setColorMode } from '@/utils/color-mode'
+
+  const btn = document.getElementById('color-mode-switch')
+  if (btn) {
+    registerColorModeListener()
+
+    function toggleColorMode() {
+      const currentMode = getStoredColorMode()
+
+      const newMode = currentMode === 'dark' ? 'light' : 'dark'
+      setColorMode(newMode)
+      setButtonIcon(newMode)
+    }
+
+    function setButtonIcon(mode: ColorMode) {
+      const icon = btn!.querySelector('[data-icon]') as HTMLElement
+      if (!icon) return
+
+      icon.setAttribute('data-icon', mode === 'dark' ? 'moon' : 'sun')
+      icon.innerHTML = mode === 'dark' ? '🌙' : '☀️'
+      icon.style.opacity = '1'
+    }
+
+    btn.addEventListener('click', toggleColorMode)
+    setButtonIcon(getStoredColorMode() || 'dark')
+  }
+</script>

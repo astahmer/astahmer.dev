@@ -16,7 +16,7 @@ const isInternal = props.href?.toString().startsWith('/')
 <a
   href={props.href}
   class:list={{
-    [css({ _hover: { color: 'neutral.100' }, cursor: 'pointer' }, cssProp ?? {})]: true,
+    [css({ _hover: { color: 'fg.heading' }, cursor: 'pointer' }, cssProp ?? {})]: true,
     [css({ textDecorationLine: 'underline', textDecorationStyle: 'dashed', textUnderlineOffset: '8px' })]: isUnderline,
   }}
   {...props}

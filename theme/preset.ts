@@ -23,33 +23,32 @@ const colorMix: (...args: Parameters<NonNullable<PropertyConfig['transform']>>) 
 export const themePreset = definePreset({
   theme: {
     extend: {
-      semanticTokens: {
-        colors: {
-          primary: { value: '{colors.orange.500}' },
-          blur: {
-            top: { value: '{colors.orange.500}' },
-            bottom: { value: '{colors.violet.500}' },
-          },
-        },
-      },
       recipes: {
         article: {
           className: 'article',
           base: {
-            '--colors-prose-body': 'var(--colors-neutral-300)',
-            '--colors-prose-bold': 'var(--colors-neutral-200)',
-            '--colors-prose-heading': 'white',
-            '--colors-prose-subheading': 'colors.neutral.100',
             ml: 'auto',
             mr: 'auto',
             w: 'full',
             maxW: '80ch',
+            _dark: {
+              '--colors-prose-body': 'var(--colors-neutral-300)',
+              '--colors-prose-bold': 'var(--colors-neutral-200)',
+              '--colors-prose-heading': 'white',
+              '--colors-prose-subheading': 'colors.neutral.100',
+            },
+            //
             '& code': {
               borderRadius: 'sm',
-              bg: 'neutral.800',
               px: '1',
               py: '2px',
-              color: 'yellow.500',
+              color: {
+                _dark: 'yellow.500',
+              },
+              bg: {
+                base: 'neutral.200',
+                _dark: 'neutral.800',
+              },
             },
             '& h1': {
               fontSize: '4xl',
@@ -71,20 +70,25 @@ export const themePreset = definePreset({
               color: 'var(--colors-prose-subheading)',
             },
             '& a': {
-              color: 'yellow.100',
+              color: {
+                base: 'yellow.600',
+                _dark: 'yellow.100',
+              },
               textDecoration: 'underline',
             },
             '& ul': {
               listStyleType: 'disc',
             },
             '& em': {
-              color: 'neutral.200',
+              _dark: {
+                color: 'neutral.200',
+              },
               fontStyle: 'italic',
             },
             '& blockquote': {
               display: 'flex',
               flexDirection: 'row',
-              color: 'neutral.400',
+              color: 'fg.body',
               gap: '2',
             },
             '& pre': {

@@ -1,9 +1,10 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content'
 import Layout from '@/layouts/layout.astro'
-import { formatDate } from '@/utils/formatDate'
+import { formatDate } from '@/utils/format-date'
 import { css, cx } from '#/styled-system/css'
 import { prose, article } from '#/styled-system/recipes'
+import Header from '@/components/header.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts')
@@ -35,15 +36,7 @@ const { Content } = await post.render()
   } as any}
 >
   <article>
-    <header role="navigation">
-      <a
-        class={css({
-          textDecoration: 'underline',
-          _hover: { color: 'sky.100' },
-        })}
-        href="/">Home</a
-      >
-    </header>
+    <Header />
     <main class={cx(prose(), article())}>
       <header role="presentation">
         <time datetime={post.data.publishedAt.toISOString()}>
@@ -58,9 +51,10 @@ const { Content } = await post.render()
       <Content />
     </main>
   </article>
-  <style is:global>
-    .group:hover a {
-      opacity: 1;
-    }
-  </style>
 </Layout>
+
+<style is:global>
+  .group:hover a {
+    opacity: 1;
+  }
+</style>

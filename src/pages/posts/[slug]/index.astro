@@ -1,9 +1,12 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content'
 import Layout from '@/layouts/layout.astro'
-import { formatDate } from '@/utils/formatDate'
+import { formatDate } from '@/utils/format-date'
 import { css, cx } from '#/styled-system/css'
 import { prose, article } from '#/styled-system/recipes'
+import TableOfContents from '@/components/table-of-contents.astro'
+import { container } from '#/styled-system/patterns'
+import Header from '@/components/header.astro'
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles')
@@ -19,7 +22,8 @@ type Props = {
 }
 
 const { post } = Astro.props
-const { Content } = await post.render()
+const { Content, headings } = await post.render()
+const isDev = import.meta.env.DEV
 ---
 
 <Layout
@@ -35,22 +39,7 @@ const { Content } = await post.render()
   } as any}
 >
   <article>
-    <header role="navigation" class={css({ display: 'flex', gap: '4' })}>
-      <a
-        class={css({
-          textDecoration: 'underline',
-          _hover: { color: 'sky.100' },
-        })}
-        href="/">Home</a
-      >
-      <a
-        class={css({
-          textDecoration: 'underline',
-          _hover: { color: 'sky.100' },
-        })}
-        href="/posts">Posts</a
-      >
-    </header>
+    <Header />
     <main class={cx(prose(), article())}>
       <header role="presentation">
         <time datetime={post.data.publishedAt.toISOString()}>
@@ -64,27 +53,77 @@ const { Content } = await post.render()
       </header>
 
       <Content />
+      <div class={css({ position: 'fixed', left: 0, top: '100px', w: '100%', pointerEvents: 'none' })}>
+        <div
+          class={container({
+            ml: 'auto',
+            mr: 'auto',
+            display: 'flex',
+            minH: 'screen',
+            maxW: '920px',
+            flexDir: 'column',
+          })}
+        >
+          <div
+            class={css({
+              position: 'absolute',
+              right: 'calc(100% + 20px)',
+              overflow: 'auto',
+              scrollBehavior: 'smooth',
+              pointerEvents: 'auto',
+              h: '100%',
+              w: '230px',
+              textStyle: 'sm',
+              '@media screen and (max-width: 1450px)': {
+                right: 'calc(100% - 40px)',
+                textStyle: 'xs',
+                w: '200px',
+              },
+              '@media screen and (max-width: 1315px)': {
+                right: 'calc(100% - 80px)',
+                textStyle: 'xs',
+                w: '180px',
+              },
+              '@media screen and (max-width: 1180px)': {
+                fontSize: 'x-small',
+                w: '150px',
+              },
+              '@media screen and (max-width: 1075px)': {
+                display: 'none',
+              },
+            })}
+          >
+            <TableOfContents headings={headings} />
+          </div>
+        </div>
+      </div>
     </main>
-    <script
-      src="https://giscus.app/client.js"
-      data-repo="astahmer/astahmer.dev"
-      data-repo-id="R_kgDOKLH7eQ"
-      data-category="Announcements"
-      data-category-id="DIC_kwDOKLH7ec4CbdnF"
-      data-mapping="pathname"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="preferred_color_scheme"
-      data-lang="en"
-      data-loading="lazy"
-      crossorigin="anonymous"
-      async></script>
-  </article>
-  <style is:global>
-    .group:hover a {
-      opacity: 1;
+    {
+      !isDev && (
+        <script
+          src="https://giscus.app/client.js"
+          data-repo="astahmer/astahmer.dev"
+          data-repo-id="R_kgDOKLH7eQ"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOKLH7ec4CbdnF"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="en"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async
+        />
+      )
     }
-  </style>
+  </article>
 </Layout>
+
+<style is:global>
+  .group:hover a {
+    opacity: 1;
+  }
+</style>

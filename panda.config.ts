@@ -1,27 +1,8 @@
-import { defineConfig } from '@pandacss/dev'
+import { defineConfig, definePreset } from '@pandacss/dev'
 import { themePreset } from './theme/preset'
-import typographyPreset from 'pandacss-preset-typography/dist/index.mjs'
+import typographyPreset from 'pandacss-preset-typography'
 
-const hash = false && Boolean(process.env['MODE'])
-const minify = hash
-
-export default defineConfig({
-  presets: ['@pandacss/dev/presets', typographyPreset(), themePreset],
-  hash,
-  minify,
-  strictTokens: false,
-  // Whether to use css reset
-  preflight: true,
-
-  // Where to look for your css declarations
-  include: ['./src/**/*.{js,jsx,ts,tsx,astro}'],
-
-  // Files to exclude
-  exclude: [],
-
-  // The output directory for your css system
-  outdir: 'styled-system',
-
+const examplesPreset = definePreset({
   conditions: {
     extend: {
       lightColorMode: '[data-color-mode=light] &',
@@ -73,6 +54,62 @@ export default defineConfig({
                     },
                   },
                 },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+})
+
+export default defineConfig({
+  presets: ['@pandacss/dev/presets', typographyPreset(), examplesPreset, themePreset],
+  strictTokens: false,
+  // Whether to use css reset
+  preflight: true,
+
+  // Where to look for your css declarations
+  include: ['./src/**/*.{js,jsx,ts,tsx,astro}'],
+
+  // Files to exclude
+  exclude: [],
+
+  // The output directory for your css system
+  outdir: 'styled-system',
+  theme: {
+    extend: {
+      textStyles: {
+        lg: { value: { fontWeight: 'semibold' } },
+        xl: { value: { fontWeight: 'semibold' } },
+        '2xl': { value: { fontWeight: 'semibold' } },
+        '3xl': { value: { fontWeight: 'semibold' } },
+      },
+      semanticTokens: {
+        colors: {
+          fg: {
+            body: {
+              value: {
+                base: '{colors.neutral.700}',
+                _dark: '{colors.neutral.400}',
+              },
+            },
+            subtle: {
+              value: {
+                base: '{colors.neutral.600}',
+                _dark: '{colors.neutral.300}',
+              },
+            },
+            secondary: {
+              value: {
+                base: '{colors.sky.700}',
+                _dark: '{colors.sky.100}',
+              },
+            },
+            heading: {
+              value: {
+                base: '{colors.neutral.900}',
+                _dark: '{colors.neutral.100}',
               },
             },
           },

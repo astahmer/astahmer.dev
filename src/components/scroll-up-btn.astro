@@ -1,0 +1,24 @@
+<button id="scroll-up">⬆️</button>
+<button id="scroll-down">⬇️</button>
+
+<script>
+  const scrollUp = document.getElementById('scroll-up')
+  if (scrollUp) {
+    scrollUp.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    })
+    scrollUp.addEventListener('dblclick', () => {
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    })
+  }
+
+  const scrollDown = document.getElementById('scroll-down')
+  if (scrollDown) {
+    scrollDown.addEventListener('click', () => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+    })
+    scrollDown.addEventListener('dblclick', () => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' })
+    })
+  }
+</script>
