@@ -76,6 +76,8 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
       </div>
     </article>
 
+    <PostSection articles={articles} />
+
     <article class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
       <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between' })}>
         <h3 class={css({ textStyle: 'lg', color: 'fg.heading' })}>Featured opensource projects</h3>
@@ -85,8 +87,6 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
         {projects.length !== 0 && projects.map((project) => <ProjectCard {...project} />)}
       </section>
     </article>
-
-    <PostSection articles={articles} />
 
     <article class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
       <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between', gap: '2' })}>
