@@ -23,14 +23,14 @@ const techString = formatTechs(techs ?? [])
           justifyContent: 'space-between',
           gap: '2',
           borderRadius: 'md',
-          borderColor: '1px solid token(colors.neutral.700)',
           padding: '4',
-          transition: 'all',
-          transitionDuration: '250ms',
-          transitionTimingFunction: 'cubic-bezier(.4,0,.2,1)',
-          _hover: {
-            transform: 'translateY(calc(token(spacing.2) * -1))',
-            borderColor: 'fg.body',
+          bg: {
+            base: 'neutral.200/40',
+            _hover: 'neutral.400/40',
+            _dark: {
+              base: 'neutral.700/40',
+              _hover: 'neutral.500/40',
+            },
           },
           md: { flexDirection: 'row', alignItems: 'center' },
         })}

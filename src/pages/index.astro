@@ -19,6 +19,7 @@ function convertAsteriskToStrongTag(str: string) {
           base: 'yellow.400',
           _dark: 'yellow.300',
         },
+        textShadow: '0 0 rgb(0 0 0 / 27%)',
       })}"><a target="_blank" href="https://panda-css.com/">Panda CSS</a></strong>`,
     )
     .replace(
@@ -93,8 +94,7 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
         <h3 class={css({ textStyle: 'lg', color: 'fg.heading' })}>Get in touch</h3>
       </header>
       <p>
-        Email me at <Link href={`mailto:${presentation.mail}`} label={presentation.mail} /> or DM me using my social
-        links.
+        Email me at <Link href={`mailto:${presentation.mail}`} label={presentation.mail} /> or DM me using my social links.
       </p>
       <p>
         This website is built with <Link href="https://astro.build/" label="Astro" /> and{' '}

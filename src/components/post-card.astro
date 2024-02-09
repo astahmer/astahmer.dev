@@ -17,16 +17,16 @@ const { data: item } = Astro.props
     gap: '2',
     p: '4',
     rounded: 'md',
-    bga: {
+    bg: {
+      base: 'neutral.200/40',
       _hover: 'neutral.300/40',
       _dark: {
-        base: 'neutral.900/40',
-        _hover: 'neutral.700/40',
+        base: 'neutral.700/40',
+        _hover: 'neutral.500/40',
       },
     },
     textDecoration: 'none',
     transition: 'all 0.2s ease-in-out',
-    border: '1px solid token(colors.neutral.700)',
   })}
 >
   <div class={css({ display: 'flex', flexDir: 'column', gap: '2' })}>
