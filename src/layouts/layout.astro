@@ -10,7 +10,6 @@ import { container, stack } from '#/styled-system/patterns'
 import { css } from '#/styled-system/css'
 import ColorModeScript from '@/components/color-mode-script.astro'
 import ScrollUpButton from '@/components/scroll-up-btn.astro'
-import CalDotCom from '@/components/cal.com.astro'
 
 export type Props = SEOTagProps & {
   content?: boolean
@@ -69,7 +68,7 @@ const isDev = import.meta.env.DEV
     })}
   >
     <ColorModeScript />
-    <CalDotCom />
+    <script is:inline src="/caldotcom.js"></script>
     <div class={css({ position: 'relative' })}><slot /></div>
     <div class={css({ position: 'fixed', left: 0, top: '20px', w: '100%', pointerEvents: 'none' })}>
       <div
