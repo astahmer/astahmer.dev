@@ -40,7 +40,6 @@ const isDev = import.meta.env.DEV
     )
   }
 
-  <CalDotCom is:inline />
   <slot name="head" />
 
   <body
@@ -70,6 +69,7 @@ const isDev = import.meta.env.DEV
     })}
   >
     <ColorModeScript />
+    <CalDotCom client:only />
     <div class={css({ position: 'relative' })}><slot /></div>
     <div class={css({ position: 'fixed', left: 0, top: '20px', w: '100%', pointerEvents: 'none' })}>
       <div
