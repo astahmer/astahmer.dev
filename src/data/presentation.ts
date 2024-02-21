@@ -48,6 +48,21 @@ export const presentation = {
       }),
     },
     {
+      label: 'Work with me',
+      link: 'https://cal.com/astahmer/work-with-me',
+      css: css.raw({
+        fontWeight: 'bold',
+        color: {
+          base: 'indigo.500',
+          _dark: 'indigo.300',
+          _hover: {
+            base: 'indigo.600',
+            _dark: 'indigo.200',
+          },
+        },
+      }),
+    },
+    {
       label: 'Bluesky',
       link: 'https://bsky.app/profile/astahmer.dev',
       css: css.raw({ fontWeight: 'bold', color: 'gray.400' }),

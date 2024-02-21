@@ -87,6 +87,12 @@ export default defineConfig({
       },
       semanticTokens: {
         colors: {
+          work: {
+            value: {
+              base: '{colors.indigo.500}',
+              _dark: '{colors.indigo.400}',
+            },
+          },
           fg: {
             body: {
               value: {

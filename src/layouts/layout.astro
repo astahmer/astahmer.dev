@@ -10,6 +10,7 @@ import { container, stack } from '#/styled-system/patterns'
 import { css } from '#/styled-system/css'
 import ColorModeScript from '@/components/color-mode-script.astro'
 import ScrollUpButton from '@/components/scroll-up-btn.astro'
+import CalDotCom from '@/components/cal.com.astro'
 
 export type Props = SEOTagProps & {
   content?: boolean
@@ -39,6 +40,7 @@ const isDev = import.meta.env.DEV
     )
   }
 
+  <CalDotCom />
   <slot name="head" />
 
   <body
