@@ -19,7 +19,7 @@ export const projects = [
   },
   {
     title: 'styled2panda',
-    description: 'Easily migrate code from tailwind to Panda CSS',
+    description: 'Easily migrate code from styled-components to Panda CSS',
     techs: ['Panda CSS', 'xstate', 'React', 'TypeScript'],
     link: 'https://pandabox.vercel.app/styled2panda',
   },
