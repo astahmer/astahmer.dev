@@ -20,7 +20,7 @@ function convertAsteriskToStrongTag(str: string) {
           _dark: 'yellow.300',
         },
         textShadow: '0 0 rgb(0 0 0 / 27%)',
-      })}"><a target="_blank" href="https://panda-css.com/">Panda CSS</a></strong>`,
+      })}"><a target="_blank" href="https://panda-css.com/">Panda CSS</a></strong>`
     )
     .replace(
       /\*{1,2}(.*?)\*{1,2}/g,
@@ -29,7 +29,7 @@ function convertAsteriskToStrongTag(str: string) {
           base: 'sky.600',
           _dark: 'sky.50',
         },
-      })}">$1</strong>`,
+      })}">$1</strong>`
     )
     .replace('\n', '<br />')
 }
@@ -98,8 +98,8 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
       </p>
       <p>
         This website is built with <Link href="https://astro.build/" label="Astro" /> and{' '}
-        <Link href="https://panda-css.com/" label="Panda CSS" />. Source code is available on{' '}
-        <Link href="https://github.com/astahmer/astahmer.dev" label="Github" />.
+        <Link href="https://panda-css.com/" label="Panda CSS" />.
+        <Link href="https://github.com/astahmer/astahmer.dev" label="Source code is available on Github" />.
       </p>
 
       <SocialLinks />

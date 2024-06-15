@@ -12,8 +12,8 @@ export const projects = [
     link: 'https://panda-css.com/',
   },
   {
-    title: 'unplugin-panda-macro',
-    description: 'Make your `styled-system` disappear at build-time',
+    title: '@pandabox/unplugin',
+    description: 'Panda distributed as a Vite plugin, with optional macro support',
     techs: ['Panda CSS', 'unplugin', 'ts-morph'],
     link: 'https://pandabox.vercel.app/',
   },
