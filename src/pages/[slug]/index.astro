@@ -4,7 +4,7 @@ import Layout from '@/layouts/layout.astro'
 import { formatDate } from '@/utils/format-date'
 import { css, cx } from '#/styled-system/css'
 import { prose, article } from '#/styled-system/recipes'
-import Header from '@/components/header.astro'
+import Header from '@/components/header'
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts')

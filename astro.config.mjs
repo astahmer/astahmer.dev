@@ -25,7 +25,7 @@ export default defineConfig({
     expressiveCode(),
     mdx(),
     //
-    // preact({ compat: true }),
+    preact({ compat: true }),
     sitemap(),
     robotsTxt(),
     Compress(),
