@@ -48,7 +48,7 @@ const isDev = import.meta.env.DEV
       mr: 'auto',
       display: 'flex',
       minH: 'screen',
-      maxW: '920px',
+      maxW: '1080px',
       flexDir: 'column',
       gap: '9',
       pl: '10',
@@ -72,7 +72,14 @@ const isDev = import.meta.env.DEV
     <div class={css({ position: 'relative' })}><slot /></div>
     <div class={css({ position: 'fixed', left: 0, top: '20px', w: '100%', pointerEvents: 'none' })}>
       <div
-        class={container({ ml: 'auto', mr: 'auto', display: 'flex', minH: 'screen', maxW: '920px', flexDir: 'column' })}
+        class={container({
+          ml: 'auto',
+          mr: 'auto',
+          display: 'flex',
+          minH: 'screen',
+          maxW: '1080px',
+          flexDir: 'column',
+        })}
       >
         <div class={stack({ ml: 'auto', mr: '20px', alignItems: 'center', pointerEvents: 'auto' })}>
           <ColorModeSwitch />

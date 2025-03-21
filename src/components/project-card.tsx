@@ -28,45 +28,23 @@ export default function ProjectCard({ title, techs, description, link }: Project
             _hover: 'neutral.500/40',
           },
         },
-        md: { flexDirection: 'row', alignItems: 'center' },
+        md: { flexDirection: 'row' },
       })}
       href={link}
       target="_blank"
       rel="noreferrer"
     >
-      <div
-        className={css({
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '4',
-          md: { flexDirection: 'row', alignItems: 'center' },
-          w: 'full',
-        })}
-      >
-        <p className={css({ color: 'fg.heading', fontWeight: 'semibold' })}>{title}</p>
-        <div className={flex({ direction: 'row', flex: '1', fontSize: 'xs' })}>
-          {description ? <p>{description}</p> : null}
-          <p className={css({ display: 'inline-block', ml: 'auto' })}>{techString}</p>
+      <div className={css({ display: 'flex', flexDirection: 'column', gap: '2', w: 'full' })}>
+        <div className={css({ display: 'flex', flexDirection: 'column', gap: '2', w: 'full' })}>
+          <p className={css({ color: 'fg.heading', fontWeight: 'semibold', fontSize: 'md' })}>{title}</p>
+          <div className={flex({ direction: 'row', flex: '1', fontSize: 'xs' })}>
+            {description ? <p>{description}</p> : null}
+          </div>
         </div>
+        <p className={css({ color: 'fg.secondary', display: 'inline-block', ml: 'auto', mt: 'auto', fontSize: 'xs' })}>
+          {techString}
+        </p>
       </div>
-
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
-        fill="none"
-        className={css({
-          transition: 'all',
-          transitionDuration: '250ms',
-          transitionTimingFunction: 'cubic-bezier(.4,0,.2,1)',
-          _groupHover: {
-            transform: 'translateY(token(spacing.2))',
-          },
-        })}
-      >
-        <path d="M5.25 12.75L12.75 5.25" stroke="#999999" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M5.25 5.25H12.75V12.75" stroke="#999999" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
     </a>
   )
 }

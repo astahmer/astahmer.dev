@@ -63,7 +63,7 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
         <h2
           class={css({
             w: 'auto',
-            maxW: '60ch',
+            // maxW: '60ch',
             lineHeight: 'normal',
             textStyle: 'md',
             color: {
@@ -84,22 +84,29 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
         <h3 class={css({ textStyle: 'lg', color: 'fg.heading' })}>Featured opensource projects</h3>
       </header>
 
-      <section class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
+      <section
+        class={css({
+          display: 'flex',
+          flexDir: 'column',
+          gap: '4',
+          md: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4' },
+        })}
+      >
         {projects.length !== 0 && projects.map((project) => <ProjectCard {...project} />)}
       </section>
     </article>
 
     <article class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
-      <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between', gap: '2' })}>
+      <!-- <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between', gap: '2' })}>
         <h3 class={css({ textStyle: 'lg', color: 'fg.heading' })}>Get in touch</h3>
       </header>
       <p>
         Email me at <Link href={`mailto:${presentation.mail}`} label={presentation.mail} /> or DM me using my social links.
-      </p>
+      </p> -->
       <p>
         This website is built with <Link href="https://astro.build/" label="Astro" /> and{' '}
         <Link href="https://panda-css.com/" label="Panda CSS" />.
-        <Link href="https://github.com/astahmer/astahmer.dev" label="Source code is available on Github" />.
+        <Link href="https://github.com/astahmer/astahmer.dev" label="Source code is available on Github here" />.
       </p>
 
       <SocialLinks />

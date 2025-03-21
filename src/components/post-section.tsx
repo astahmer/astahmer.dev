@@ -20,7 +20,14 @@ export default function PostSection({ articles }: PostSectionProps) {
         </h3>
       </header>
 
-      <section className={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
+      <section
+        className={css({
+          display: 'flex',
+          flexDir: 'column',
+          gap: '4',
+          md: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4' },
+        })}
+      >
         {articles
           .filter((item) => item.data.isPublish)
           .map((item) => (
