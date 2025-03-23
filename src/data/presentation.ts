@@ -9,17 +9,17 @@ type Social = {
 
 type Presentation = {
   title: string
+  profile?: string
   description: string
   socials: Social[]
 }
 
-
 export const presentation = {
   title: "Hey, I'm Alex 👋",
+  profile: '',
   description: `I'm a frenchy *freelance web developer* with a bunch of years of experience.
   I'm pretty good with *TypeScript/React/NodeJS*. <br />
-  I'm also a core contributor to [Panda CSS]
-  `,
+  I'm also a core contributor to [Panda CSS]`,
   socials: [
     {
       label: 'Twitter',
