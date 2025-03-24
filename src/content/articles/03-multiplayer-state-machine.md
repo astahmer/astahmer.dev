@@ -263,7 +263,7 @@ parts you want to send to the clients based on the current state (use
 This is the a tiny demo of how it looked like in the team event (just imagine it smoothly happened with 15+ players):
 
 <video controls>
-  <source src="/public/03-blacksoup.mp4" type="video/mp4" />
+  <source src="/03-blacksoup.mp4" type="video/mp4" />
 </video>
 
 ## An example without partyserver
@@ -281,13 +281,13 @@ See the full code: [backend](https://github.com/astahmer/multiplayer-xstate/blob
 See how it behaves with multiple clients:
 
 <video controls>
-  <source src="/public/03-payment-dual-window.mp4" type="video/mp4" />
+  <source src="/03-payment-dual-window.mp4" type="video/mp4" />
 </video>
 
 You can see the state updating each second from the Network tab in the video below:
 
 <video controls>
-  <source src="/public/03-payment-workflow.mp4" type="video/mp4" />
+  <source src="/03-payment-workflow.mp4" type="video/mp4" />
 </video>
 
 Even if I were to restart the server (simulating the DO shutting down), the payment at this url would still show the
