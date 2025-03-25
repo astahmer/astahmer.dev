@@ -127,7 +127,7 @@ I ended up with these typings for the façade:
 
 ```ts
 export interface ActorFacade<TLogic extends AnyStateMachine, TState extends StateFrom<TLogic> = StateFrom<TLogic>> {
-  _userId: string // 👈 this could anything that makes the connection unique
+  _userId: string // 👈 this could be anything that makes the connection unique
   snapshot: Pick<TState, 'context' | 'value' | 'matches' | 'children' | 'error' | 'status' | 'tags'>
   send: <TEvent extends EventFromLogic<TLogic>>(
     event: TEvent extends ServerOnlyEventInput ? Omit<TEvent, keyof ServerOnlyEventInput> : TEvent,
