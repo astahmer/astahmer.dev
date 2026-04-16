@@ -4,6 +4,7 @@ publishedAt: 2025-03-24
 description: 'Durable Objects and the Actor model: a match made in heaven'
 slug: 'multiplayer-state-machine-with-durable-objects'
 isPublish: true
+atUri: 'at://did:plc:rn2ur6nqbw5hddbbw2khckhw/site.standard.document/3mjmncysda425'
 ---
 
 ## Introduction

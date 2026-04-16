@@ -9,16 +9,9 @@ export const projects = [
   {
     title: 'Panda CSS',
     description:
-      'Core contributor work across extraction, ergonomics, and the practical edges of styling at scale.',
+      'Universal, Type-Safe, CSS-in-JS Framework for Product Teams',
     link: 'https://panda-css.com/',
     techs: ['Design system tooling', 'AST work', 'Product-team workflows'],
-  },
-  {
-    title: '@pandabox/unplugin',
-    description:
-      'A Vite-first way to ship Panda workflows, including the parts that usually become integration glue.',
-    techs: ['Bundler plugin', 'AST transforms', 'Vite workflows'],
-    link: 'https://pandabox.vercel.app/',
   },
   {
     title: 'Atomic CSS Devtools',
@@ -26,13 +19,6 @@ export const projects = [
       'A browser panel that makes atomic CSS easier to inspect without losing the mental model.',
     techs: ['Browser extension', 'Inspection tooling', 'Panda CSS'],
     link: 'https://github.com/astahmer/atomic-css-devtools',
-  },
-  {
-    title: 'tw2panda',
-    description:
-      'Migration tooling for teams moving from utility-first CSS toward typed styling systems.',
-    techs: ['Playground', 'CLI', 'VS Code extension', 'xstate'],
-    link: 'https://tailwind-to-panda.vercel.app/',
   },
   {
     title: 'typed-openapi',

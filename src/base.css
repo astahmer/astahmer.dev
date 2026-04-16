@@ -86,7 +86,7 @@ hr {
 }
 
 .site-shell {
-  width: min(960px, calc(100% - 2.5rem));
+  width: min(1060px, calc(100% - 2.5rem));
   margin: 0 auto;
   padding: 1.5rem 0 4rem;
 }

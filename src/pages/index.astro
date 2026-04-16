@@ -47,7 +47,7 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
             color: 'var(--ink-soft)',
           })}
         >
-          Freelance engineer. Frontend, tooling, TypeScript.
+          Freelance engineer. Type-safety, performance and developer tooling.
         </p>
       </div>
       <p
@@ -108,7 +108,7 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
                 {formatDate(article.data.publishedAt)}
               </time>
               <span class={css({ display: 'grid', gap: '0.2rem' })}>
-                <span class={css({ fontSize: '1.02rem', lineHeight: '1.48' })}>{article.data.title}</span>
+                <span class={css({ lineHeight: '1.48', fontFamily: 'var(--font-display)', fontSize: '0.92rem', fontWeight: '520', color: 'var(--ink)', })}>{article.data.title}</span>
                 {article.data.description && (
                   <span class={css({ fontSize: '0.82rem', lineHeight: '1.5', color: 'var(--ink-soft)' })}>
                     {article.data.description}
@@ -179,7 +179,7 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
               >
                 {project.title}
               </span>
-              <span class={css({ fontSize: '0.85rem', lineHeight: '1.5' })}>{project.description}</span>
+              <span class={css({ fontSize: '0.82rem', lineHeight: '1.5', color: 'var(--ink-soft)' })}>{project.description}</span>
             </a>
           ))
         }

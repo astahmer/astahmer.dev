@@ -1,6 +1,7 @@
 ---
 import { SEO, type Props as SEOProps } from 'astro-seo'
 import { SITE_URL } from '@/data/config'
+import { presentation } from '@/data/presentation'
 
 export interface Props extends Partial<SEOProps> {
   image?: string
@@ -12,8 +13,6 @@ export interface Props extends Partial<SEOProps> {
 const { title, description, noindex, openGraph: og, canonical, publishedTime, image, standardSiteDocumentUri } = Astro.props
 
 const DEFAULT_TITLE_PAGE = 'Alexandre Stahmer'
-const DEFAULT_DESCRIPTION_PAGE =
-  'Freelance engineer working across type-safe frontends, developer tooling, and product systems with a strong editorial bias.'
 const DEFAULT_URL_SITE = SITE_URL
 
 const openGraph = {
@@ -22,7 +21,7 @@ const openGraph = {
   image: String(image || og?.image?.url || '/opengraph-image.png'),
   alt: og?.image?.alt || 'Preview image for astahmer.dev',
   url: DEFAULT_URL_SITE,
-  description: og?.optional?.description || DEFAULT_DESCRIPTION_PAGE,
+  description: og?.optional?.description || presentation.title,
 }
 ---
 
@@ -30,7 +29,7 @@ const openGraph = {
   <SEO
     charset="UTF-8"
     title={title || DEFAULT_TITLE_PAGE}
-    description={description || DEFAULT_DESCRIPTION_PAGE}
+    description={description || presentation.title}
     noindex={noindex || false}
     canonical={canonical}
     openGraph={{

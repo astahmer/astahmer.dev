@@ -19,7 +19,7 @@ import { resolve } from 'node:path'
 
 const HANDLE = process.env.BSKY_HANDLE
 const APP_PASSWORD = process.env.BSKY_APP_PASSWORD
-const PDS = 'https://bsky.social'
+const PDS = 'https://eurosky.social'
 
 if (!HANDLE || !APP_PASSWORD) {
   console.error('Set BSKY_HANDLE and BSKY_APP_PASSWORD env vars.')

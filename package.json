@@ -7,7 +7,6 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
     "prebuild": "pnpm panda codegen --clean && MODE=prod pnpm panda",
     "build": "pnpm prebuild && astro build",
     "preview": "astro preview",
@@ -17,7 +16,8 @@
     "fmt:check": "oxfmt --check .",
     "lint": "oxlint .",
     "lint:fix": "oxlint --fix .",
-    "viz": "MODE=viz pnpm build"
+    "viz": "MODE=viz pnpm build",
+    "publish": "node scripts/setup-standard-site.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.1.0",

@@ -11,13 +11,6 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
 
 <Layout title='Writing' description='Articles and notes by Alexandre Stahmer.'>
   <main class={css({ display: 'grid', gap: '8' })}>
-    <section class={css({ display: 'grid', gap: '3', maxW: '42rem' })}>
-      <p class='section-kicker'>Writing</p>
-      <h1 class='section-heading'>Notes, articles, and the occasional well-earned tangent.</h1>
-      <p class='section-copy'>
-        Mostly frontend systems, design-tooling edges, product architecture, and whatever else survives the draft folder.
-      </p>
-    </section>
     <PostSection
       articles={articles}
       title={`All writing (${articles.length})`}
