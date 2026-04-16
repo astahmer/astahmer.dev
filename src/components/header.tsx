@@ -25,35 +25,16 @@ export default function Header({ pathname }: HeaderProps) {
       <a
         href='/'
         className={css({
-          display: 'grid',
-          gap: '1',
+          fontFamily: 'var(--font-display)',
+          fontSize: '0.85rem',
+          fontWeight: '520',
+          letterSpacing: '-0.01em',
           textDecoration: 'none',
           color: 'var(--ink)',
           flexShrink: '0',
         })}
       >
-        <span
-          className={css({
-            fontFamily: 'var(--font-display)',
-            fontSize: '0.7rem',
-            fontWeight: '630',
-            letterSpacing: '0.16em',
-            textTransform: 'uppercase',
-            color: 'var(--ink-soft)',
-          })}
-        >
-          Alexandre Stahmer
-        </span>
-        <span
-          className={css({
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.12rem',
-            fontWeight: '600',
-            letterSpacing: '-0.03em',
-          })}
-        >
-          astahmer.dev
-        </span>
+        astahmer.dev
       </a>
 
       <nav
@@ -79,14 +60,9 @@ export default function Header({ pathname }: HeaderProps) {
                 css({
                   display: 'inline-flex',
                   alignItems: 'center',
-                  rounded: 'full',
-                  px: '3',
-                  py: '2',
+                  px: '0',
                   fontFamily: 'var(--font-display)',
-                  fontSize: '0.72rem',
-                  fontWeight: '620',
-                  letterSpacing: '0.16em',
-                  textTransform: 'uppercase',
+                  fontSize: '0.82rem',
                   textDecoration: 'none',
                 }),
               )}

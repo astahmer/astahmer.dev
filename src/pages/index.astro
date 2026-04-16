@@ -1,13 +1,11 @@
 ---
-import ProjectCard from '@/components/project-card'
-import SocialLinks from '@/components/social-links'
 import Layout from '@/layouts/layout.astro'
+import SocialLinks from '@/components/social-links'
 import { getCollection } from 'astro:content'
-
 import { css } from '#/styled-system/css'
-import PostSection from '@/components/post-section'
 import { presentation } from '@/data/presentation'
 import { projects } from '@/data/projects'
+import { formatDate } from '@/utils/format-date'
 
 const articles = (await getCollection('articles', (entry) => entry.data.isPublish)).toSorted(
   (first, second) => second.data.publishedAt.getTime() - first.data.publishedAt.getTime(),
@@ -15,130 +13,169 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
 ---
 
 <Layout title={presentation.name} description={presentation.intro}>
-  <main class={css({ display: 'grid', gap: '12' })}>
-    <section
-      class={css({
-        display: 'grid',
-        gap: '8',
-        lg: { gridTemplateColumns: 'minmax(0, 1.45fr) minmax(20rem, 0.82fr)', alignItems: 'start' },
-      })}
-    >
-      <div class={css({ display: 'grid', gap: '5' })}>
-        <p class='section-kicker'>Opinionated • Trustworthy • Curious</p>
-        <h1 class='hero-title'>{presentation.title}</h1>
-        <p class='lede'>{presentation.intro}</p>
-        <SocialLinks />
-      </div>
-
-      <aside class='surface-note'>
-        <div class={css({ display: 'grid', gap: '4' })}>
-          <p class='section-kicker'>Now</p>
-          <p class={css({ margin: '0', lineHeight: '1.65', color: 'var(--ink-muted)' })}>{presentation.availability}</p>
-          <div class={css({ display: 'grid', gap: '3', pt: '3', borderTop: '1px solid var(--line)' })}>
-            <p class={css({ margin: '0', fontFamily: 'var(--font-display)', fontSize: '0.76rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-soft)' })}>
-              Based in {presentation.location}
-            </p>
-            <ul
-              role='list'
-              class={css({ display: 'grid', gap: '3', p: '0', m: '0', listStyle: 'none' })}
-            >
-              {presentation.currentInterests.map((item) => (
-                <li class={css({ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2.5', alignItems: 'start' })}>
-                  <span class={css({ color: 'var(--accent-strong)', lineHeight: '1.5' })}>•</span>
-                  <span class={css({ color: 'var(--ink-muted)', lineHeight: '1.6' })}>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <section
+  <main
+    class={css({
+      display: 'grid',
+      gap: '10',
+      lg: { gridTemplateColumns: '14rem minmax(0, 1fr)', gap: '0', alignItems: 'start' },
+    })}
+  >
+    <aside
       class={css({
         display: 'grid',
         gap: '5',
-        lg: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' },
+        lg: { position: 'sticky', top: '0', pt: '0', pr: '8', alignContent: 'start' },
       })}
     >
-      {presentation.focusAreas.map((area, index) => (
-        <article class={css({ display: 'grid', gap: '3', pt: '4', borderTop: '1px solid var(--line)' })}>
-          <span
-            class={css({
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.72rem',
-              fontWeight: '620',
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: 'var(--ink-soft)',
-            })}
-          >
-            {`0${index + 1}`}
-          </span>
-          <p class={css({ margin: '0', fontSize: '1.02rem', lineHeight: '1.62', color: 'var(--ink-muted)' })}>{area}</p>
-        </article>
-      ))}
-    </section>
-
-    <section class={css({ display: 'grid', gap: '5' })}>
-      <header class={css({ display: 'grid', gap: '2' })}>
-        <p class='section-kicker'>Selected work</p>
-        <h2 class='section-heading'>A few things worth opening in a new tab.</h2>
-        <p class='section-copy'>
-          Mostly open source, mostly TypeScript, usually sitting somewhere between product needs and tooling weirdness.
+      <div class={css({ display: 'grid', gap: '2' })}>
+        <p
+          class={css({
+            margin: '0',
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.88rem',
+            fontWeight: '560',
+            color: 'var(--ink)',
+          })}
+        >
+          Alexandre Stahmer
         </p>
-      </header>
-      <section class={css({ display: 'grid' })}>
-        {projects.length !== 0 && projects.map((project, index) => <ProjectCard {...project} index={index + 1} />)}
-      </section>
-    </section>
-
-    <PostSection
-      articles={articles.slice(0, 4)}
-      title='Recent writing'
-      intro='Short notes and longer pieces around styling systems, product architecture, tooling, and the occasional strong opinion.'
-      showArchiveLink={articles.length > 4}
-    />
-
-    <section
-      class={css({
-        display: 'grid',
-        gap: '6',
-        pt: '4',
-        borderTop: '1px solid var(--line)',
-        lg: { gridTemplateColumns: 'minmax(0, 0.75fr) minmax(0, 1.25fr)' },
-      })}
-    >
-      <div class={css({ display: 'grid', gap: '2', alignContent: 'start' })}>
-        <p class='section-kicker'>Working biases</p>
-        <h2 class='section-heading'>The part where the opinions leak through.</h2>
+        <p
+          class={css({
+            margin: '0',
+            fontSize: '0.88rem',
+            lineHeight: '1.6',
+            color: 'var(--ink-soft)',
+          })}
+        >
+          Freelance engineer. Frontend, tooling, TypeScript.
+        </p>
       </div>
-      <ol role='list' class={css({ display: 'grid', gap: '5', p: '0', m: '0', listStyle: 'none' })}>
-        {presentation.principles.map((item, index) => (
-          <li
-            class={css({
-              display: 'grid',
-              gap: '3',
-              pt: '4',
-              borderTop: '1px solid var(--line)',
-              md: { gridTemplateColumns: '4.5rem minmax(0, 1fr)', alignItems: 'start' },
-            })}
-          >
-            <span
+      <p
+        class={css({
+          margin: '0',
+          fontSize: '0.82rem',
+          lineHeight: '1.6',
+          color: 'var(--ink-muted)',
+        })}
+      >
+        {presentation.availability}
+      </p>
+      <SocialLinks />
+    </aside>
+
+    <div class={css({ display: 'grid', gap: '10', lg: { borderLeft: '1px solid var(--line)', pl: '8' } })}>
+      <section>
+        <h2
+          class={css({
+            margin: '0 0 1rem',
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.68rem',
+            fontWeight: '640',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'var(--ink-soft)',
+          })}
+        >
+          Writing
+        </h2>
+        {
+          articles.slice(0, 6).map((article, i) => (
+            <a
+              href={`/posts/${article.id}`}
               class={css({
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.45rem, 2vw, 1.8rem)',
-                fontWeight: '600',
-                letterSpacing: '-0.04em',
-                color: 'var(--ink)',
+                display: 'grid',
+                gridTemplateColumns: '5.5rem 1fr',
+                gap: '3',
+                py: '3',
+                borderTop: '1px solid var(--line)',
+                textDecoration: 'none',
+                alignItems: 'baseline',
+                transition: 'color 120ms ease',
+                color: i === 0 ? 'var(--ink)' : 'var(--ink-muted)',
+                _hover: { color: 'var(--ink)' },
               })}
             >
-              {`0${index + 1}`}
-            </span>
-            <p class={css({ margin: '0', fontSize: '1.05rem', lineHeight: '1.65', color: 'var(--ink-muted)' })}>{item}</p>
-          </li>
-        ))}
-      </ol>
-    </section>
+              <time
+                datetime={article.data.publishedAt.toISOString()}
+                class={css({
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                  color: 'var(--ink-soft)',
+                  flexShrink: '0',
+                })}
+              >
+                {formatDate(article.data.publishedAt)}
+              </time>
+              <span class={css({ fontSize: '0.96rem', lineHeight: '1.48' })}>{article.data.title}</span>
+            </a>
+          ))
+        }
+        {
+          articles.length > 6 && (
+            <div class={css({ pt: '3', borderTop: '1px solid var(--line)' })}>
+              <a
+                href='/posts'
+                class={css({
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.78rem',
+                  color: 'var(--ink-soft)',
+                  textDecoration: 'none',
+                  _hover: { color: 'var(--ink)' },
+                })}
+              >
+                View all →
+              </a>
+            </div>
+          )
+        }
+      </section>
+
+      <section>
+        <h2
+          class={css({
+            margin: '0 0 1rem',
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.68rem',
+            fontWeight: '640',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'var(--ink-soft)',
+          })}
+        >
+          Open source
+        </h2>
+        {
+          projects.slice(0, 5).map((project) => (
+            <a
+              href={project.link}
+              target='_blank'
+              rel='noreferrer'
+              class={css({
+                display: 'grid',
+                py: '3',
+                borderTop: '1px solid var(--line)',
+                textDecoration: 'none',
+                color: 'var(--ink-muted)',
+                transition: 'color 120ms ease',
+                gap: '1',
+                _hover: { color: 'var(--ink)' },
+              })}
+            >
+              <span
+                class={css({
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.92rem',
+                  fontWeight: '520',
+                  color: 'var(--ink)',
+                })}
+              >
+                {project.title}
+              </span>
+              <span class={css({ fontSize: '0.85rem', lineHeight: '1.5' })}>{project.description}</span>
+            </a>
+          ))
+        }
+      </section>
+    </div>
   </main>
 </Layout>
