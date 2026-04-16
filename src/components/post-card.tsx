@@ -1,5 +1,6 @@
 import { css } from '#/styled-system/css'
 import { formatDate } from '@/utils/format-date'
+import { readingTime } from '@/utils/reading-time'
 import type { CollectionEntry } from 'astro:content'
 
 const isWithinDays = (date: Date, days: number) => {
@@ -13,6 +14,7 @@ export const PostCard = (props: { data: CollectionEntry<'articles'> }) => {
   const { data: item } = props
 
   const isNew = isWithinDays(new Date(item.data.publishedAt), 7)
+  const readTime = readingTime(item.body ?? '')
 
   return (
     <a
@@ -36,6 +38,8 @@ export const PostCard = (props: { data: CollectionEntry<'articles'> }) => {
       <time
         datetime={item.data.publishedAt.toISOString()}
         class={css({
+          display: 'grid',
+          gap: '1',
           fontFamily: 'var(--font-display)',
           fontSize: '0.72rem',
           fontWeight: '620',
@@ -44,7 +48,15 @@ export const PostCard = (props: { data: CollectionEntry<'articles'> }) => {
           color: 'var(--ink-soft)',
         })}
       >
-        {formatDate(item.data.publishedAt)}
+        <span>{formatDate(item.data.publishedAt)}</span>
+        <span
+          class={css({
+            fontSize: '0.62rem',
+            color: 'var(--ink-muted)',
+          })}
+        >
+          {readTime} min read
+        </span>
       </time>
       <div class={css({ display: 'grid', gap: '2', minW: '0' })}>
         <div class={css({ display: 'flex', alignItems: 'center', gap: '2', flexWrap: 'wrap' })}>

@@ -2,6 +2,7 @@
 import { SEO, type Props as SEOProps } from 'astro-seo'
 import { SITE_URL } from '@/data/config'
 import { presentation } from '@/data/presentation'
+import ColorModeScript from '@/components/color-mode-script.astro'
 
 export interface Props extends Partial<SEOProps> {
   image?: string
@@ -26,6 +27,7 @@ const openGraph = {
 ---
 
 <head>
+  <ColorModeScript />
   <SEO
     charset="UTF-8"
     title={title || DEFAULT_TITLE_PAGE}

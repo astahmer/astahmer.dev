@@ -8,18 +8,20 @@
 </button>
 
 <script>
-  import { type ColorMode, getStoredColorMode, registerColorModeListener, setColorMode } from '@/utils/color-mode'
+  import { type ColorMode, registerColorModeListener, setColorMode } from '@/utils/color-mode'
 
   const btn = document.getElementById('color-mode-switch') as HTMLButtonElement | null
 
   if (btn) {
     const button = btn
 
+    const getActiveMode = (): Exclude<ColorMode, 'system'> =>
+      document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+
     registerColorModeListener()
 
     function toggleColorMode() {
-      const currentMode = getStoredColorMode()
-
+      const currentMode = getActiveMode()
       const newMode = currentMode === 'dark' ? 'light' : 'dark'
       setColorMode(newMode)
       setButtonState(newMode)
@@ -31,6 +33,6 @@
     }
 
     button.addEventListener('click', toggleColorMode)
-    setButtonState(getStoredColorMode() || 'light')
+    setButtonState(getActiveMode())
   }
 </script>

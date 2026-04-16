@@ -6,6 +6,7 @@ import { css } from '#/styled-system/css'
 import { presentation } from '@/data/presentation'
 import { projects } from '@/data/projects'
 import { formatDate } from '@/utils/format-date'
+import { readingTime } from '@/utils/reading-time'
 
 const articles = (await getCollection('articles', (entry) => entry.data.isPublish)).toSorted(
   (first, second) => second.data.publishedAt.getTime() - first.data.publishedAt.getTime(),
@@ -98,6 +99,8 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
               <time
                 datetime={article.data.publishedAt.toISOString()}
                 class={css({
+                  display: 'grid',
+                  gap: '0.2rem',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.72rem',
                   color: 'var(--ink-soft)',
@@ -105,7 +108,10 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
                   pt: '0.15rem',
                 })}
               >
-                {formatDate(article.data.publishedAt)}
+                <span>{formatDate(article.data.publishedAt)}</span>
+                <span class={css({ fontSize: '0.66rem', color: 'var(--ink-muted)' })}>
+                  {readingTime(article.body ?? '')} min read
+                </span>
               </time>
               <span class={css({ display: 'grid', gap: '0.2rem' })}>
                 <span class={css({ lineHeight: '1.48', fontFamily: 'var(--font-display)', fontSize: '0.92rem', fontWeight: '520', color: 'var(--ink)', })}>{article.data.title}</span>

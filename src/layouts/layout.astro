@@ -10,7 +10,6 @@ import Header from '@/components/header'
 import { presentation } from '@/data/presentation'
 
 import { css } from '#/styled-system/css'
-import ColorModeScript from '@/components/color-mode-script.astro'
 import ScrollUpButton from '@/components/scroll-up-btn.astro'
 
 export type Props = SEOTagProps & {
@@ -46,7 +45,6 @@ const pathname = Astro.url.pathname
   <slot name="head" />
 
   <body data-content={content ? 'true' : undefined}>
-    <ColorModeScript />
     <div class='site-shell'>
       <div class='site-topbar'>
         <Header pathname={pathname} />
