@@ -19,7 +19,11 @@ export default function Link({ label, css: cssProp, isUnderline, ...props }: Lin
       className={[
         css({ _hover: { color: 'fg.heading' }, cursor: 'pointer' }, cssProp ?? {}),
         isUnderline &&
-          css({ textDecorationLine: 'underline', textDecorationStyle: 'dashed', textUnderlineOffset: '8px' }),
+          css({
+            textDecorationLine: 'underline',
+            textDecorationStyle: 'dashed',
+            textUnderlineOffset: '8px',
+          }),
       ]
         .filter(Boolean)
         .join(' ')}

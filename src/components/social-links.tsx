@@ -4,7 +4,7 @@ import { css } from '#/styled-system/css'
 
 export default function SocialLinks() {
   return (
-    <ul role="list" className={css({ display: 'flex', flexDirection: 'row', gap: '2' })}>
+    <ul role='list' className={css({ display: 'flex', flexDirection: 'row', gap: '2' })}>
       {presentation.socials.map((social, index) => (
         <>
           <li key={social.link}>

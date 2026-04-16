@@ -58,8 +58,11 @@ export const fileTreeProcessor = rehype().use(() => (tree: Element, file) => {
       firstChild.value = filename || ''
       comment.push(fragments.join(' '))
     }
-    const subTreeIndex = otherChildren.findIndex((child) => child.type === 'element' && child.tagName === 'ul')
-    const commentNodes = subTreeIndex > -1 ? otherChildren.slice(0, subTreeIndex) : [...otherChildren]
+    const subTreeIndex = otherChildren.findIndex(
+      (child) => child.type === 'element' && child.tagName === 'ul',
+    )
+    const commentNodes =
+      subTreeIndex > -1 ? otherChildren.slice(0, subTreeIndex) : [...otherChildren]
     otherChildren.splice(0, subTreeIndex > -1 ? subTreeIndex : otherChildren.length)
     comment.push(...commentNodes)
 
@@ -88,7 +91,10 @@ export const fileTreeProcessor = rehype().use(() => (tree: Element, file) => {
     const treeEntry = h(
       'span',
       { class: 'tree-entry' },
-      h('span', { class: isHighlighted ? 'highlight' : '' }, [isPlaceholder ? null : icon, firstChild]),
+      h('span', { class: isHighlighted ? 'highlight' : '' }, [
+        isPlaceholder ? null : icon,
+        firstChild,
+      ]),
       Text(comment.length > 0 ? ' ' : ''),
       comment.length > 0 ? h('span', { class: 'comment' }, ...comment) : Text(),
     )

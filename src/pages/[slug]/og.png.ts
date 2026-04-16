@@ -6,7 +6,7 @@ import { formatDate } from '@/utils/format-date'
 
 interface Props {
   params: { slug: string }
-  props: { post: CollectionEntry<'articles'> }
+  props: { post: CollectionEntry<'posts'> }
 }
 
 export async function GET({ props }: Props) {
@@ -149,7 +149,7 @@ export async function GET({ props }: Props) {
 export async function getStaticPaths() {
   const blogPosts = await getCollection('posts')
   return blogPosts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }))
 }

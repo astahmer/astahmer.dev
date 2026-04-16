@@ -10,11 +10,18 @@ interface PostSectionProps {
 export default function PostSection({ articles }: PostSectionProps) {
   return (
     <article className={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
-      <header className={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between' })}>
+      <header
+        className={css({
+          display: 'flex',
+          w: 'full',
+          flexDir: 'row',
+          justifyContent: 'space-between',
+        })}
+      >
         <h3>
           <Link
             css={{ textStyle: 'lg', color: 'fg.heading', _hover: { color: 'yellow.300' } }}
-            href="/posts"
+            href='/posts'
             label={`Posts${articles.length > 0 ? ` (${articles.length})` : ''}`}
           />
         </h3>

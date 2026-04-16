@@ -17,10 +17,10 @@ export default function Icon({ name, label, size = '1em', color, className }: Ic
     <svg
       {...a11yAttrs}
       className={className}
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="currentColor"
+      width='16'
+      height='16'
+      viewBox='0 0 24 24'
+      fill='currentColor'
       dangerouslySetInnerHTML={{ __html: Icons[name] }}
       style={{
         color: color,

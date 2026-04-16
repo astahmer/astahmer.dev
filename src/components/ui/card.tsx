@@ -36,7 +36,7 @@ export default function Card({ icon, title, children }: CardProps) {
               padding: '0.2em',
               borderRadius: '0.25rem',
             })}
-            size="1.333em"
+            size='1.333em'
           />
         )}
         <span dangerouslySetInnerHTML={{ __html: title }} />

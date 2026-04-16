@@ -51,17 +51,17 @@ function getSystemColorMode() {
 export const registerColorModeListener = () => {
   // Initialization
   document.addEventListener('DOMContentLoaded', function () {
-    let colorMode = getStoredColorMode() || DEFAULT_COLOR_MODE
+    const colorMode = getStoredColorMode() || DEFAULT_COLOR_MODE
 
     if (colorMode === 'system') {
-      colorMode = getSystemColorMode()
+      applyColorMode(getSystemColorMode())
+    } else {
+      applyColorMode(colorMode)
     }
 
-    applyColorMode(colorMode)
-
     // Listen for system color scheme changes
-    window.matchMedia(MEDIA).addEventListener('change', function (e) {
-      if (colorMode === 'system') {
+    window.matchMedia(MEDIA).addEventListener('change', function () {
+      if ((getStoredColorMode() || DEFAULT_COLOR_MODE) === 'system') {
         applyColorMode(getSystemColorMode())
       }
     })

@@ -31,17 +31,27 @@ export default function ProjectCard({ title, techs, description, link }: Project
         md: { flexDirection: 'row' },
       })}
       href={link}
-      target="_blank"
-      rel="noreferrer"
+      target='_blank'
+      rel='noreferrer'
     >
       <div className={css({ display: 'flex', flexDirection: 'column', gap: '2', w: 'full' })}>
         <div className={css({ display: 'flex', flexDirection: 'column', gap: '2', w: 'full' })}>
-          <p className={css({ color: 'fg.heading', fontWeight: 'semibold', fontSize: 'md' })}>{title}</p>
+          <p className={css({ color: 'fg.heading', fontWeight: 'semibold', fontSize: 'md' })}>
+            {title}
+          </p>
           <div className={flex({ direction: 'row', flex: '1', fontSize: 'xs' })}>
             {description ? <p>{description}</p> : null}
           </div>
         </div>
-        <p className={css({ color: 'fg.secondary', display: 'inline-block', ml: 'auto', mt: 'auto', fontSize: 'xs' })}>
+        <p
+          className={css({
+            color: 'fg.secondary',
+            display: 'inline-block',
+            ml: 'auto',
+            mt: 'auto',
+            fontSize: 'xs',
+          })}
+        >
           {techString}
         </p>
       </div>

@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content'
+import { type CollectionEntry, getCollection, render } from 'astro:content'
 import Layout from '@/layouts/layout.astro'
 import { formatDate } from '@/utils/format-date'
 import { css, cx } from '#/styled-system/css'
@@ -12,7 +12,7 @@ export async function getStaticPaths() {
   const articles = await getCollection('articles')
 
   return articles.map((item) => ({
-    params: { slug: item.slug },
+    params: { slug: item.id },
     props: { post: item },
   }))
 }
@@ -22,7 +22,7 @@ type Props = {
 }
 
 const { post } = Astro.props
-const { Content, headings } = await post.render()
+const { Content, headings } = await render(post)
 const isDev = import.meta.env.DEV
 ---
 
@@ -30,11 +30,11 @@ const isDev = import.meta.env.DEV
   content
   title={post.data.title}
   description={post.data.description}
-  canonical={`${import.meta.env.SITE}${post.slug}/`}
+  canonical={`${import.meta.env.SITE}posts/${post.id}/`}
   publishedTime={post.data.publishedAt.toISOString()}
   openGraph={{
     image: {
-      url: `${import.meta.env.SITE}/posts/${post.slug}/og.png`,
+      url: `${import.meta.env.SITE}posts/${post.id}/og.png`,
     },
   } as any}
 >

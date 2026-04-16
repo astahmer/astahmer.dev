@@ -5,9 +5,9 @@ import { css } from '#/styled-system/css'
 import Header from '@/components/header'
 import PostSection from '@/components/post-section'
 
-const articles = (await getCollection('articles', (entry) => entry.data.isPublish)).sort(function (first, second) {
-  return second.data.publishedAt.getTime() - first.data.publishedAt.getTime()
-})
+const articles = (await getCollection('articles', (entry) => entry.data.isPublish)).toSorted(
+  (first, second) => second.data.publishedAt.getTime() - first.data.publishedAt.getTime(),
+)
 ---
 
 <Layout title="All Posts">

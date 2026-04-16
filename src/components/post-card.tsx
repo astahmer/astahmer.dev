@@ -3,17 +3,20 @@ import { formatDate } from '@/utils/format-date'
 import type { CollectionEntry } from 'astro:content'
 
 const isWithinDays = (date: Date, days: number) => {
-  return new Date().getTime() - date.getTime() <= days * 24 * 60 * 60 * 1000
+  const ageInMs = new Date().getTime() - date.getTime()
+  const maxAgeInMs = days * 24 * 60 * 60 * 1000
+
+  return ageInMs >= 0 && ageInMs < maxAgeInMs
 }
 
 export const PostCard = (props: { data: CollectionEntry<'articles'> }) => {
   const { data: item } = props
 
-  const isNew = isWithinDays(new Date(item.data.publishedAt), 8)
+  const isNew = isWithinDays(new Date(item.data.publishedAt), 7)
 
   return (
     <a
-      href={`/posts/${item.slug}`}
+      href={`/posts/${item.id}`}
       class={css({
         position: 'relative',
         display: 'flex',
@@ -61,11 +64,15 @@ export const PostCard = (props: { data: CollectionEntry<'articles'> }) => {
         </div>
       )}
       <div class={css({ display: 'flex', flexDir: 'column', gap: '2' })}>
-        <h4 class={css({ textStyle: 'sm', color: 'fg.heading', fontWeight: 'semibold' })}>{item.data.title}</h4>
+        <h4 class={css({ textStyle: 'sm', color: 'fg.heading', fontWeight: 'semibold' })}>
+          {item.data.title}
+        </h4>
         <p class={css({ textStyle: 'xs', color: 'fg.subtle' })}>{item.data.description}</p>
       </div>
       <div class={css({ display: 'flex', ml: 'auto', textStyle: 'xs', color: 'fg.subtle' })}>
-        <time datetime={item.data.publishedAt.toISOString()}>{formatDate(item.data.publishedAt)}</time>
+        <time datetime={item.data.publishedAt.toISOString()}>
+          {formatDate(item.data.publishedAt)}
+        </time>
       </div>
     </a>
   )

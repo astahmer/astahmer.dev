@@ -1,7 +1,5 @@
 {
-  "files": [
-    "README.md"
-  ],
+  "files": ["README.md"],
   "imageSize": 100,
   "commit": false,
   "commitType": "docs",
@@ -12,18 +10,14 @@
       "name": "Vishal Vijay Devadiga",
       "avatar_url": "https://avatars.githubusercontent.com/u/90999906?v=4",
       "profile": "https://github.com/SterbenVD",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
     },
     {
       "login": "khushChopra",
       "name": "Khush Chopra",
       "avatar_url": "https://avatars.githubusercontent.com/u/43996455?v=4",
       "profile": "https://github.com/khushChopra",
-      "contributions": [
-        "code"
-      ]
+      "contributions": ["code"]
     }
   ],
   "contributorsPerLine": 7,

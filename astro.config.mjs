@@ -11,7 +11,6 @@ import Compress from 'astro-compress'
 import { h } from 'hastscript'
 import addClasses from 'rehype-add-classes'
 import rehypeExternalLinks from 'rehype-external-links'
-import remarkToc from 'remark-toc'
 import preact from '@astrojs/preact'
 import expressiveCode from 'astro-expressive-code'
 const viz = Boolean(process.env['MODE'] === 'viz')
