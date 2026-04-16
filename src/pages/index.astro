@@ -106,7 +106,7 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
               >
                 {formatDate(article.data.publishedAt)}
               </time>
-              <span class={css({ fontSize: '0.96rem', lineHeight: '1.48' })}>{article.data.title}</span>
+              <span class={css({ fontSize: '1.02rem', lineHeight: '1.48' })}>{article.data.title}</span>
             </a>
           ))
         }

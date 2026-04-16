@@ -17,7 +17,7 @@
   --ink-soft: oklch(0.6 0.006 265);
   --accent: oklch(0.48 0.008 265);
   --accent-soft: oklch(0.94 0.005 265);
-  --accent-strong: oklch(0.35 0.01 265);
+  --accent-strong: oklch(0.28 0.14 250);
   --shadow-soft: 0 1px 2px oklch(0.2 0.01 265 / 0.08);
   --shadow-paper: 0 2px 6px oklch(0.2 0.01 265 / 0.07);
 }
@@ -36,7 +36,7 @@ html.dark {
   --ink-soft: oklch(0.55 0.005 90);
   --accent: oklch(0.72 0.005 90);
   --accent-soft: oklch(0.28 0.006 265);
-  --accent-strong: oklch(0.88 0.004 90);
+  --accent-strong: oklch(0.76 0.12 225);
   --shadow-soft: 0 1px 3px oklch(0 0 0 / 0.3);
   --shadow-paper: 0 2px 8px oklch(0 0 0 / 0.25);
 }
@@ -262,6 +262,7 @@ hr {
 .article-body :where(h1, h2, h3, h4, h5, h6) {
   margin-bottom: 0;
   font-family: var(--font-display);
+  font-weight: 530;
   line-height: 1.04;
   letter-spacing: -0.04em;
   color: var(--ink);
@@ -285,12 +286,20 @@ hr {
 
 .article-body a {
   color: var(--accent-strong);
-  text-decoration-color: color-mix(in oklab, var(--accent-strong) 45%, transparent);
+  text-decoration-color: color-mix(in oklab, var(--accent-strong) 70%, transparent);
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
+  text-underline-offset: 0.2em;
+  transition:
+    color 120ms ease,
+    text-decoration-color 120ms ease;
+}
+
+.article-body a:hover {
+  text-decoration-color: var(--accent-strong);
 }
 
 .article-body strong {
+  font-weight: 600;
   color: var(--ink);
 }
 
@@ -315,13 +324,14 @@ hr {
 }
 
 .article-body :not(pre) > code {
-  display: inline-block;
-  padding: 0.04rem 0.42rem 0.1rem;
+  display: inline;
+  padding: 0.06em 0.24em;
   border: 1px solid var(--line);
   border-radius: 3px;
   background: var(--paper-strong);
   color: var(--ink);
-  font-size: 0.84em;
+  font-size: 0.82em;
+  white-space: nowrap;
 }
 
 .article-body blockquote {
@@ -330,6 +340,35 @@ hr {
   border-left: 2px solid var(--line-strong);
   color: var(--ink-muted);
   font-style: italic;
+}
+
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  line-height: 1.52;
+}
+
+.article-body :where(th, td) {
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  text-align: left;
+}
+
+.article-body th {
+  border-bottom-color: var(--line-strong);
+  font-family: var(--font-display);
+  font-size: 0.74em;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.article-body tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .article-body img {
@@ -417,7 +456,7 @@ hr {
   min-width: 6.75rem;
   padding: 0.28rem;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 4px;
   background: color-mix(in oklab, var(--paper) 74%, transparent);
   box-shadow: var(--shadow-soft);
 }
@@ -428,7 +467,7 @@ hr {
   left: 0.24rem;
   width: calc(50% - 0.24rem);
   height: calc(100% - 0.48rem);
-  border-radius: 999px;
+  border-radius: 2px;
   background: var(--paper-strong);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--line) 80%, transparent);
   transition: transform 220ms ease;

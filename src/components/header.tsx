@@ -25,16 +25,28 @@ export default function Header({ pathname }: HeaderProps) {
       <a
         href='/'
         className={css({
+          display: 'inline-flex',
+          alignItems: 'baseline',
+          gap: '0.55rem',
           fontFamily: 'var(--font-display)',
-          fontSize: '0.85rem',
-          fontWeight: '520',
-          letterSpacing: '-0.01em',
           textDecoration: 'none',
           color: 'var(--ink)',
           flexShrink: '0',
         })}
       >
-        astahmer.dev
+        <span className={css({ fontSize: '0.88rem', fontWeight: '560', letterSpacing: '-0.01em' })}>
+          astahmer.dev
+        </span>
+        <span
+          className={css({
+            fontSize: '0.72rem',
+            fontWeight: '400',
+            color: 'var(--ink-soft)',
+            letterSpacing: '0',
+          })}
+        >
+          Alexandre Stahmer
+        </span>
       </a>
 
       <nav
