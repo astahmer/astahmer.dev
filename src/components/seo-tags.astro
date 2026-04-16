@@ -10,15 +10,16 @@ export interface Props extends Partial<SEOProps> {
 
 const { title, description, noindex, openGraph: og, canonical, publishedTime, image } = Astro.props
 
-const DEFAULT_TITLE_PAGE = 'Alexandre Stahmer - Web Developer'
-const DEFAULT_DESCRIPTION_PAGE = 'Frenchy freelance, working mostly with React, TypeScript, and Panda CSS.'
+const DEFAULT_TITLE_PAGE = 'Alexandre Stahmer'
+const DEFAULT_DESCRIPTION_PAGE =
+  'Freelance engineer working across type-safe frontends, developer tooling, and product systems with a strong editorial bias.'
 const DEFAULT_URL_SITE = SITE_URL
 
 const openGraph = {
   title: title || og?.basic?.title || DEFAULT_TITLE_PAGE,
   type: og?.basic?.type || 'website',
   image: String(image || og?.image?.url || '/opengraph-image.png'),
-  alt: og?.image?.alt || 'astro portfolio template image',
+  alt: og?.image?.alt || 'Preview image for astahmer.dev',
   url: DEFAULT_URL_SITE,
   description: og?.optional?.description || DEFAULT_DESCRIPTION_PAGE,
 }

@@ -1,11 +1,12 @@
 import Icon from './icon'
 import type { Icons } from './icon-list'
 import { css } from '#/styled-system/css'
+import type { ComponentChildren } from 'preact'
 
 interface CardProps {
   icon?: keyof typeof Icons
   title: string
-  children: React.ReactNode
+  children: ComponentChildren
 }
 
 // https://github.com/withastro/starlight/blob/e0352809062b2ee1e5588f7c8c09af8e6f117b5d/packages/starlight/user-components/Card.astro

@@ -2,9 +2,7 @@
 import { type CollectionEntry, getCollection, render } from 'astro:content'
 import Layout from '@/layouts/layout.astro'
 import { formatDate } from '@/utils/format-date'
-import { css, cx } from '#/styled-system/css'
-import { prose, article } from '#/styled-system/recipes'
-import Header from '@/components/header'
+import Link from '@/components/ui/link'
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts')
@@ -35,26 +33,22 @@ const { Content } = await render(post)
     },
   } as any}
 >
-  <article>
-    <Header />
-    <main class={cx(prose(), article())}>
-      <header role="presentation">
+  <article class='article-shell'>
+    <header class='article-header'>
+      <p class='section-kicker'>Note</p>
+      <h1 class='article-title'>{post.data.title}</h1>
+      {post.data.description && <p class='article-dek'>{post.data.description}</p>}
+      <div class='article-meta'>
         <time datetime={post.data.publishedAt.toISOString()}>
           {formatDate(post.data.publishedAt)}
         </time>
-        <h1>
-          {post.data.title}
-        </h1>
-        <p class={css({ fontStyle: 'italic' })}>{post.data.description}</p>
-      </header>
-
-      <Content />
-    </main>
+        <Link href='/' label='Back home' />
+      </div>
+    </header>
+    <div class='reading-surface'>
+      <div class='article-body'>
+        <Content />
+      </div>
+    </div>
   </article>
 </Layout>
-
-<style is:global>
-  .group:hover a {
-    opacity: 1;
-  }
-</style>

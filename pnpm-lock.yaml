@@ -20,9 +20,12 @@ importers:
       '@astrojs/sitemap':
         specifier: 3.7.2
         version: 3.7.2
-      '@fontsource-variable/open-sans':
-        specifier: 5.2.7
-        version: 5.2.7
+      '@fontsource-variable/familjen-grotesk':
+        specifier: 5.2.8
+        version: 5.2.8
+      '@fontsource-variable/source-serif-4':
+        specifier: 5.2.9
+        version: 5.2.9
       '@vercel/og':
         specifier: 0.11.1
         version: 0.11.1
@@ -39,7 +42,7 @@ importers:
         specifier: 0.41.7
         version: 0.41.7(astro@6.1.7(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(rollup@4.60.1)(terser@5.46.1)(typescript@5.9.3)(yaml@2.8.3))
       astro-robots-txt:
-        specifier: ^1.0.0
+        specifier: 1.0.0
         version: 1.0.0
       astro-seo:
         specifier: 1.1.0
@@ -647,8 +650,11 @@ packages:
   '@expressive-code/plugin-text-markers@0.41.7':
     resolution: {integrity: sha512-Ewpwuc5t6eFdZmWlFyeuy3e1PTQC0jFvw2Q+2bpcWXbOZhPLsT7+h8lsSIJxb5mS7wZko7cKyQ2RLYDyK6Fpmw==}
 
-  '@fontsource-variable/open-sans@5.2.7':
-    resolution: {integrity: sha512-wzCLm2STuekK9Fz58DiuBnk4GgJpvvVtAU85a4b06ACNG/UsVjQcCvkUd6R/ETlHfsaykCUZamLRvSXg4KtWuA==}
+  '@fontsource-variable/familjen-grotesk@5.2.8':
+    resolution: {integrity: sha512-7WecKO6w+HiNR6cpdYPrFnws9AYWqwdXHisIb/ieeXCS8KaipoU0o0wtq9gilNLvqM2otshTpg/HdDzcH8+hwA==}
+
+  '@fontsource-variable/source-serif-4@5.2.9':
+    resolution: {integrity: sha512-PPcxjLFk/fS0WHg79pDM2YNvz61kC+oYZ5cWZZyCS0DHpJncmuYOuiZAsvj4tDxlWPBEvxxcRLQQNmSaRbPkqw==}
 
   '@hono/node-server@1.19.14':
     resolution: {integrity: sha512-GwtvgtXxnWsucXvbQXkRgqksiH2Qed37H9xHZocE5sA3N8O8O8/8FA3uclQXxXVzc9XBZuEOMK7+r02FmSpHtw==}
@@ -4700,7 +4706,9 @@ snapshots:
     dependencies:
       '@expressive-code/core': 0.41.7
 
-  '@fontsource-variable/open-sans@5.2.7': {}
+  '@fontsource-variable/familjen-grotesk@5.2.8': {}
+
+  '@fontsource-variable/source-serif-4@5.2.9': {}
 
   '@hono/node-server@1.19.14(hono@4.12.14)':
     dependencies:

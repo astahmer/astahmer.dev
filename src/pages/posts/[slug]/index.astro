@@ -2,11 +2,9 @@
 import { type CollectionEntry, getCollection, render } from 'astro:content'
 import Layout from '@/layouts/layout.astro'
 import { formatDate } from '@/utils/format-date'
-import { css, cx } from '#/styled-system/css'
-import { prose, article } from '#/styled-system/recipes'
+import { css } from '#/styled-system/css'
 import TableOfContents from '@/components/table-of-contents.astro'
-import { container } from '#/styled-system/patterns'
-import Header from '@/components/header'
+import Link from '@/components/ui/link'
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles')
@@ -38,92 +36,56 @@ const isDev = import.meta.env.DEV
     },
   } as any}
 >
-  <article>
-    <Header />
-    <main class={cx(prose(), article())}>
-      <header role="presentation">
+  <article class='article-shell'>
+    <header class='article-header'>
+      <p class='section-kicker'>Article</p>
+      <h1 id='top' class='article-title group'>
+        <a aria-hidden='true' tabindex='-1' href='#top'><span class='h-anchor'>#</span></a>
+        {post.data.title}
+      </h1>
+      {post.data.description && <p class='article-dek'>{post.data.description}</p>}
+      <div class='article-meta'>
         <time datetime={post.data.publishedAt.toISOString()}>
           {formatDate(post.data.publishedAt)}
         </time>
-        <h1 id="top" class="group">
-          <a aria-hidden="true" tabindex="-1" href="#top"><span class="h-anchor">#</span></a>
-          {post.data.title}
-        </h1>
-        <p class={css({ fontStyle: 'italic' })}>{post.data.description}</p>
-      </header>
-
-      <Content />
-      <div class={css({ position: 'fixed', left: 0, top: '100px', w: '100%', pointerEvents: 'none' })}>
-        <div
-          class={container({
-            ml: 'auto',
-            mr: 'auto',
-            display: 'flex',
-            minH: 'screen',
-            maxW: '1080px',
-            flexDir: 'column',
-          })}
-        >
-          <div
-            class={css({
-              position: 'absolute',
-              right: 'calc(100% + 20px)',
-              overflow: 'auto',
-              scrollBehavior: 'smooth',
-              pointerEvents: 'auto',
-              h: '100%',
-              w: '230px',
-              textStyle: 'sm',
-              '@media screen and (max-width: 1450px)': {
-                right: 'calc(100% - 40px)',
-                textStyle: 'xs',
-                w: '200px',
-              },
-              '@media screen and (max-width: 1315px)': {
-                right: 'calc(100% - 80px)',
-                textStyle: 'xs',
-                w: '180px',
-              },
-              '@media screen and (max-width: 1180px)': {
-                fontSize: 'x-small',
-                w: '150px',
-              },
-              '@media screen and (max-width: 1075px)': {
-                display: 'none',
-              },
-            })}
-          >
-            <TableOfContents headings={headings} />
-          </div>
+        <Link href='/posts' label='All writing' />
+      </div>
+    </header>
+    <div class='article-layout'>
+      <div class='reading-surface'>
+        <div class='article-body'>
+          <Content />
         </div>
       </div>
-    </main>
+      {headings.length > 0 && (
+        <aside class='toc-panel'>
+          <TableOfContents headings={headings} />
+        </aside>
+      )}
+    </div>
     {
       !isDev && (
-        <script
-          src="https://giscus.app/client.js"
-          data-repo="astahmer/astahmer.dev"
-          data-repo-id="R_kgDOKLH7eQ"
-          data-category="Announcements"
-          data-category-id="DIC_kwDOKLH7ec4CbdnF"
-          data-mapping="pathname"
-          data-strict="0"
-          data-reactions-enabled="1"
-          data-emit-metadata="0"
-          data-input-position="bottom"
-          data-theme="preferred_color_scheme"
-          data-lang="en"
-          data-loading="lazy"
-          crossorigin="anonymous"
-          async
-        />
+        <div class={css({ width: 'min(100%, 44rem)', mx: 'auto' })}>
+          <script
+            is:inline
+            src="https://giscus.app/client.js"
+            data-repo="astahmer/astahmer.dev"
+            data-repo-id="R_kgDOKLH7eQ"
+            data-category="Announcements"
+            data-category-id="DIC_kwDOKLH7ec4CbdnF"
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-theme="preferred_color_scheme"
+            data-lang="en"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+          />
+        </div>
       )
     }
   </article>
 </Layout>
-
-<style is:global>
-  .group:hover a {
-    opacity: 1;
-  }
-</style>

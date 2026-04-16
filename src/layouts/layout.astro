@@ -1,12 +1,14 @@
 ---
-import '@fontsource-variable/open-sans'
+import '@fontsource-variable/familjen-grotesk'
+import '@fontsource-variable/source-serif-4'
 import '../base.css'
 
 import SEOTags from '@/components/seo-tags.astro'
 import { type Props as SEOTagProps } from '@/components/seo-tags.astro'
 import ColorModeSwitch from '@/components/color-mode-switch.astro'
+import Header from '@/components/header'
+import { presentation } from '@/data/presentation'
 
-import { container, stack } from '#/styled-system/patterns'
 import { css } from '#/styled-system/css'
 import ColorModeScript from '@/components/color-mode-script.astro'
 import ScrollUpButton from '@/components/scroll-up-btn.astro'
@@ -24,6 +26,7 @@ declare global {
 
 const { content, ...headTags } = Astro.props
 const isDev = import.meta.env.DEV
+const pathname = Astro.url.pathname
 ---
 
 <!doctype html>
@@ -32,6 +35,7 @@ const isDev = import.meta.env.DEV
   {
     !isDev && (
       <script
+        is:inline
         async
         src="https://umami-nu-bice.vercel.app/script.js"
         data-website-id="4a4b809f-3b38-4291-a236-4e4b31cfe28c"
@@ -41,56 +45,23 @@ const isDev = import.meta.env.DEV
 
   <slot name="head" />
 
-  <body
-    data-content={content ? 'true' : undefined}
-    class={container({
-      ml: 'auto',
-      mr: 'auto',
-      display: 'flex',
-      minH: 'screen',
-      maxW: '1080px',
-      flexDir: 'column',
-      gap: '9',
-      pl: '10',
-      pr: '10',
-      pt: '8',
-      pb: '8',
-      textStyle: 'sm',
-      color: 'fg.body',
-      md: { gap: '12', pt: '12', pb: '12' },
-      background: 'gray.100',
-      _dark: {
-        background: 'radial-gradient(circle, #00000c 20%, #011422 100%)',
-        '&[data-content]': {
-          bg: 'radial-gradient(circle, #00000c 60%, #011422 100%)',
-        },
-      },
-    })}
-  >
+  <body data-content={content ? 'true' : undefined}>
     <ColorModeScript />
-    <!-- <script is:inline src="/caldotcom.js"></script> -->
-    <div class={css({ position: 'relative' })}><slot /></div>
-    <div class={css({ position: 'fixed', left: 0, top: '20px', w: '100%', pointerEvents: 'none' })}>
-      <div
-        class={container({
-          ml: 'auto',
-          mr: 'auto',
-          display: 'flex',
-          minH: 'screen',
-          maxW: '1080px',
-          flexDir: 'column',
-        })}
-      >
-        <div class={stack({ ml: 'auto', mr: '20px', alignItems: 'center', pointerEvents: 'auto' })}>
+    <div class='site-shell'>
+      <div class='site-topbar'>
+        <Header pathname={pathname} />
+        <div class={css({ ml: 'auto', flexShrink: '0' })}>
           <ColorModeSwitch />
-          {content && <ScrollUpButton />}
         </div>
       </div>
+      <div class={css({ position: 'relative' })}><slot /></div>
+      <footer class='site-footer'>
+        <p>{presentation.footerNote}</p>
+        <p>
+          <a href='https://github.com/astahmer/astahmer.dev' target='_blank' rel='noreferrer'>Source</a>
+        </p>
+      </footer>
+      {content && <ScrollUpButton />}
     </div>
-    <style is:global>
-      html {
-        font-family: 'Open Sans Variable', sans-serif;
-      }
-    </style>
   </body>
 </html>

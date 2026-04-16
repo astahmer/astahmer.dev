@@ -1,14 +1,14 @@
 import { css } from '#/styled-system/css'
 import type { SystemStyleObject } from '#/styled-system/types'
-import type React from 'preact/compat'
+import type { ComponentProps } from 'preact'
 
-interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface LinkProps extends Omit<ComponentProps<'a'>, 'children'> {
   label: string
   css?: SystemStyleObject
   isUnderline?: boolean
 }
 
-export default function Link({ label, css: cssProp, isUnderline, ...props }: LinkProps) {
+export default function Link({ label, css: cssProp, isUnderline, className, ...props }: LinkProps) {
   const isInternal = props.href?.toString().startsWith('/')
   const externalProps = isInternal ? {} : { target: '_blank', rel: 'noopener noreferrer' }
 
@@ -17,13 +17,26 @@ export default function Link({ label, css: cssProp, isUnderline, ...props }: Lin
       {...props}
       {...externalProps}
       className={[
-        css({ _hover: { color: 'fg.heading' }, cursor: 'pointer' }, cssProp ?? {}),
+        css(
+          {
+            cursor: 'pointer',
+            color: 'var(--ink-muted)',
+            textDecorationThickness: '1px',
+            textUnderlineOffset: '0.18em',
+            textDecorationColor: 'color-mix(in oklab, var(--line-strong) 70%, transparent)',
+            transition: 'color 180ms ease, text-decoration-color 180ms ease',
+            _hover: {
+              color: 'var(--accent-strong)',
+              textDecorationColor: 'var(--accent-strong)',
+            },
+          },
+          cssProp ?? {},
+        ),
         isUnderline &&
           css({
             textDecorationLine: 'underline',
-            textDecorationStyle: 'dashed',
-            textUnderlineOffset: '8px',
           }),
+        className,
       ]
         .filter(Boolean)
         .join(' ')}

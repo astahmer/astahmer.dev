@@ -22,6 +22,7 @@ const grouppedHeadings = headings.reduce((array, heading) => {
 ---
 
 <nav id="table-of-contents" aria-label="Table Of Contents">
+  <p class="section-kicker">On this page</p>
   <ol>
     {
       grouppedHeadings.map((h) => (
@@ -79,7 +80,7 @@ const grouppedHeadings = headings.reduce((array, heading) => {
     { root: null, rootMargin: '100px', threshold: [1] },
   )
 
-  const sectionHeadings = document.querySelectorAll('article > main > h2, article > main > h3')
+  const sectionHeadings = document.querySelectorAll('.article-body > h2, .article-body > h3')
 
   for (const heading of sectionHeadings) {
     observer.observe(heading)

@@ -1,7 +1,6 @@
 ---
 import ProjectCard from '@/components/project-card'
 import SocialLinks from '@/components/social-links'
-import Link from '@/components/ui/link'
 import Layout from '@/layouts/layout.astro'
 import { getCollection } from 'astro:content'
 
@@ -9,273 +8,137 @@ import { css } from '#/styled-system/css'
 import PostSection from '@/components/post-section'
 import { presentation } from '@/data/presentation'
 import { projects } from '@/data/projects'
-import { stack } from '../../styled-system/patterns'
-
-const strongClass = css({
-  fontWeight: 'bold',
-  color: {
-    base: 'sky.600',
-    _dark: 'sky.50',
-  },
-})
-const strongLinkClass = css({
-  fontWeight: 'bold',
-  color: {
-    base: 'sky.500',
-    _dark: 'sky.300',
-  },
-})
-
-const pandaClass = css({
-  fontWeight: 'bold',
-  color: {
-    base: 'yellow.400',
-    _dark: 'yellow.300',
-  },
-  textShadow: '0 0 rgb(0 0 0 / 27%)',
-})
-
-function convertAsteriskToStrongTag(str: string) {
-  return str
-    .replace('[Panda CSS]', `<a class="${pandaClass}" target="_blank" href="https://panda-css.com/">Panda CSS</a>`)
-    .replace(/\*{1,2}(.*?)\*{1,2}/g, `<strong class="${strongClass}">$1</strong>`)
-    .replace('\n', '<br />')
-}
 
 const articles = (await getCollection('articles', (entry) => entry.data.isPublish)).toSorted(
   (first, second) => second.data.publishedAt.getTime() - first.data.publishedAt.getTime(),
 )
 ---
 
-<Layout>
-  <main class={css({ display: 'flex', flexDir: 'column', gap: '12' })}>
-    <article
+<Layout title={presentation.name} description={presentation.intro}>
+  <main class={css({ display: 'grid', gap: '12' })}>
+    <section
       class={css({
-        display: 'flex',
-        flexDir: 'column',
+        display: 'grid',
         gap: '8',
+        lg: { gridTemplateColumns: 'minmax(0, 1.45fr) minmax(20rem, 0.82fr)', alignItems: 'start' },
       })}
     >
-      {
-        presentation.profile && (
-          <img src={presentation.profile} class={css({ w: '1/4', alignSelf: 'center', rounded: 'full' })} />
-        )
-      }
+      <div class={css({ display: 'grid', gap: '5' })}>
+        <p class='section-kicker'>Opinionated • Trustworthy • Curious</p>
+        <h1 class='hero-title'>{presentation.title}</h1>
+        <p class='lede'>{presentation.intro}</p>
+        <SocialLinks />
+      </div>
 
-      <div class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
-        <h1 class={css({ textStyle: '3xl', color: 'fg.heading' })}>
-          {presentation.title}
-        </h1>
+      <aside class='surface-note'>
+        <div class={css({ display: 'grid', gap: '4' })}>
+          <p class='section-kicker'>Now</p>
+          <p class={css({ margin: '0', lineHeight: '1.65', color: 'var(--ink-muted)' })}>{presentation.availability}</p>
+          <div class={css({ display: 'grid', gap: '3', pt: '3', borderTop: '1px solid var(--line)' })}>
+            <p class={css({ margin: '0', fontFamily: 'var(--font-display)', fontSize: '0.76rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-soft)' })}>
+              Based in {presentation.location}
+            </p>
+            <ul
+              role='list'
+              class={css({ display: 'grid', gap: '3', p: '0', m: '0', listStyle: 'none' })}
+            >
+              {presentation.currentInterests.map((item) => (
+                <li class={css({ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2.5', alignItems: 'start' })}>
+                  <span class={css({ color: 'var(--accent-strong)', lineHeight: '1.5' })}>•</span>
+                  <span class={css({ color: 'var(--ink-muted)', lineHeight: '1.6' })}>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </aside>
+    </section>
 
-        <div class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
-          <h2
+    <section
+      class={css({
+        display: 'grid',
+        gap: '5',
+        lg: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' },
+      })}
+    >
+      {presentation.focusAreas.map((area, index) => (
+        <article class={css({ display: 'grid', gap: '3', pt: '4', borderTop: '1px solid var(--line)' })}>
+          <span
             class={css({
-              w: 'auto',
-              // maxW: '60ch',
-              lineHeight: 'normal',
-              textStyle: 'md',
-              color: {
-                _light: 'fg.body',
-              },
-            })}
-            set:html={convertAsteriskToStrongTag(presentation.description)}
-          />
-          <details
-            class={css({
-              w: 'auto',
-              lineHeight: 'normal',
-              textStyle: 'md',
-              color: {
-                _light: 'fg.body',
-              },
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.72rem',
+              fontWeight: '620',
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: 'var(--ink-soft)',
             })}
           >
-            <summary>More about me</summary>
-            <div class={stack()}>
-              <p class={css({ mt: '2' })}>
-                <span
-                  >I care a lot about <span class={strongClass}>type-safety</span> and <span class={strongClass}
-                    >performance</span
-                  >. I'm no <a href="https://twitter.com/AndaristRake" target="_blank">Andarist</a> or <a
-                    href="https://twitter.com/ssalbdivad">David Blass</a
-                  > but I still consider myself decent on those topics!</span
-                >
-                <br />
-                <br />
-                I <strong
-                  class={css({
-                    fontWeight: 'bold',
-                    color: {
-                      base: 'red.600',
-                      _dark: 'red.200',
-                    },
-                  })}>love</strong
-                > building
-                <a class={strongLinkClass} href="https://github.com/astahmer/unplugin-jsx-source" target="_blank"
-                  >dev tools</a
-                >: <br />
-                I've made <a class={strongLinkClass} href="https://www.npmjs.com/~astahmer" target="_blank"
-                  >npm packages</a
-                >,
-                <a
-                  class={strongLinkClass}
-                  href="https://github.com/astahmer/pandabox/tree/main?tab=readme-ov-file#pandaboxunplugin"
-                  target="_blank"
-                  >Vite
-                </a>plugins,
-                <a class={strongLinkClass} href="https://github.com/chakra-ui/panda-vscode" target="_blank">VSCode </a> and
-                <a
-                  class={strongLinkClass}
-                  href="https://github.com/astahmer/ts-plugin-filter-suggestions"
-                  target="_blank">Typescript</a
-                > client plugins (or with a <a
-                  class={strongLinkClass}
-                  href="https://github.com/chakra-ui/panda-vscode/tree/f50ecaca5255e50e0913a76eb79b4cbdb21dd7f6/packages/language-server"
-                  target="_blank">LSP</a
-                >!) but also
-                <a
-                  class={strongLinkClass}
-                  href="https://chromewebstore.google.com/detail/atomic-css-devtools/cbjhfeooiomphlikkblgdageenemhpgc?authuser=0&hl=fr"
-                  target="_blank">chrome/firefox</a
-                >
-                extensions
-                <br />
-                <ul>
-                  I've acquired skills that I wish I didn't, after having dug many rabbitholes to fix annoying issues.
-                  <li>
-                    Did you know you can't use `pnpm`/`yarn` workspace features when publishing a VSCode ext through the
-                    official CLI? (<a
-                      class={strongClass}
-                      href="https://github.com/chakra-ui/panda-vscode/tree/main/packages/vsix-builder"
-                      target="_blank"
-                    >
-                      made my own CLI to fix that 😅</a
-                    >)
-                  </li>
-                  <li>
-                    Did you know <a
-                      class={strongClass}
-                      href="https://github.com/chakra-ui/panda-vscode/blob/f50ecaca5255e50e0913a76eb79b4cbdb21dd7f6/packages/ts-plugin/src/index.ts#L79"
-                      target="_blank">`export = someObject`</a
-                    > is valid syntax ?
-                  </li>
-                </ul>
-                But that also taught me a lot about some stuff that most web dev don't care about, like overall performance
-                tricks and how to profile/debug apps or how to test/benchmark your TS types, or even how to extract a specific
-                type and output it in another file since I played a lot with ASTs (and made my own HiR for Panda extractor!)
-                <br /><br />
-                I'm often finding myself in a situation where I first started working on an app but ended up making a library
-                around a use-case that could help in that app and then I just forget about the app entirely/for a while and
-                focus on the lib instead. <span
-                  >That's how I started working on Panda CSS! (see <a
-                    class={strongLinkClass}
-                    href="https://github.com/astahmer/box-extractor"
-                    target="_blank">box-extractor</a
-                  >)</span
-                >
-              </p>
-              <hr />
-              <ul>
-                <li>
-                  ❤️ I'm a huge fan of state machines (<a
-                    class={strongLinkClass}
-                    href="https://github.com/statelyai/xstate"
-                    target="_blank">xstate!</a
-                  >), <a class={strongLinkClass} href="https://www.inkandswitch.com/local-first/" target="_blank"
-                    >local-first</a
-                  > and <a class={strongLinkClass} href="https://zero.rocicorp.dev/" target="_blank">sync engines</a>
-                </li>
+            {`0${index + 1}`}
+          </span>
+          <p class={css({ margin: '0', fontSize: '1.02rem', lineHeight: '1.62', color: 'var(--ink-muted)' })}>{area}</p>
+        </article>
+      ))}
+    </section>
 
-                <li>
-                  ❤️ Anything related to <a class={strongClass} href="https://vite.dev/" target="_blank">Vite</a> or
-                  <a class={strongClass} href="https://tanstack.com/" target="_blank">Tanstack</a>
-                </li>
+    <section class={css({ display: 'grid', gap: '5' })}>
+      <header class={css({ display: 'grid', gap: '2' })}>
+        <p class='section-kicker'>Selected work</p>
+        <h2 class='section-heading'>A few things worth opening in a new tab.</h2>
+        <p class='section-copy'>
+          Mostly open source, mostly TypeScript, usually sitting somewhere between product needs and tooling weirdness.
+        </p>
+      </header>
+      <section class={css({ display: 'grid' })}>
+        {projects.length !== 0 && projects.map((project, index) => <ProjectCard {...project} index={index + 1} />)}
+      </section>
+    </section>
 
-                <li>
-                  ❤️ I still love CSS-in-JS. Not the outdated emotion-based stuff (styled-components etc) but the modern
-                  libraries (<a class={pandaClass} href="https://panda-css.com/" target="_blank">Panda CSS</a>, <a
-                    class={strongClass}
-                    href="https://stylexjs.com/"
-                    target="_blank">StyleX</a
-                  >, <a class={strongClass} href="https://tamagui.dev/" target="_blank">Tamagui</a>,
-                  <a class={strongClass} href="https://github.com/tokenami/tokenami" target="_blank">Tokenami</a>..)
-                </li>
-                <br />
-                <li>
-                  🌶️ If you need to mock an internal module, I think <a
-                    class={strongClass}
-                    href="https://blog.boot.dev/clean-code/writing-good-unit-tests-dont-mock-database-connections/"
-                    target="_blank"
-                  >
-                    you've probably done something wrong.</a
-                  >
-                </li>
-                <li>
-                  🌶️ <a class={strongClass} href="https://orm.drizzle.team/" target="_blank">Drizzle</a> is not type-safe,
-                  you're looking for <a class={strongClass} href="https://kysely.dev/" target="_blank">Kysely</a> if you
-                  want that. Drizzle schema-building API / migrations / db push and studio are pretty cool tho! <span
-                    class={strongClass}>Use both</span
-                  >
-                  and you get the best of both worlds.
-                </li>
-                <li>
-                  🌶️ <span class={strongClass}>NextJS</span> should have just invested in <span class={strongClass}
-                    >Vite</span
-                  >, just like... every single meta-frameworks have for years. 😅
-                </li>
-                <li>
-                  🌶️ SSR is nice if you really need the extra speed on initial load but <span class={strongClass}
-                    >SPA are also just fine</span
-                  >, especially if your website is not public.
-                </li>
-                <li>
-                  🌶️ AI (<span class={strongClass}>LLMs</span>) is a cool tech for <span class={strongClass}
-                    >`autocomplete on steroids`</span
-                  > or summarizing stuff; I don't buy the vibe coding stuff though.
-                </li>
-                <li>🌶️ web3 (especially anything related to NFTs) were always 99% scam. 🤷</li>
-              </ul>
-              <hr />
-            </div>
-          </details>
+    <PostSection
+      articles={articles.slice(0, 4)}
+      title='Recent writing'
+      intro='Short notes and longer pieces around styling systems, product architecture, tooling, and the occasional strong opinion.'
+      showArchiveLink={articles.length > 4}
+    />
 
-          <SocialLinks />
-          <PostSection articles={articles} />
-
-          <article class={css({ display: 'flex', flexDir: 'column', gap: '4', my: '4' })}>
-            <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between' })}>
-              <h3 class={css({ textStyle: 'lg', color: 'fg.heading' })}>Featured opensource projects</h3>
-            </header>
-
-            <section
+    <section
+      class={css({
+        display: 'grid',
+        gap: '6',
+        pt: '4',
+        borderTop: '1px solid var(--line)',
+        lg: { gridTemplateColumns: 'minmax(0, 0.75fr) minmax(0, 1.25fr)' },
+      })}
+    >
+      <div class={css({ display: 'grid', gap: '2', alignContent: 'start' })}>
+        <p class='section-kicker'>Working biases</p>
+        <h2 class='section-heading'>The part where the opinions leak through.</h2>
+      </div>
+      <ol role='list' class={css({ display: 'grid', gap: '5', p: '0', m: '0', listStyle: 'none' })}>
+        {presentation.principles.map((item, index) => (
+          <li
+            class={css({
+              display: 'grid',
+              gap: '3',
+              pt: '4',
+              borderTop: '1px solid var(--line)',
+              md: { gridTemplateColumns: '4.5rem minmax(0, 1fr)', alignItems: 'start' },
+            })}
+          >
+            <span
               class={css({
-                display: 'flex',
-                flexDir: 'column',
-                gap: '4',
-                md: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4' },
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(1.45rem, 2vw, 1.8rem)',
+                fontWeight: '600',
+                letterSpacing: '-0.04em',
+                color: 'var(--ink)',
               })}
             >
-              {projects.length !== 0 && projects.map((project) => <ProjectCard {...project} />)}
-            </section>
-          </article>
-
-          <article class={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
-            <!-- <header class={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between', gap: '2' })}>
-        <h3 class={css({ textStyle: 'lg', color: 'fg.heading' })}>Get in touch</h3>
-      </header>
-      <p>
-        Email me at <Link href={`mailto:${presentation.mail}`} label={presentation.mail} /> or DM me using my social links.
-      </p> -->
-            <p>
-              This website is built with <Link href="https://astro.build/" label="Astro" /> and{' '}
-              <Link href="https://panda-css.com/" label="Panda CSS" />.
-              <Link href="https://github.com/astahmer/astahmer.dev" label="Source code is available on Github here" />.
-            </p>
-
-            <SocialLinks />
-          </article>
-        </div>
-      </div>
-    </article>
+              {`0${index + 1}`}
+            </span>
+            <p class={css({ margin: '0', fontSize: '1.05rem', lineHeight: '1.65', color: 'var(--ink-muted)' })}>{item}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
   </main>
 </Layout>
