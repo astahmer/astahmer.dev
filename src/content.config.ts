@@ -11,6 +11,7 @@ const sharedSchema = z.object({
   description: z.string().optional(),
   isPublish: z.boolean(),
   isDraft: z.boolean().default(false),
+  atUri: z.string().optional(), // AT-URI of the site.standard.document record
 })
 
 const articlesCollection = defineCollection({

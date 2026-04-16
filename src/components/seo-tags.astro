@@ -6,9 +6,10 @@ export interface Props extends Partial<SEOProps> {
   image?: string
   canonical?: string
   publishedTime?: string
+  standardSiteDocumentUri?: string
 }
 
-const { title, description, noindex, openGraph: og, canonical, publishedTime, image } = Astro.props
+const { title, description, noindex, openGraph: og, canonical, publishedTime, image, standardSiteDocumentUri } = Astro.props
 
 const DEFAULT_TITLE_PAGE = 'Alexandre Stahmer'
 const DEFAULT_DESCRIPTION_PAGE =
@@ -58,4 +59,5 @@ const openGraph = {
     }}
   />
   {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+  {standardSiteDocumentUri && <link rel="site.standard.document" href={standardSiteDocumentUri} />}
 </head>

@@ -32,6 +32,7 @@ const isDev = import.meta.env.DEV
   description={post.data.description}
   canonical={`${import.meta.env.SITE}posts/${post.id}/`}
   publishedTime={post.data.publishedAt.toISOString()}
+  standardSiteDocumentUri={post.data.atUri}
   openGraph={{
     image: {
       url: `${import.meta.env.SITE}posts/${post.id}/og.png`,

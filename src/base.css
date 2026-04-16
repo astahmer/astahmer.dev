@@ -269,7 +269,7 @@ hr {
 }
 
 .article-body h2 {
-    margin-top: 0.5em;
+  margin-top: 0.5em;
   font-size: clamp(1.4rem, 3vw, 1.9rem);
 }
 .article-body h2:not(:first-child) {

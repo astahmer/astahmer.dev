@@ -27,6 +27,7 @@ const { Content } = await render(post)
   description={post.data.description}
   canonical={`${import.meta.env.SITE}${post.id}/`}
   publishedTime={post.data.publishedAt.toISOString()}
+  standardSiteDocumentUri={post.data.atUri}
   openGraph={{
     image: {
       url: `${import.meta.env.SITE}${post.id}/og.png`,
