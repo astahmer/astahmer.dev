@@ -35,14 +35,13 @@ const { Content } = await render(post)
 >
   <article class='article-shell'>
     <header class='article-header'>
-      <p class='section-kicker'>Note</p>
       <h1 class='article-title'>{post.data.title}</h1>
       {post.data.description && <p class='article-dek'>{post.data.description}</p>}
       <div class='article-meta'>
         <time datetime={post.data.publishedAt.toISOString()}>
           {formatDate(post.data.publishedAt)}
         </time>
-        <Link href='/' label='Back home' />
+        <Link href='/' label='← Home' />
       </div>
     </header>
     <div class='reading-surface'>

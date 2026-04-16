@@ -17,7 +17,7 @@
   --ink-soft: oklch(0.6 0.006 265);
   --accent: oklch(0.48 0.008 265);
   --accent-soft: oklch(0.94 0.005 265);
-  --accent-strong: oklch(0.28 0.14 250);
+  --accent-strong: oklch(0.38 0.2 252);
   --shadow-soft: 0 1px 2px oklch(0.2 0.01 265 / 0.08);
   --shadow-paper: 0 2px 6px oklch(0.2 0.01 265 / 0.07);
 }
@@ -195,8 +195,7 @@ hr {
 
 .article-header {
   display: grid;
-  gap: 1rem;
-  max-width: 44rem;
+  gap: 0.65rem;
 }
 
 .article-meta {
@@ -236,7 +235,7 @@ hr {
 }
 
 .reading-surface {
-  padding: clamp(1.25rem, 3vw, 2rem);
+  padding: 1.25rem;
   border: 1px solid var(--line);
   border-radius: 4px;
   background: var(--paper);
@@ -246,8 +245,8 @@ hr {
   width: min(100%, 44rem);
   margin: 0 auto;
   font-family: var(--font-body);
-  font-size: clamp(1.12rem, 1.1vw + 0.92rem, 1.32rem);
-  line-height: 1.8;
+  font-size: clamp(0.97rem, 0.5vw + 0.88rem, 1.08rem);
+  line-height: 1.78;
   color: var(--ink-muted);
 }
 
@@ -270,8 +269,11 @@ hr {
 }
 
 .article-body h2 {
-  margin-top: 2.5em;
+    margin-top: 0.5em;
   font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+.article-body h2:not(:first-child) {
+  margin-top: 2.5em;
 }
 
 .article-body h3 {
@@ -307,12 +309,18 @@ hr {
   color: var(--ink);
 }
 
-.article-body :where(ul, ol) {
-  padding-left: 1.15rem;
+.article-body ul {
+  list-style-type: disc;
+  padding-left: 1.4rem;
+}
+
+.article-body ol {
+  list-style-type: decimal;
+  padding-left: 1.4rem;
 }
 
 .article-body li::marker {
-  color: var(--accent-strong);
+  color: var(--ink-soft);
 }
 
 .article-body pre {
@@ -343,7 +351,11 @@ hr {
 }
 
 .article-body table {
-  width: 100%;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: max-content;
+  max-width: 100%;
   border-collapse: collapse;
   font-size: 0.9em;
   line-height: 1.52;

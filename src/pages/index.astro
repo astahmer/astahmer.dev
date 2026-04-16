@@ -102,11 +102,19 @@ const articles = (await getCollection('articles', (entry) => entry.data.isPublis
                   fontSize: '0.72rem',
                   color: 'var(--ink-soft)',
                   flexShrink: '0',
+                  pt: '0.15rem',
                 })}
               >
                 {formatDate(article.data.publishedAt)}
               </time>
-              <span class={css({ fontSize: '1.02rem', lineHeight: '1.48' })}>{article.data.title}</span>
+              <span class={css({ display: 'grid', gap: '0.2rem' })}>
+                <span class={css({ fontSize: '1.02rem', lineHeight: '1.48' })}>{article.data.title}</span>
+                {article.data.description && (
+                  <span class={css({ fontSize: '0.82rem', lineHeight: '1.5', color: 'var(--ink-soft)' })}>
+                    {article.data.description}
+                  </span>
+                )}
+              </span>
             </a>
           ))
         }

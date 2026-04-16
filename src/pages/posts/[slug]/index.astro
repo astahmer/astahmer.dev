@@ -5,6 +5,7 @@ import { formatDate } from '@/utils/format-date'
 import { css } from '#/styled-system/css'
 import TableOfContents from '@/components/table-of-contents.astro'
 import Link from '@/components/ui/link'
+import { readingTime } from '@/utils/reading-time'
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles')
@@ -21,6 +22,7 @@ type Props = {
 
 const { post } = Astro.props
 const { Content, headings } = await render(post)
+const readTime = readingTime(post.body ?? '')
 const isDev = import.meta.env.DEV
 ---
 
@@ -38,7 +40,6 @@ const isDev = import.meta.env.DEV
 >
   <article class='article-shell'>
     <header class='article-header'>
-      <p class='section-kicker'>Article</p>
       <h1 id='top' class='article-title group'>
         <a aria-hidden='true' tabindex='-1' href='#top'><span class='h-anchor'>#</span></a>
         {post.data.title}
@@ -48,7 +49,8 @@ const isDev = import.meta.env.DEV
         <time datetime={post.data.publishedAt.toISOString()}>
           {formatDate(post.data.publishedAt)}
         </time>
-        <Link href='/posts' label='All writing' />
+        <span>{readTime} min read</span>
+        <Link href='/posts' label='← Articles' />
       </div>
     </header>
     <div class='article-layout'>
