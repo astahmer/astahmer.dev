@@ -1,9 +1,57 @@
 @layer reset, base, tokens, recipes, utilities;
 
+@font-face {
+  font-family: 'Arimo Web';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('/fonts/arimo-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Arimo Web';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('/fonts/arimo-latin-700-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'PT Serif Web';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('/fonts/pt-serif-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'PT Serif Web';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url('/fonts/pt-serif-latin-400-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'PT Serif Web';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('/fonts/pt-serif-latin-700-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'PT Serif Web';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700;
+  src: url('/fonts/pt-serif-latin-700-italic.woff2') format('woff2');
+}
+
 :root {
   color-scheme: light;
-  --font-display: 'Familjen Grotesk Variable', 'Helvetica Neue', sans-serif;
-  --font-body: 'Source Serif 4 Variable', Georgia, serif;
+  --font-display: 'Helvetica Neue', 'Arimo Web', Helvetica, Arial, sans-serif;
+  --font-body: Georgia, 'PT Serif Web', Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', monospace;
   --page: oklch(0.985 0.002 260);
   --page-secondary: oklch(0.968 0.004 260);
