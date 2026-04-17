@@ -238,6 +238,7 @@ hr {
 
 .article-shell {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(2rem, 4vw, 3rem);
 }
 
@@ -279,6 +280,7 @@ hr {
 
 .article-layout {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 3rem);
 }
 
