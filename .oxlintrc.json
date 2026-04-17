@@ -1,0 +1,39 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "import", "react", "jsx-a11y", "promise"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "env": {
+    "astro": true,
+    "browser": true,
+    "builtin": true,
+    "node": true
+  },
+  "ignorePatterns": [
+    ".astro/**",
+    "dist/**",
+    "node_modules/**",
+    "public/caldotcom.js",
+    "src/env.d.ts",
+    "styled-system/**"
+  ],
+  "settings": {
+    "jsx-a11y": {
+      "components": {
+        "Link": "a"
+      }
+    },
+    "react": {
+      "version": "18.2.0"
+    }
+  },
+  "rules": {
+    "jsx-a11y/anchor-has-content": "off",
+    "import/no-cycle": "error",
+    "import/no-unassigned-import": "off",
+    "no-console": "off",
+    "react/react-in-jsx-scope": "off"
+  }
+}

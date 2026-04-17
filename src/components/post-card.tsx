@@ -1,71 +1,104 @@
 import { css } from '#/styled-system/css'
 import { formatDate } from '@/utils/format-date'
+import { readingTime } from '@/utils/reading-time'
 import type { CollectionEntry } from 'astro:content'
 
 const isWithinDays = (date: Date, days: number) => {
-  return new Date().getTime() - date.getTime() <= days * 24 * 60 * 60 * 1000
+  const ageInMs = new Date().getTime() - date.getTime()
+  const maxAgeInMs = days * 24 * 60 * 60 * 1000
+
+  return ageInMs >= 0 && ageInMs < maxAgeInMs
 }
 
 export const PostCard = (props: { data: CollectionEntry<'articles'> }) => {
   const { data: item } = props
 
-  const isNew = isWithinDays(new Date(item.data.publishedAt), 8)
+  const isNew = isWithinDays(new Date(item.data.publishedAt), 7)
+  const readTime = readingTime(item.body ?? '')
 
   return (
     <a
-      href={`/posts/${item.slug}`}
+      href={`/posts/${item.id}`}
       class={css({
-        position: 'relative',
-        display: 'flex',
-        gap: '2',
-        p: '4',
-        rounded: 'md',
-        bg: {
-          base: 'neutral.200/40',
-          _hover: 'neutral.300/40',
-          _dark: {
-            base: 'neutral.700/40',
-            _hover: 'neutral.500/40',
-          },
-        },
+        display: 'grid',
+        gap: '3',
+        px: '3',
+        py: '5',
+        rounded: '3xl',
+        borderBottom: '1px solid var(--line)',
         textDecoration: 'none',
-        transition: 'all 0.2s ease-in-out',
+        transition: 'transform 180ms ease, background-color 180ms ease',
+        _hover: {
+          transform: 'translateX(4px)',
+          background: 'color-mix(in oklab, var(--paper) 78%, transparent)',
+        },
+        lg: { gridTemplateColumns: '10rem minmax(0, 1fr)', alignItems: 'start', gap: '4' },
       })}
     >
-      {isNew && (
-        <div
+      <time
+        datetime={item.data.publishedAt.toISOString()}
+        class={css({
+          display: 'grid',
+          gap: '1',
+          fontFamily: 'var(--font-display)',
+          fontSize: '0.72rem',
+          fontWeight: '620',
+          letterSpacing: '0.16em',
+          textTransform: 'uppercase',
+          color: 'var(--ink-soft)',
+        })}
+      >
+        <span>{formatDate(item.data.publishedAt)}</span>
+        <span
           class={css({
-            position: 'absolute',
-            bottom: '100%',
-            right: '0',
-            marginBottom: '1',
-            transform: 'translateY(50%)',
-            display: 'inline-flex',
-            bg: {
-              base: 'yellow.500',
-              _dark: 'yellow.300',
-            },
-            color: {
-              base: 'white',
-              _dark: 'gray.900',
-            },
-            py: '1',
-            px: '2',
-            rounded: 'full',
-            textStyle: 'sm',
-            fontWeight: 'semibold',
-            fontSize: 'xs',
+            fontSize: '0.62rem',
+            color: 'var(--ink-muted)',
           })}
         >
-          new!
+          {readTime} min read
+        </span>
+      </time>
+      <div class={css({ display: 'grid', gap: '2', minW: '0' })}>
+        <div class={css({ display: 'flex', alignItems: 'center', gap: '2', flexWrap: 'wrap' })}>
+          <h4
+            class={css({
+              margin: '0',
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(1.15rem, 1.8vw, 1.45rem)',
+              fontWeight: '600',
+              letterSpacing: '-0.03em',
+              color: 'var(--ink)',
+            })}
+          >
+            {item.data.title}
+          </h4>
+          {isNew && (
+            <span
+              class={css({
+                display: 'inline-flex',
+                alignItems: 'center',
+                rounded: 'full',
+                border: '1px solid color-mix(in oklab, var(--accent) 50%, var(--line))',
+                bg: 'var(--accent-soft)',
+                px: '2.5',
+                py: '1',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.64rem',
+                fontWeight: '640',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: 'var(--accent-strong)',
+              })}
+            >
+              New
+            </span>
+          )}
         </div>
-      )}
-      <div class={css({ display: 'flex', flexDir: 'column', gap: '2' })}>
-        <h4 class={css({ textStyle: 'sm', color: 'fg.heading', fontWeight: 'semibold' })}>{item.data.title}</h4>
-        <p class={css({ textStyle: 'xs', color: 'fg.subtle' })}>{item.data.description}</p>
-      </div>
-      <div class={css({ display: 'flex', ml: 'auto', textStyle: 'xs', color: 'fg.subtle' })}>
-        <time datetime={item.data.publishedAt.toISOString()}>{formatDate(item.data.publishedAt)}</time>
+        <p
+          class={css({ margin: '0', maxW: '34rem', lineHeight: '1.6', color: 'var(--ink-muted)' })}
+        >
+          {item.data.description}
+        </p>
       </div>
     </a>
   )

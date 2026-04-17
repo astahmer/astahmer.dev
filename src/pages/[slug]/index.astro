@@ -1,16 +1,14 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content'
+import { type CollectionEntry, getCollection, render } from 'astro:content'
 import Layout from '@/layouts/layout.astro'
 import { formatDate } from '@/utils/format-date'
-import { css, cx } from '#/styled-system/css'
-import { prose, article } from '#/styled-system/recipes'
-import Header from '@/components/header'
+import Link from '@/components/ui/link'
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts')
 
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }))
 }
@@ -20,41 +18,37 @@ type Props = {
 }
 
 const { post } = Astro.props
-const { Content } = await post.render()
+const { Content } = await render(post)
 ---
 
 <Layout
   content
   title={post.data.title}
   description={post.data.description}
-  canonical={`${import.meta.env.SITE}${post.slug}/`}
+  canonical={`${import.meta.env.SITE}${post.id}/`}
   publishedTime={post.data.publishedAt.toISOString()}
+  standardSiteDocumentUri={post.data.atUri}
   openGraph={{
     image: {
-      url: `${import.meta.env.SITE}${post.slug}/og.png`,
+      url: `${import.meta.env.SITE}${post.id}/og.png`,
     },
   } as any}
 >
-  <article>
-    <Header />
-    <main class={cx(prose(), article())}>
-      <header role="presentation">
+  <article class='article-shell'>
+    <header class='article-header'>
+      <h1 class='article-title'>{post.data.title}</h1>
+      {post.data.description && <p class='article-dek'>{post.data.description}</p>}
+      <div class='article-meta'>
         <time datetime={post.data.publishedAt.toISOString()}>
           {formatDate(post.data.publishedAt)}
         </time>
-        <h1>
-          {post.data.title}
-        </h1>
-        <p class={css({ fontStyle: 'italic' })}>{post.data.description}</p>
-      </header>
-
-      <Content />
-    </main>
+        <Link href='/' label='← Home' />
+      </div>
+    </header>
+    <div class='reading-surface'>
+      <div class='article-body'>
+        <Content />
+      </div>
+    </div>
   </article>
 </Layout>
-
-<style is:global>
-  .group:hover a {
-    opacity: 1;
-  }
-</style>

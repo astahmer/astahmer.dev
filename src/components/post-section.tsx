@@ -5,27 +5,44 @@ import { Link } from './ui'
 
 interface PostSectionProps {
   articles: CollectionEntry<'articles'>[]
+  title?: string
+  intro?: string
+  showArchiveLink?: boolean
 }
 
-export default function PostSection({ articles }: PostSectionProps) {
+export default function PostSection({
+  articles,
+  title = 'Recent writing',
+  intro,
+  showArchiveLink = false,
+}: PostSectionProps) {
   return (
-    <article className={css({ display: 'flex', flexDir: 'column', gap: '4' })}>
-      <header className={css({ display: 'flex', w: 'full', flexDir: 'row', justifyContent: 'space-between' })}>
-        <h3>
-          <Link
-            css={{ textStyle: 'lg', color: 'fg.heading', _hover: { color: 'yellow.300' } }}
-            href="/posts"
-            label={`Posts${articles.length > 0 ? ` (${articles.length})` : ''}`}
-          />
-        </h3>
+    <section className={css({ display: 'grid', gap: '5' })}>
+      <header
+        className={css({
+          display: 'grid',
+          gap: '2',
+        })}
+      >
+        <p className='section-kicker'>Writing</p>
+        <div
+          className={css({
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+            gap: '3',
+          })}
+        >
+          <h2 className='section-heading'>{title}</h2>
+          {showArchiveLink && <Link href='/posts' label='Browse the archive' isUnderline />}
+        </div>
+        {intro ? <p className='section-copy'>{intro}</p> : null}
       </header>
 
       <section
         className={css({
-          display: 'flex',
-          flexDir: 'column',
-          gap: '4',
-          md: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4' },
+          display: 'grid',
         })}
       >
         {articles
@@ -34,6 +51,6 @@ export default function PostSection({ articles }: PostSectionProps) {
             <PostCard key={item.id} data={item} />
           ))}
       </section>
-    </article>
+    </section>
   )
 }

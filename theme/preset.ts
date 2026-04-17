@@ -21,6 +21,7 @@ const colorMix: (...args: Parameters<NonNullable<PropertyConfig['transform']>>) 
 }
 
 export const themePreset = definePreset({
+  name: 'astahmer-theme-preset',
   theme: {
     extend: {
       recipes: {

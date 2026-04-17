@@ -2,17 +2,19 @@
 import { getCollection } from 'astro:content'
 import Layout from '@/layouts/layout.astro'
 import { css } from '#/styled-system/css'
-import Header from '@/components/header'
 import PostSection from '@/components/post-section'
 
-const articles = (await getCollection('articles', (entry) => entry.data.isPublish)).sort(function (first, second) {
-  return second.data.publishedAt.getTime() - first.data.publishedAt.getTime()
-})
+const articles = (await getCollection('articles', (entry) => entry.data.isPublish)).toSorted(
+  (first, second) => second.data.publishedAt.getTime() - first.data.publishedAt.getTime(),
+)
 ---
 
-<Layout title="All Posts">
-  <Header />
-  <main class={css({ mt: '40px' })}>
-    <PostSection articles={articles} />
+<Layout title='Writing' description='Articles and notes by Alexandre Stahmer.'>
+  <main class={css({ display: 'grid', gap: '8' })}>
+    <PostSection
+      articles={articles}
+      title={`All writing (${articles.length})`}
+      intro='Everything published here, ordered from newest to oldest.'
+    />
   </main>
 </Layout>

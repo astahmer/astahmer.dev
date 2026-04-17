@@ -8,38 +8,30 @@ export type Project = {
 export const projects = [
   {
     title: 'Panda CSS',
-    description: '🐼 Universal, Type-Safe, CSS-in-JS Framework for Product Teams ⚡️',
+    description:
+      'Universal, Type-Safe, CSS-in-JS Framework for Product Teams',
     link: 'https://panda-css.com/',
-    techs: ['npm package', 'AST manipulation with ts-morph', 'Landing page with Astro'],
-  },
-  {
-    title: '@pandabox/unplugin',
-    description: 'Panda distributed as a Vite plugin, with optional macro support',
-    techs: ['Bundler plugin (unplugin)', 'AST manipulation with ts-morph'],
-    link: 'https://pandabox.vercel.app/',
+    techs: ['Design system tooling', 'AST work', 'Product-team workflows'],
   },
   {
     title: 'Atomic CSS Devtools',
-    description: 'A devtool panel for debugging Atomic CSS rules as if they were not atomic.',
-    techs: ['Browser plugin (Chrome/Firefox) built with WXT', 'Panda CSS', 'Ark-UI'],
+    description:
+      'A browser panel that makes atomic CSS easier to inspect without losing the mental model.',
+    techs: ['Browser extension', 'Inspection tooling', 'Panda CSS'],
     link: 'https://github.com/astahmer/atomic-css-devtools',
   },
   {
-    title: 'tw2panda',
-    description: 'Easily migrate code from tailwind to Panda CSS',
-    techs: ['Online playground', 'CLI', 'VSCode plugin', 'Panda CSS', 'xstate'],
-    link: 'https://tailwind-to-panda.vercel.app/',
-  },
-  {
     title: 'typed-openapi',
-    description: 'Generate a headless Typescript API client from an OpenAPI spec',
-    techs: ['Online playground', 'CLI', 'Panda CSS', 'OpenAPI'],
+    description:
+      'A headless API client generator for teams that want strong types without framework lock-in.',
+    techs: ['OpenAPI', 'Code generation', 'TypeScript clients'],
     link: 'https://typed-openapi-web.vercel.app/',
   },
   {
     title: 'openapi-zod-client',
-    description: 'Generate a zodios API client from an OpenAPI spec',
-    techs: ['Online playground', 'CLI', 'Chakra-UI', 'OpenAPI', 'Zod', 'Zodios'],
+    description:
+      'One of the earlier client generators in this space, still useful when API typing needs to stay grounded.',
+    techs: ['OpenAPI', 'Zod', 'CLI tooling'],
     link: 'https://openapi-zod-client.vercel.app/',
   },
 ] satisfies Project[]

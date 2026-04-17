@@ -28,15 +28,24 @@ export function getStoredColorMode() {
   return colorMode
 }
 
+function resolveColorMode(colorMode?: ColorMode | undefined) {
+  if (!colorMode || colorMode === 'system') {
+    return getSystemColorMode()
+  }
+
+  return colorMode
+}
+
 function applyColorMode(colorMode?: ColorMode | undefined) {
   const rootElement = document.documentElement
+  const resolvedColorMode = resolveColorMode(colorMode)
 
   if (ATTRIBUTE === 'class') {
     rootElement.classList.remove('light', 'dark')
-    if (colorMode) rootElement.classList.add(colorMode)
+    if (resolvedColorMode) rootElement.classList.add(resolvedColorMode)
   } else {
-    if (colorMode) {
-      rootElement.setAttribute(ATTRIBUTE, colorMode)
+    if (resolvedColorMode) {
+      rootElement.setAttribute(ATTRIBUTE, resolvedColorMode)
     } else {
       rootElement.removeAttribute(ATTRIBUTE)
     }
@@ -49,22 +58,13 @@ function getSystemColorMode() {
 }
 
 export const registerColorModeListener = () => {
-  // Initialization
-  document.addEventListener('DOMContentLoaded', function () {
-    let colorMode = getStoredColorMode() || DEFAULT_COLOR_MODE
+  applyColorMode(getStoredColorMode() || DEFAULT_COLOR_MODE)
 
+  window.matchMedia(MEDIA).addEventListener('change', function () {
+    const colorMode = getStoredColorMode() || DEFAULT_COLOR_MODE
     if (colorMode === 'system') {
-      colorMode = getSystemColorMode()
+      applyColorMode(colorMode)
     }
-
-    applyColorMode(colorMode)
-
-    // Listen for system color scheme changes
-    window.matchMedia(MEDIA).addEventListener('change', function (e) {
-      if (colorMode === 'system') {
-        applyColorMode(getSystemColorMode())
-      }
-    })
   })
 }
 

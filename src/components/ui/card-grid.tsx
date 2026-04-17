@@ -1,8 +1,9 @@
 import { css } from '#/styled-system/css'
+import type { ComponentChildren } from 'preact'
 
 interface CardGridProps {
   stagger?: boolean
-  children: React.ReactNode
+  children: ComponentChildren
 }
 
 // https://github.com/withastro/starlight/blob/e0352809062b2ee1e5588f7c8c09af8e6f117b5d/packages/starlight/user-components/CardGrid.astro
